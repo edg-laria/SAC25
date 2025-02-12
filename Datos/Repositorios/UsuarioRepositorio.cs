@@ -50,12 +50,16 @@ namespace Datos.Repositorios
 
         public bool Obtener(string usuario, string password, int idRolInvitado)
         {
-            
-            var _user = contexto.Usuario.Where(x => (x.UserName.Equals(usuario) || x.Persona.Email.Equals(usuario))
-                             && x.Password == password && x.IdRol != idRolInvitado);
+            return contexto.Usuario.Any(x =>
+                                           (x.UserName == usuario || x.Persona.Email == usuario) &&
+                                           x.Password == password &&
+                                           x.IdRol != idRolInvitado
+                                       );
 
-            return (_user.Count() > 0 ? true : false);
-            
+            //return !( contexto.Usuario
+            //                  .Where(x => x.UserName == usuario || x.Persona.Email == usuario
+            //                  &&  x.Password  == password 
+            //                  && x.IdRol != idRolInvitado).Count() == 0);           
         }
         public Usuario ObtenerUsuarioPorUserNameEmail(String usuariologin)
         {
@@ -147,7 +151,6 @@ namespace Datos.Repositorios
             contexto.Usuario.Attach(model);
 
             contexto.Entry(model).Property(x => x.UserName).IsModified = true;
-            //contexto.Entry(model).Property(x => x.Password).IsModified = true;
             contexto.Entry(model).Property(x => x.IdRol).IsModified = true;
             contexto.Entry(model).Property(x => x.Activo).IsModified = true;
 

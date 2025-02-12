@@ -28,3 +28,7 @@
 2025-02-12 11:34:38.8978 INFO Message: CuentaController.Acceder():admin
 2025-02-12 11:35:40.2379 INFO Message: CuentaController.Acceder():admin
 2025-02-12 11:38:24.1656 INFO Message: CuentaController.Acceder():admin
+2025-02-12 17:47:32.2044 INFO Message: CuentaController.Acceder():admin
+2025-02-12 18:07:09.3913 INFO Message: CuentaController.Acceder():admin
+2025-02-12 18:07:18.3421 INFO Message: CuentaController.Acceder():admin
+2025-02-12 18:09:32.9840 INFO Message: CuentaController.Acceder():admin

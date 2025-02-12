@@ -131,12 +131,9 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-dark" href="">
-                                @if (ViewBag.UserCompleteName != null)
-                                {
-                                    <i class="fa fa-user"></i> @Html.Raw(ViewBag.UserCompleteName)
-                                }
-
+                            <a class="nav-link waves-effect waves-dark"
+                               href="@Url.Action("PerfilUsuario", "Usuario")">
+                                <i class="fa fa-user"></i>   @Html.Raw(ViewBag.UserCompleteName)
                             </a>
 
                         </li>

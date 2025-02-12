@@ -4,3 +4,9 @@ F:\PandiNet\Entidad\obj\Debug\Entidad.csproj.CoreCompileInputs.cache
 F:\PandiNet\Entidad\obj\Debug\Entidad.dll
 F:\PandiNet\Entidad\obj\Debug\Entidad.pdb
 F:\PandiNet\Entidad\obj\Debug\Entidad.csproj.AssemblyReference.cache
+C:\Users\leoan\OneDrive\Escritorio\sac\GIT\SAC25\Entidad\bin\Debug\Entidad.dll
+C:\Users\leoan\OneDrive\Escritorio\sac\GIT\SAC25\Entidad\bin\Debug\Entidad.pdb
+C:\Users\leoan\OneDrive\Escritorio\sac\GIT\SAC25\Entidad\obj\Debug\Entidad.csproj.AssemblyReference.cache
+C:\Users\leoan\OneDrive\Escritorio\sac\GIT\SAC25\Entidad\obj\Debug\Entidad.csproj.CoreCompileInputs.cache
+C:\Users\leoan\OneDrive\Escritorio\sac\GIT\SAC25\Entidad\obj\Debug\Entidad.dll
+C:\Users\leoan\OneDrive\Escritorio\sac\GIT\SAC25\Entidad\obj\Debug\Entidad.pdb

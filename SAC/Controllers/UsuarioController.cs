@@ -46,8 +46,82 @@ namespace SAC.Controllers
             }
             return new SelectList(dic, "Key", "Value");
         }
-       
-     
+
+
+
+        public ActionResult PerfilUsuario()
+        {
+            UsuarioModel usuario = (UsuarioModel)System.Web.HttpContext.Current.Session["currentUser"];
+          
+            UsuarioModelView _usuarioModelView;
+            if (usuario != null)
+            {
+            
+                _usuarioModelView = Mapper.Map<UsuarioModel, UsuarioModelView>(servicioUsuario.ObtenerPorID(usuario.IdUsuario));
+                        
+            _usuarioModelView.Roles = Mapper.Map<List<RolModel>, List<RolModelView>>(servicioConfiguracion.GetAllRoles());
+
+            PerfilUsuarioViewModel perfilUsuarioViewModel = new PerfilUsuarioViewModel();
+            perfilUsuarioViewModel.Usuario = _usuarioModelView;
+
+            perfilUsuarioViewModel.ResetPassword = new ResetPasswordViewModel();   
+            perfilUsuarioViewModel.ResetPassword.idUsuario = usuario.IdUsuario;
+                return View(perfilUsuarioViewModel);
+
+            }
+            return RedirectToAction("Logout", "Cuenta");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // Obtener el usuario de la base de datos (simulado aquí)
+            var usuario = servicioUsuario.ObtenerPorID(model.idUsuario);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("", "El usuario no existe.");
+                return View(model);
+            }
+
+            bool actualizado = servicioUsuario.CambiarPassword(usuario.IdUsuario,model.NewPassword);
+
+            if (actualizado)
+            {
+                return RedirectToAction("Logout", "Cuenta");
+            }
+
+            ModelState.AddModelError("", "Hubo un problema al restablecer la contraseña.");
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ActualizarPerfilUsuario(UsuarioModelView model)
+        {
+            // Lógica para actualizar los datos del usuario y la persona
+            if (ModelState.IsValid)
+            {
+                UsuarioModel usuario = (UsuarioModel)System.Web.HttpContext.Current.Session["currentUser"];               
+                if (usuario != null)
+                {   
+                    model.idUsuarioLogin = usuario.IdUsuario;              
+                    servicioUsuario.UpdateUsuario(Mapper.Map<UsuarioModelView, UsuarioModel>(model));
+                }
+               
+            }
+            return RedirectToAction(nameof(PerfilUsuario));
+                   
+        }
+
         public ActionResult AddOrEdit(int id = 0)
         {
             UsuarioModelView model;
@@ -58,7 +132,7 @@ namespace SAC.Controllers
             else
             {
                 model = Mapper.Map<UsuarioModel, UsuarioModelView>(servicioUsuario.ObtenerPorID(id));
-                //model.password = "";               
+                            
             }      
             model.Roles = Mapper.Map<List<RolModel>,List<RolModelView>>(servicioConfiguracion.GetAllRoles());
             return View(model);                 

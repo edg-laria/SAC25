@@ -1,0 +1,92 @@
+﻿
+@model SAC.Models.UsuarioModelView
+
+
+@using (Html.BeginForm("ActualizarPerfilUsuario", "Usuario", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="text-success">Datos de su Cuenta de Usuario</h4>
+        </div>
+        <div class="card-body">
+
+            @Html.HiddenFor(m => m.idUsuario)
+            @Html.HiddenFor(m => m.idRol)
+            @Html.HiddenFor(m => m.userName)
+            @Html.HiddenFor(m => m.Persona.id)
+            @Html.HiddenFor(m => m.idPersona)
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Usuario:</label>
+                    @Html.TextBoxFor(m => m.userName, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+                <div class="col-md-6">
+                    <label>Rol de Usuario:</label>
+                    @Html.DropDownListFor(model => model.idRol,
+                        new SelectList(Model.Roles.Select(r => new { Value = r.idRol, Text = r.descripcion }), "Value", "Text"),
+                        "Seleccionar Rol...",
+                        new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <label>Email:</label>
+                    @Html.TextBoxFor(m => m.Persona.email, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <label>Nombre:</label>
+                    @Html.TextBoxFor(m => m.Persona.nombre, new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    <label>Apellido:</label>
+                    @Html.TextBoxFor(m => m.Persona.apellido, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Persona.cuil, new { @class = "control-label" })
+                        @Html.ValidationMessageFor(m => m.Persona.cuil, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Persona.cuil, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Persona.TelefonoMovil, new { @class = "control-label" })
+                        @Html.ValidationMessageFor(m => m.Persona.TelefonoMovil, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Persona.TelefonoMovil, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Persona.documento, new { @class = "control-label" })
+                        @Html.ValidationMessageFor(m => m.Persona.documento, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Persona.documento, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Persona.telefonoAlternativo, new { @class = "control-label" })
+                        @Html.ValidationMessageFor(m => m.Persona.telefonoAlternativo, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Persona.telefonoAlternativo, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+}

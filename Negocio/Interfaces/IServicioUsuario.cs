@@ -16,7 +16,8 @@ namespace Negocio.Interfaces
         UsuarioModel ObtenerUsuario(string documento, int idSistema);
         bool Obtener(string documento, string password, int idRolInvitado);
         void ActualizarRolDeUsaurio(int idUsuario, int idRol, int idUsuarioLogueado);
-        void CambiarPassword(int idUsuario, string password);
+        ///         120225
+        bool CambiarPassword(int idUsuario, string password);
         void LogLogin(int idUsuario, string ip);
         RolModel ObtenerRol(int idUsuario);                        
     }

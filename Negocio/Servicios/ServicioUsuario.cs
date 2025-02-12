@@ -64,9 +64,7 @@ namespace Negocio.Servicios
                 var usuarios = Mapper.Map< List<Usuario>, List<UsuarioModel> >(repositorio.GetAllUsuario());
                 return usuarios;
             }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             {
                 _mensaje?.Invoke("Ops!, Ocurrio un error. Comuníquese con el administrador del sistema", "error");
                 return null;
@@ -132,13 +130,18 @@ namespace Negocio.Servicios
         {
             try
             {
-                var _user = this.repositorio.Obtener(usuario, StringHelper.ObtenerMD5(password), idRolInvitado);
+                var resp = this.repositorio.Obtener(usuario, StringHelper.ObtenerMD5(password), idRolInvitado);
+                if (resp)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
 
-                return _user;
             }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             {
                _mensaje?.Invoke("Ops!, Ocurrio un error. Comuníquese con el administrador del sistema", "error");
                 return false;
@@ -149,8 +152,7 @@ namespace Negocio.Servicios
         public void UpdateUsuario(UsuarioModel usuarioModel)
         {
             try
-            {
-               
+            {               
                 usuarioModel.Actualizado = Convert.ToDateTime(DateTime.Now.ToString());
                 usuarioModel.Persona.FechaModificacion = Convert.ToDateTime(DateTime.Now.ToString());
                 usuarioModel.Persona.Activo = usuarioModel.Activo;
@@ -158,12 +160,10 @@ namespace Negocio.Servicios
                 _mensaje?.Invoke("Se registro correctamente", "ok");
                
             }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             {
-                _mensaje?.Invoke("Ops!, Ha ocurriodo un error. contacte al administrador", "error");
-               throw new Exception();  
+                _mensaje?.Invoke("Ops!, Ha ocurriodo un error. contacte al administrador " + ex.Message, "error");
+               
             }
         }
 
@@ -179,12 +179,10 @@ namespace Negocio.Servicios
                 repositorio.CreateUsuario(Mapper.Map < UsuarioModel, Usuario>( usuarioModel));
                 _mensaje?.Invoke("Se registro correctamente", "ok");
             }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             {
                 _mensaje?.Invoke("Ops!, Ha ocurriodo un error. contacte al administrador", "error");
-                throw new Exception();
+             
             }
 
 
@@ -197,9 +195,7 @@ namespace Negocio.Servicios
                 repositorio.ActualizarRolDeUsaurio(idUsuario, idRol, idUsuarioLogueado);         
                 _mensaje?.Invoke("Se Actualizo correctamente", "ok");
             }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             {
                _mensaje?.Invoke("Ops!, Ocurrio un error. Comuníquese con el administrador del sistema", "error");
                
@@ -212,9 +208,7 @@ namespace Negocio.Servicios
             {
                 return repositorio.ObtenerMenuUsuario(idUsuario, menuItems);               
             }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             {
                _mensaje?.Invoke("Ops!, Ocurrio un error. Comuníquese con el administrador del sistema", "error");
                 return null;
@@ -228,9 +222,7 @@ namespace Negocio.Servicios
                 var lista = Mapper.Map<List<MenuSidebar>, List<MenuSideBarModel>>(repositorio.ObtenerMenuUsuario(idUsuario));
                 return lista;
             }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             { 
                _mensaje?.Invoke("Ops!, Ocurrio un error. Comuníquese con el administrador del sistema", "error");
                 return null;
@@ -246,31 +238,35 @@ namespace Negocio.Servicios
                 repositorio.CambiarPassword(id, passwordHasheado);
                 _mensaje?.Invoke("Se Actualizo correctamente", "ok");
             }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
             {
                _mensaje?.Invoke("Ops!, Ocurrio un error. Comuníquese con el administrador del sistema", "error");
 
             }
         }
-        public void CambiarPassword(int idUsuario, string password)
+        /// <summary>
+        /// all 2120225
+        /// </summary>
+        /// <param name="idUsuario"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public bool CambiarPassword(int idUsuario, string password)
         {
             try
             {
-            var passwordHasheado = StringHelper.ObtenerMD5(password);
-            repositorio.CambiarPassword(idUsuario, passwordHasheado);
-                _mensaje?.Invoke("Se Actualizo correctamente", "ok");
-            }
-#pragma warning disable CS0168 // La variable 'ex' se ha declarado pero nunca se usa
-            catch (Exception ex)
-#pragma warning restore CS0168 // La variable 'ex' se ha declarado pero nunca se usa
-            {
-               _mensaje?.Invoke("Ops!, Ocurrio un error. Comuníquese con el administrador del sistema", "error");
+                var passwordHasheado = StringHelper.ObtenerMD5(password);
+                repositorio.CambiarPassword(idUsuario, passwordHasheado);
 
+                _mensaje?.Invoke("Se Actualizo correctamente", "ok");
+                return true;
             }
-          
+            catch (Exception ex)
+            {
+                _mensaje?.Invoke("Ops!, Ocurrio un error. Comuníquese con el administrador del sistema", "error");
+                return false;
+            }
         }
+       
         public RolModel ObtenerRol(int idUsuario)
         {
             try

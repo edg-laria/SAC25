@@ -36,7 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -277,6 +277,8 @@
     <Compile Include="Models\CajaSaldoModelView.cs" />
     <Compile Include="Models\ChequeModelView.cs" />
     <Compile Include="Models\ChequeraModelView.cs" />
+    <Compile Include="Models\PerfilUsuarioViewModel.cs" />
+    <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\TablaJson.cs" />
     <Compile Include="Models\ClienteDireccionModelView.cs" />
     <Compile Include="Models\ClienteModelView.cs" />
@@ -3202,6 +3204,9 @@
     <Content Include="Views\Banco\Editar.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Views\Usuario\PerfilUsuario.cshtml" />
+    <Content Include="Views\Usuario\_UsuarioDetalles.cshtml" />
+    <Content Include="Views\Usuario\_RestablecerPassword.cshtml" />
     <None Include="Web References\afip.wswhomo_Exportacion\service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

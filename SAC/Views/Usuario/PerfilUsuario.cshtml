@@ -1,0 +1,10 @@
+﻿@model SAC.Models.PerfilUsuarioViewModel
+
+<div class="row">
+    <div class="col-md-8">
+        @Html.Partial("_UsuarioDetalles", Model.Usuario)
+    </div>
+    <div class="col-md-4">
+        @Html.Partial("_RestablecerPassword", Model.ResetPassword)
+    </div>
+</div>
