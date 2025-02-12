@@ -1,0 +1,82 @@
+﻿@model SAC.Models.CobroFacturaModoModelView
+
+
+<table id="TblResumenCobro" class="table stylish-table">
+    <thead>
+        <tr>
+            <td class="text-center">Factura</td>
+            <td class="text-center">Monto</td>
+            <td class="text-center">Cobro</td>
+            <td class="text-center">Aplicacion</td>
+            <td class="text-center">Saldo</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            decimal TotalMontoFactura = 0;
+            decimal TotalCobro = 0;
+            decimal TotalSaldo = 0;
+            decimal totalAplicacion = 0;
+        }
+        @if (Model.ResumenPago != null)
+        {
+            foreach (var item in Model.ResumenPago)
+            {
+                <tr>
+
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.NumeroFactura)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.Total)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.cobro)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.aplicacion)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.saldoCobro)</td>
+                </tr>
+
+                if (item.IdTipoComprobante != 34)
+                {
+                    TotalMontoFactura += item.aplicacion;
+                }
+                else
+                {
+                    TotalCobro += item.cobro;
+                }
+                TotalSaldo = TotalMontoFactura + TotalCobro;
+
+                totalAplicacion += item.aplicacion;
+            }
+        }
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-2 text-right"><label class="form-control-label small">Factura:</label></div>
+    <div class="col-md-2 text-left">
+        @Html.Hidden("TotalMontoFactura", @TotalMontoFactura)
+        <label id="LblImporteAPagarCheque" class="form-control-label small font-weight-bold">
+            @TotalMontoFactura
+        </label>
+    </div>
+
+    <div class="col-md-2 text-right"><label class="form-control-label small">Cobro: </label> </div>
+    <div class="col-md-2 text-left">
+        <label id="LblTotalPago" class="form-control-label small font-weight-bold">
+            @TotalCobro
+        </label>
+    </div>
+
+    <div class="col-md-2 text-right"><label class="form-control-label small">Direfencia: </label> </div>
+    <div class="col-md-2 text-left">
+        <label id="LblTotalSaldo" class="form-control-label small font-weight-bold">
+            @TotalSaldo
+        </label>
+    </div>
+
+
+</div>
+<script type="text/javascript">
+
+    confirmarCobro(@totalAplicacion);
+
+</script>

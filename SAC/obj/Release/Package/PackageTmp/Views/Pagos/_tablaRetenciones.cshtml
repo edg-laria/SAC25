@@ -1,0 +1,50 @@
+﻿@model SAC.Models.PagosFacturasModelView
+
+
+
+@if (Model.ListadoRetenciones_.Count > 0)
+{
+    <div class="row col-md-12 m-t-10">
+        <div class="table-responsive">
+
+            <div id="div" style="height:250px">
+                <table id="tableRetencion" class="table stylish-table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Descripcion</th>
+                            <th class="text-center"> Importe</th>
+                            <th class="text-center"> NroRecibo</th>
+                            <th class="text-center"> Provincia</th>
+                            <th class="text-center"> NumeroFactura</th>
+                            <th class="text-center"> Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.ListadoRetenciones_)
+                        {
+                        <tr>
+
+                            <td class="text-right">@Html.DisplayFor(modelItem => item.TipoRetencion.Descripcion)</td>
+                            <td class="text-right">@Html.DisplayFor(modelItem => item.Importe)</td>
+                            <td class="text-right">@Html.DisplayFor(modelItem => item.NroRecibo)</td>
+                            <td class="text-right">@Html.DisplayFor(modelItem => item.Provincia.Nombre)</td>
+                            <td class="text-center">@Html.DisplayFor(modelItem => item.CompraFactura.NumeroFactura)</td>
+                            <td>
+                                <a href="#" data-toggle="tooltip" data-original-title="Eliminar " class="btn btn-danger btn-xs fa fa-trash-o " onclick="ConfirmaEliminarRetencion(@item.Id, @item.IdCompraFactura)"> </a>
+                            </td>
+                        </tr>
+                        }
+
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+
+            </div>
+        </div>
+}
+
+

@@ -1,0 +1,50 @@
+﻿/*.modal:nth-of-type(even) {
+    z-index: 1052 !important;
+}
+
+.modal-backdrop.show:nth-of-type(even) {
+    z-index: 1051 !important;
+}*/
+
+.TreePlan .list-group-item {  
+    font-size:small;
+    padding: .3rem .5rem;   
+}
+
+
+/* data table*/
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.1em 1em;
+}
+
+.table th {
+    font-size: 12px;
+}
+.table td {
+    font-size: 13px;
+}
+.table td, .table th {
+    padding: .15rem;
+}
+
+.dataTables_wrapper {
+    padding-top: 0px;
+}
+
+.dataTables_scrollHead {
+    max-height: 30px;
+}
+
+.form-group {
+    margin-bottom: 5px;
+}
+
+.Seleccionable {
+    cursor: pointer;    
+}
+
+.modal-xl{
+    max-width: 1140px !important;
+}
+
+

@@ -1,0 +1,50 @@
+----------------------------------------               
+----------------------------------------               
+2024-08-19 11:51:04.4647 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: El valor no puede ser nulo.
+Nombre del parámetro: String               
+	ErrorDetails:    en System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   en System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   en System.Int32.Parse(String s)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 536
+----------------------------------------               
+----------------------------------------               
+2024-08-19 12:05:51.4222 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: El valor no puede ser nulo.
+Nombre del parámetro: String               
+	ErrorDetails:    en System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   en System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   en System.Int32.Parse(String s)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model)
+----------------------------------------               
+----------------------------------------               
+2024-08-19 12:21:42.2258 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: El valor no puede ser nulo.
+Nombre del parámetro: String               
+	ErrorDetails:    en System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   en System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   en System.Int32.Parse(String s)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model)
+----------------------------------------               
+----------------------------------------               
+2024-08-19 12:23:40.6552 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: El valor no puede ser nulo.
+Nombre del parámetro: String               
+	ErrorDetails:    en System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   en System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   en System.Int32.Parse(String s)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model)
+----------------------------------------               
+----------------------------------------               
+2024-08-19 12:25:00.4255 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: El valor no puede ser nulo.
+Nombre del parámetro: String               
+	ErrorDetails:    en System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   en System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   en System.Int32.Parse(String s)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model)

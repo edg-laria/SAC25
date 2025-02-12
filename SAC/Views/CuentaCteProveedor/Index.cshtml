@@ -1,0 +1,161 @@
+﻿@model List<SAC.Models.CuentaCteProveedorModelView>
+
+@{
+ 
+
+    ViewBag.Title = "Resumen Cta. Cte Proveedor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Date picker plugins css -->
+<link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    Cuenta Corriente de Proveedores Resumen
+                </h5>
+
+                @using (Ajax.BeginForm("Filtrado", "", new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "divPagina",
+                    OnComplete = "fntabla",
+                    InsertionMode = InsertionMode.Replace
+                }, new { @id = "frmFiltrado" }))
+                {
+
+
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-4 text-right">
+                            <small> Filtrar Estado Al </small>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.TextBox("inicio", null, new { @class = "form-control form-control-sm", @placeholder = "Fecha inicio" })
+                        </div>
+                        @*<div class="col-md-2">
+                            @Html.TextBox("fin", null, new { @class = "form-control form-control-sm", @placeholder = "Fecha fin" })
+                        </div>*@
+                        <div class="col-md-4">
+                            <button type="submit" id="btnBuscar" class="btn btn-sm btn-secondary "><i class="fa  fa-search"></i>  Buscar</button>
+                        </div>
+                    </div>
+
+
+                    <div id="divPagina">
+                        @Html.Partial("_Tabla", Model)
+                    </div>
+                }
+
+             </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function fntabla() {
+        $('#TblProveedor').DataTable({
+            "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+            'paging': false,
+            'lengthChange': false,
+            'searching': true,
+            'ordering': false,
+            'info': false,
+            'autoWidth': true,
+            'scrollY': '350px',
+            'scrollCollapse': true,
+            'dom': 'Bfrtip',
+            'buttons': [
+                'pdf'
+            ]
+        });
+    }
+
+    function IraPagar(valor) {
+        location.href = "@Url.Action("PagarFactura", "CuentaCteProveedor", new {idProveedor= "cid" })".replace("cid",valor.toString());
+    }
+
+</script>
+
+
+@section Scripts{
+
+    <!-- This is data table -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="~/Content/assets/plugins/datatables/jsTable/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/jszip.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/pdfmake.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/vfs_fonts.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.print.min.js"></script>
+
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+          
+            $('#TblProveedor').DataTable({
+                "language": { "url": "../Content/assets/plugins/datatables/es.txt" },                
+                'paging': false,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': false,
+                'info': false,
+                'autoWidth': true,
+                'scrollY': '350px',
+                'scrollCollapse': true,
+                'dom': 'Bfrtip',
+                'buttons': [
+                    'pdf'
+                ]
+            });
+
+
+        });
+
+
+
+
+
+        //todo esto es para validar el ingreso de fechas
+        //la segunda fecha se carga y valida en relacion a la primer fecha
+
+        var getDate = function (input) {
+            return new Date(input.date.valueOf());
+        }
+
+        $('#inicio, #fin').datepicker({
+            format: "dd/mm/yyyy",
+            language: 'es',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        $('#fin').datepicker({
+            startDate: '+6d',
+            endDate: '+36d',
+        });
+
+        $('#inicio').datepicker({
+            startDate: '+5d',
+            endDate: '+35d',
+        }).on('changeDate',
+            function (selected) {
+                $('#fin').datepicker('clearDates');
+                $('#fin').datepicker('setStartDate', getDate(selected));
+            });
+
+
+    </script>
+}

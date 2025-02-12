@@ -1,0 +1,425 @@
+﻿@model SAC.Models.CajaModelView
+
+@{
+    ViewBag.Title = "AddOrEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Date picker plugins css -->
+<link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+
+<h2>Movimientos Caja Chica</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    List<SelectListItem> ListaCodigoCaja = (List<SelectListItem>)ViewBag.Listapagina;
+
+
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h6 class="card-subtitle"> </h6>
+
+                <div id="GrillaCaja"></div>
+
+                
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-horizontal">
+
+
+
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="row">
+            <!-- Column -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <h2 class="page-header">Registracion</h2>
+                    <div class="card-body">
+                        <form action="#">
+                            <div class="form-body">
+
+                                <div class="row col-12">
+
+
+
+                                    <div class="col-9">
+
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Concepto, htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.EditorFor(model => model.Concepto, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Concepto, "", new { @class = "text-danger" })
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div class="row col-12">
+
+                                    <div class="col-3">
+
+                                        <div class="form-group">
+
+                                            @Html.LabelFor(m => m.Fecha, new { @class = "control-label" })
+                                            @Html.TextBoxFor(m => m.Fecha, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Fecha, "", new { @class = "text-danger form-control-sm " })
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ImportePesos, htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.EditorFor(model => model.ImportePesos, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ImportePesos, "", new { @class = "text-danger" })
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ImporteDolar, htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.EditorFor(model => model.ImporteDolar, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ImporteDolar, "", new { @class = "text-danger" })
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-3">
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ImporteDeposito, htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.EditorFor(model => model.ImporteDeposito, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ImporteDeposito, "", new { @class = "text-danger" })
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="row col-12">
+                                    <div class="col-6">
+                                        <div class="form-group">
+
+                                            <label for="readonly5">Grupo Caja</label>
+                                            @Html.DropDownList("IdGrupoCaja", ListaCodigoCaja, null, new { @class = "form-control" })
+                                            @Html.ValidationMessage("IdGrupoCaja", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-3">
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ImporteTarjeta, htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.EditorFor(model => model.ImporteTarjeta, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ImporteTarjeta, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ImporteCheque, htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.EditorFor(model => model.ImporteCheque, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ImporteCheque, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+
+
+                                <div class="row col-12">
+                                    <p>
+                                        <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Guardar</button>
+                                        @Html.ActionLink("Cancelar", "Index", "Caja", htmlAttributes: new { @class = "btn btn-dark btn-sm" })
+                                    </p>
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+        </div>
+
+
+    </div>
+
+    <div class="row" style="display:none">
+        <div class="row col-12">
+
+            <div class="col-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdTipoMovimiento, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    @Html.EditorFor(model => model.IdTipoMovimiento, "2", new { htmlAttributes = new { @class = "form-control", @Value = "2" } }))
+                    @Html.ValidationMessageFor(model => model.IdTipoMovimiento, "", new { @class = "text-danger" })
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+            <div class="col-4">
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    @Html.EditorFor(model => model.Tipo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+
+            <div class="col-4">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Saldo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    @Html.EditorFor(model => model.Saldo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Saldo, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="row col-12">
+
+
+            <div class="col-4">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Recibo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    @Html.EditorFor(model => model.Recibo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Recibo, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdCuentaBanco, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    @Html.EditorFor(model => model.IdCuentaBanco, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IdCuentaBanco, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <div class="col-4">
+
+
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdCajaSaldo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    @Html.EditorFor(model => model.IdCajaSaldo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IdCajaSaldo, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row col-12">
+            <div class="col-4">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Activo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdUsuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.IdUsuario, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UltimaModificacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.UltimaModificacion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UltimaModificacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+}
+
+
+
+
+    
+
+
+
+
+    @section Scripts{
+
+
+        <!-- Date Picker Plugin JavaScript -->
+        <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+        @Scripts.Render("~/bundles/jqueryval")
+        <script src="~/Scripts/view/CajaScript.js"></script>
+
+
+        <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <!-- start - This is for export functionality only -->
+        <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+    }
+
+<script>
+
+
+
+
+
+
+   
+
+
+
+
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "POST",
+            url: "/Caja/CargarCaja",
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response)
+            {
+                $('#GrillaCaja').html(response);
+                fntabla();
+            },
+            failure: function (response) {
+                Console.log(response.responseText);
+            },
+            error: function (response)
+            {
+
+                alert(response.responseText);
+            }
+        });
+
+    });
+
+
+    function fntabla() {
+
+        if ($.fn.dataTable.isDataTable('#TablaCaja')) {
+            table = $('#TablaCaja').DataTable();
+            table.destroy();
+            fntablaRenderizar();
+        } else {
+            fntablaRenderizar();
+        }
+    }
+
+    function fntablaRenderizar() {
+        $('#TablaCaja').DataTable({
+            "language": { "url": "/Content/assets/plugins/datatables/es.txt" },
+            "order": [[2, 'asc']],
+            'paging': true,
+            'lengthChange': false,
+            'pageLength': 15,
+            'searching': true,
+            'ordering': true,
+            'info': false,
+            'autoWidth': true,
+            'dom': 'Bfrtip',
+            'buttons': []
+        });
+    }
+
+
+
+</script>
+
+
+
+
+
+
+
+

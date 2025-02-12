@@ -1,0 +1,14 @@
+2024-08-12 11:35:04.4218 INFO Message: CuentaController.Acceder():admin
+2024-08-12 11:41:22.1547 INFO Message: CuentaController.Acceder():admin
+2024-08-12 11:53:12.5092 INFO Message: CuentaController.Acceder():admin
+2024-08-12 12:06:34.9157 INFO Message: CuentaController.Acceder():admin
+2024-08-12 12:17:37.4924 INFO Message: CuentaController.Acceder():admin
+2024-08-12 12:29:36.2029 INFO Message: CuentaController.Acceder():admin
+2024-08-12 12:43:19.6157 INFO Message: CuentaController.Acceder():admin
+2024-08-12 12:46:07.7575 INFO Message: CuentaController.Acceder():admin
+2024-08-12 14:58:57.4328 INFO Message: CuentaController.Acceder():admin
+2024-08-12 15:33:36.6733 INFO Message: CuentaController.Acceder():admin
+2024-08-12 15:39:55.0238 INFO Message: CuentaController.Acceder():admin
+2024-08-12 15:48:51.9220 INFO Message: CuentaController.Acceder():admin
+2024-08-12 15:56:37.2773 INFO Message: CuentaController.Acceder():admin
+2024-08-12 20:27:17.6670 INFO Message: CuentaController.Acceder():admin

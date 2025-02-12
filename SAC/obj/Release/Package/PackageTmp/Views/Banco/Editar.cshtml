@@ -1,0 +1,130 @@
+﻿@model SAC.Models.BancoCuentaModelView
+
+@{
+    ViewBag.Title = "Cuenta Bancaria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/assets/plugins/switchery/dist/switchery.min.css" rel="stylesheet" />
+
+
+<div class="row page-titles m-t-40">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Actualizar Cuenta Bancaria </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Editar", "Banco", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            List<SelectListItem> SelectBanco = (List<SelectListItem>)ViewBag.SelectBanco;
+                            List<SelectListItem> SelectMoneda = (List<SelectListItem>)ViewBag.SelectMoneda;
+                            @Html.HiddenFor(p => p.Id)
+                            <div class="row">
+                                <div class="col-md-12 m-t-10">
+                                    @Html.LabelFor(p => p.Codigo, new { htmlAttributes = new { @class = "" } })
+                                    @Html.EditorFor(p => p.Codigo, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control form-control-sm", @placeholder = "000000" } })
+                                    @Html.ValidationMessage("Codigo", new { @class = "text-danger form-control-sm" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 m-t-10">
+                                    @Html.LabelFor(p => p.BancoDescripcion)
+                                    @Html.TextBoxFor(p => p.BancoDescripcion, new { @class = "form-control form-control-sm", @placeholder = "Ej: Lituania" })
+                                    @Html.ValidationMessage("BancoDescripcion", new { @class = "text-danger form-control-sm" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 m-t-10">
+                                    @Html.LabelFor(p => p.IdImputacion)
+                                    @Html.EditorFor(p => p.IdImputacion, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control form-control-sm", @placeholder = "00-0000-00" } })
+                                    @Html.ValidationMessage("IdImputacion", new { @class = "text-dange form-control-sm" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 m-t-10">
+                                    <div class="form-group">
+                                        @Html.LabelFor(p => p.IdBanco)
+                                        @Html.DropDownList("IdBanco", SelectBanco, null, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessage("IdBanco", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 m-t-10">
+                                    <div class="form-group">
+                                        @Html.LabelFor(p => p.IdMoneda)
+                                        @Html.DropDownList("IdMoneda", SelectMoneda, null, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessage("IdMoneda", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 m-t-10">
+
+                                    <div class="checkbox">
+                                        <div class="form-group ">
+                                            Habilitar Cuenta?
+                                            <input type="checkbox" @Html.Raw((Model.Activo) ? "checked" : " ") id="activo" class="js-switch js-check-activo" data-color="#26c6da" data-size="small" />
+                                            @Html.HiddenFor(model => model.Activo)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12 m-t-10 text-right">
+                                    <input type="submit" class="btn btn-primary btn-sm form-control-sm" value="Guardar" />
+                                    @Html.ActionLink("Volver", "Index", "Banco", null, new { @class = "btn btn-secondary btn-sm" })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script src="~/Content/assets/plugins/switchery/dist/switchery.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+
+
+            // Switchery
+            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+            $('.js-switch').each(function () {
+                new Switchery($(this)[0], $(this).data());
+            });
+
+            var changeCheckbox = document.querySelector('.js-check-activo')
+                , changeField = document.querySelector('.js-check-activo-field');
+            changeCheckbox.onchange = function () {
+                $("input[type='hidden'][name='Activo']").val(changeCheckbox.checked);
+            };
+
+
+
+
+        });
+
+    </script>
+
+}
+

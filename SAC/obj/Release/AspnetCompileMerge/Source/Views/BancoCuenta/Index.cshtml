@@ -1,0 +1,194 @@
+﻿
+@model SAC.Models.BancoCuentaModelView
+
+@{
+    ViewBag.Title = "Banco Cuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <!-- Date picker plugins css -->
+    <link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+}
+
+
+
+@using (Html.BeginForm("Index", "BancoCuenta", FormMethod.Post, new { novalidate = true }))
+
+
+{
+    @Html.AntiForgeryToken()
+
+   
+
+    List<SelectListItem> ListaBancos = (List<SelectListItem>)ViewBag.CargarBanco;
+
+
+
+
+    @Html.AntiForgeryToken()
+    @Html.Hidden("idTarjetaConciliar")
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-body">
+                            <div class="row">
+
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <small>Banco </small>
+                                        @Html.DropDownList("IdBanco", ListaBancos, null, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessage("IdBanco", new { @class = "text-danger form-control-sm" })
+
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <small>Fecha </small>
+                                        <input type="text" id="Fecha" name="Fecha"
+                                               class="form-control form-control-sm Calendario"
+                                               data-validation-required-message="Ingrese una fecha">
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Consultar</button>
+                                    @*@Html.ActionLink("Cancelar", "ConsultaCaja", "Caja", htmlAttributes: new { @class = "btn btn-dark btn-sm" })*@
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@*@if (Model.ListaBancoCuenta != null)
+{
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <h4 class="card-title">Grilla de la Consulta</h4>
+                    <div class="form-body">
+
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive-md">
+
+
+
+                                    <table id="example23" class="table stylish-table">
+
+                                        <thead>
+                                            <tr>
+                                                <th>Cheque</th>
+                                                <th style="max-width: 33%;">Descripcion</th>
+                                                <th class="text-center">Depósito</th>
+                                                <th class="text-center">Efectivo</th>
+                                                <th class="text-center">Débito</th>
+                                                <th class="text-center">Crédito</th>
+                                                <th class="text-center">Saldo</th>
+                                                <th class="text-center">Grupo Caja</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.ListaBancoCuenta)
+                                            {
+
+
+
+                                            <tr>
+                                                <td>
+
+                                                    @Html.DisplayFor(modelItem => item.Banco.NumeroCheque)
+                                                </td>
+                                               
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.BancoDescripcion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Banco.Importe)
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+
+                                            }
+                                            </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+}*@
+ 
+   @section Scripts {
+
+
+        <!-- Date Picker Plugin JavaScript -->
+        <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+        <script src="~/Scripts/view/DatePickerReady.js"></script>
+        <!-- This is data table -->
+        <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <!-- start - This is for export functionality only -->
+        <script src="~/Content/assets/plugins/datatables/jsTable/dataTables.buttons.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/buttons.flash.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/jszip.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/pdfmake.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/vfs_fonts.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/buttons.html5.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/buttons.print.min.js"></script>
+
+        <script src="~/Scripts/view/TarjetaScript.js"></script>
+
+    }
+

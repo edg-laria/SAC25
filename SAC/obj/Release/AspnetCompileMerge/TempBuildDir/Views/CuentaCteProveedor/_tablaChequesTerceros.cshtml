@@ -1,0 +1,37 @@
+﻿@model  IEnumerable<SAC.Models.ChequeModelView>
+
+
+<div class="table-responsive">
+
+    <table id="TblChequesTerceros" class="table stylish-table">
+        <thead>
+            <tr>
+                <th class="text-center"> Sel.</th>
+                <th class="text-center"> Orden</th>
+                <th class="text-center"> Número</th>
+                <th class="text-center"> Descripcion</th>
+                <th class="text-center"> Fecha</th>
+                <th class="text-center"> Importe</th>
+                <th class="text-center"> Moneda</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" class="checkCheques checkChequeTercero" id=@item.Id value=@item.Importe></td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.NumeroCheque)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.Importe)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TipoMoneda.Descripcion)</td>
+
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>

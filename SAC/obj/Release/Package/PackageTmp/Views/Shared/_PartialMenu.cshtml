@@ -1,0 +1,73 @@
+﻿@if (ViewBag.Menu != null)
+{
+
+
+    foreach (var item in ViewBag.Menu)
+    {
+
+
+<li class="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower().Equals(item.Accion.Controlador)
+                                                        && ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower().Equals(item.Accion.Nombre) ) ? "active": "")"
+    aria-expanded="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "true": "false")">
+
+    @if (item.Group.Count > 0)
+    {
+
+        <a href="#"
+           class="has-arrow waves-effect waves-dark @Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "active": " ")"
+           aria-expanded="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "true": "false")">
+            <i class="fa @item.Icono"></i>
+            <span class="hide-menu"> @item.Titulo<span class="label label-rouded label-themecolor pull-right">@Html.Raw(item.Group.Count) </span></span>
+        </a>
+
+        @*<ul aria-expanded="true" class="collapse in">
+            <ul aria-expanded="false" class="collapse" style="height: 0px;">*@
+
+
+        <ul class="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower().Equals(item.Accion.Controlador)
+                           && ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower().Equals(item.Accion.Nombre) ) ? "collapse in": "collapse")"
+            aria-expanded="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "true": "false")"
+            style="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "height: 0px;": "")">
+
+
+
+
+            @foreach (var subitem in item.Group)
+            {
+                <li class="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower().Equals(subitem.Accion.Controlador)
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower().Equals(subitem.Accion.Nombre) ) ? "active": " ")">
+
+                    <a href="@Url.Action(subitem.Accion.Nombre, subitem.Accion.Controlador)"
+                       class="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == subitem.Accion.Controlador
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == subitem.Accion.Nombre ) ? "active": " ")"
+                       aria-expanded="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == subitem.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == subitem.Accion.Controlador ) ? "true": "false")">
+                        <i class="fa @subitem.Icono"></i>
+                        <span> @subitem.Titulo</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <a href="@Url.Action(item.Accion.Nombre, item.Accion.Controlador)"
+           class="navbar-brand @Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "actives": " ")"
+           aria-expanded="false">
+            <i class="fa @item.Icono"></i>
+            <span class="hide-menu"> @item.Titulo</span>
+        </a>
+    }
+</li>
+
+    }
+}
+
+
+

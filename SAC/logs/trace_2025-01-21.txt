@@ -1,0 +1,10 @@
+2025-01-21 11:02:01.8196 INFO Message: CuentaController.Acceder():admin
+2025-01-21 11:08:51.2355 INFO Message: CuentaController.Acceder():admin
+2025-01-21 12:52:53.0452 INFO Message: CuentaController.Acceder():admin
+2025-01-21 13:02:53.5641 INFO Message: Factura Registrada: 13473
+2025-01-21 16:11:37.2413 INFO Message: CuentaController.Acceder():admin
+2025-01-21 16:13:19.9843 INFO Message: Factura Registrada: 13474
+2025-01-21 16:16:51.1249 INFO Message: Factura Registrada: 13475
+2025-01-21 16:28:13.0900 INFO Message: Factura Registrada: 13476
+2025-01-21 16:32:00.8591 INFO Message: Factura Registrada: 13477
+2025-01-21 16:34:55.4759 INFO Message: Factura Registrada: 13478

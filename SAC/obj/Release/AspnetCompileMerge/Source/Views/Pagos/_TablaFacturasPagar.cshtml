@@ -1,0 +1,92 @@
+﻿
+@model SAC.Models.PagosFacturasModelView
+
+
+
+<table id="TblFacturasCuentaCorriente_Vista" class="table stylish-table">
+    <thead>
+        <tr>
+            <td class="text-center">Tipo Comprobante</td>
+            @*<td class="text-center">Pto Venta</td>*@
+            <td class="text-center">Nro Factura</td>
+            <td class="text-center">Monto</td>
+            <td class="text-center">Pago</td>
+            <td class="text-center">Aplicacion</td>
+            <td class="text-center">Saldo</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            decimal TotalMontoFactura = 0;
+            decimal TotalPago = 0;
+            decimal TotalSaldo = 0;
+        }
+
+
+        @if (Model.LsitaFacturasSeleccionadasPagar_ != null)
+        {
+            foreach (var item in Model.LsitaFacturasSeleccionadasPagar_)
+            {
+                <tr>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.IdTipoComprobante)</td>
+                    @*<td class="text-center">@Html.DisplayFor(modelItem => item.PuntoVenta)</td>*@
+                <td class="text-center">@Html.DisplayFor(modelItem => item.PuntoVenta) - @Html.DisplayFor(modelItem => item.NumeroFactura)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.Saldo)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.pago)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.aplicacion)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.saldoPagos)</td>
+                </tr>
+
+                if (item.IdTipoComprobante != 98 )
+                {
+                    TotalMontoFactura += item.aplicacion;
+                }
+                else
+                {
+                    TotalPago += item.aplicacion;
+
+
+                    //if (item.NumeroFactura > 0 )
+                    //{
+
+                    //}
+                    //else
+                    //{
+                    //    TotalPago += item.pago;
+                    //}
+
+                }
+
+                TotalSaldo = TotalMontoFactura + TotalPago;
+            }
+
+
+
+        }
+
+
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>
+
+<br />
+
+@if (Model.LsitaFacturasSeleccionadasPagar_ != null)
+{
+    <div class="row justify-content-md-center">
+        <div class="col-md-2 text-right"><label class="form-control-label small">Factura:</label></div>
+        <div class="col-md-2 text-left">
+            @Html.Hidden("TotalAPagar", @TotalMontoFactura)
+            <label id="LblImporteAPagarCheque" class="form-control-label small font-weight-bold"> @TotalMontoFactura </label>           
+        </div>
+
+        <div class="col-md-2 text-right"><label class="form-control-label small">Pagos: </label> </div>
+        <div class="col-md-2 text-left"> <label id="LblTotalPago" class="form-control-label small font-weight-bold"> @TotalPago</label> </div>
+
+        <div class="col-md-2 text-right"><label class="form-control-label small">Direfencia: </label> </div>
+        <div class="col-md-2 text-left"> <label id="LblTotalSaldo" class="form-control-label small font-weight-bold"> @TotalSaldo </label> </div>
+    </div>
+}

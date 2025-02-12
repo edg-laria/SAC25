@@ -1,0 +1,28 @@
+----------------------------------------               
+----------------------------------------               
+2024-08-09 16:00:25.2361 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Se produjo una excepción de tipo 'System.Exception'.               
+	ErrorDetails:    en Negocio.Servicios.ServicioFacturaVenta.ActualizaProForma(Int32 NumeroFactura, String idComprobante) en F:\PandiNet\Negocio\Servicios\ServicioFacturaVenta.cs:línea 878
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model)
+----------------------------------------               
+----------------------------------------               
+2024-08-09 16:03:24.1816 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Se produjo una excepción de tipo 'System.Exception'.               
+	ErrorDetails:    en Negocio.Servicios.ServicioFacturaVenta.ActualizaProForma(Int32 NumeroFactura, String idComprobante) en F:\PandiNet\Negocio\Servicios\ServicioFacturaVenta.cs:línea 878
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 874
+----------------------------------------               
+----------------------------------------               
+2024-08-09 16:08:36.4854 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Se produjo una excepción de tipo 'System.Exception'.               
+	ErrorDetails:    en Negocio.Servicios.ServicioFacturaVenta.ActualizaProForma(Int32 NumeroFactura, String idComprobante) en F:\PandiNet\Negocio\Servicios\ServicioFacturaVenta.cs:línea 878
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 874
+----------------------------------------               
+----------------------------------------               
+2024-08-09 16:46:20.2304 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Se produjo una excepción de tipo 'System.Exception'.               
+	ErrorDetails:    en Negocio.Servicios.ServicioFacturaVenta.ActualizaProForma(Int32 NumeroFactura, String idComprobante)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 874

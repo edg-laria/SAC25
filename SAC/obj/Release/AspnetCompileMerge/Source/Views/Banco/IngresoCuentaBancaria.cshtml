@@ -1,0 +1,464 @@
+﻿@model SAC.Models.IngresoBancoModelView
+@{
+    ViewBag.Title = "Cuenta Bancaria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <!-- Date picker plugins css -->
+    <link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+}
+
+<script>
+
+    // Pass the FechaSeleccionada value to JavaScript
+   
+    var FechaSeleccionada = '@Model.Fecha';
+
+</script>
+
+
+@using (Html.BeginForm("IngresoCuentaBancaria", "Banco", FormMethod.Get, new { novalidate = true }))
+{
+    @Html.AntiForgeryToken()
+    List<SelectListItem> ListaBancos = (List<SelectListItem>)ViewBag.CargarBanco;
+
+
+    @Html.HiddenFor(model => model.IdConciliacionMovimiento)
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Banco </small>
+                                        @Html.DropDownList("IdBancoCuenta", ListaBancos, null, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessage("IdBancoCuenta", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Fecha</small>
+                                        @Html.TextBox("searchFecha", Model.Fecha, new
+                                        {
+                                            @class = "form-control form-control-sm Calendario",
+                                            @data_validation_required_message = "Ingrese una fecha",
+                                            type = "text",
+                                            id = "searchFecha"
+                                        })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="NroCierre">Cierre</label>
+                                        <input type="text" id="IdNroCierre" name="IdNroCierre" class="font-weight-bold form-control" style="width: 150px;"
+                                               value="@Model.BancoCuenta.NumeroCierre" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1 ">
+
+                                    <button type="submit" class="btn btn-success btn-sm m-t-15"> <i class="fa fa-check"></i> Consultar</button>
+
+                                </div>
+                                <div class="col-md-3">
+                                    @if (Model.BancoCuenta.IdMoneda == 1)
+                                    {
+                                        <small>SALDO AL  @Html.Raw(Model.BancoCuenta.Fecha.ToString("dd/MM/yyyy"))  </small> <small class="font-weight-bold ">  $  @Html.Raw(Model.BancoCuenta.Saldo) </small><br />
+                                    }
+                                    else
+                                    {
+                                        <small>SALDO AL  @Html.Raw(Model.BancoCuenta.Fecha.ToString("dd/MM/yyyy"))  </small> <small class="font-weight-bold ">  U$S  @Html.Raw(Model.BancoCuenta.Saldo) </small><br />
+                                    }
+
+                                    <small>Cotización U$S </small> <small class="font-weight-bold " style="width: 150px;">   @Html.Raw(Model.Cotizacion) </small>
+                                    @if (Model.BancoCuenta.IdMoneda == 1)
+                                    {
+                                        <small>Cuenta en Pesos  </small> <small class="font-weight-bold " style="width: 150px;"> </small><br />
+                                    }
+                                    else
+                                    {
+                                        <small>Cuenta en Dolares  </small> <small class="font-weight-bold " style="width: 150px;">  </small><br />
+                                    }
+
+                                    @Html.Hidden("ValorCotizacion", Model.Cotizacion)
+
+                                </div>
+                                <div class="col-md-1">
+                                    @if (Model.ListaBancoCuenta != null)
+                                    {
+                                        @*@Html.ActionLink("Cierre", "CierreCuenta", "Banco", htmlAttributes: new { @id = "btnConfirmaCierre", @class = "btn btn-dark btn-sm" })*@
+                                        <input type="submit" id="btnConfirmaCierre"
+                                               name="btnConfirmaCierre"
+                                               value="Cierre"
+                                               formaction=@Url.Action("CierreCuenta")
+                                               formmethod="post"
+                                               class="btn btn-dark btn-sm" />
+                                    }
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    @if (Model.ListaBancoCuenta != null)
+                                    {
+                                        <input type="button" id="btnImprimir"
+                                               name="btnImprimir"
+                                               value="PDF"
+                                               class="btn btn-success btn-sm m-t-15"
+                                               data-idNroCierre="@Model.IdNroCierre"
+                                               data-idBancoCuenta="@Model.IdBancoCuenta"
+                                               data-NombreCuenta="@Model.ListaBancoCuenta">
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Html.Partial("_Ingresos", Model.Ingresos)
+
+
+    if (Model.ListaBancoCuenta != null)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"> Consulta</h4>
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="table-responsive-md">
+                                        <table id="example23" class="table stylish-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Conciliar</th>
+                                                    @*<th>Numero Op.</th>*@
+                                                    <th style="max-width: 33%;">Descripcion</th>
+                                                    <th class="text-center">Depósito</th>
+                                                    <th class="text-center">Efectivo</th>
+                                                    <th class="text-center">Débito</th>
+                                                    <th class="text-center">Crédito</th>
+                                                    <th class="text-center">Saldo</th>
+                                                    <th class="text-center">Grupo Caja</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    decimal ImporteTotlMovConciliados = -Model.BancoCuenta.Saldo;
+                                                    decimal ImporteTotlMovSinConciliados = 0;
+                                                    decimal ImporteSaldo = 0; @*Model.BancoCuenta.Saldo;*@
+                                                }
+
+
+                                                @foreach (var item in Model.ListaBancoCuenta)
+                                                {
+
+                                                    var claseSele = "";
+                                                    if (item.Conciliacion)
+                                                    {
+                                                        claseSele = "table-success";
+                                                        ImporteTotlMovConciliados += item.Importe;
+                                                    }
+                                                    else
+                                                    {
+                                                        ImporteTotlMovSinConciliados += item.Importe;
+                                                        claseSele = "table-default";
+                                                    }
+                                                    ImporteSaldo += item.Importe;
+                                                    <tr class="@claseSele">
+
+                                                        <td>
+                                                            @if (!item.Conciliacion)
+                                                            {
+                                                                <input type="checkbox" class="checkConciliacion checkConciliacionMovimiento " id=@item.Id value=@item.Importe>}
+                                                            else
+                                                            {
+                                                                <input type="checkbox" class="checkConciliacion checkConciliacionMovimiento " id=@item.Id value=@item.Importe>}
+                                                        </td>
+
+                                                        @*<td>
+                                                                @Html.DisplayFor(modelItem => item.NumeroOperacion)
+                                                            </td>*@
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.CuentaDescripcion)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Fecha)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.FechaEfectiva)
+                                                        </td>
+
+                                                        <td>
+                                                            @if (item.Importe < 0)
+                                                            {
+                                                                @Html.DisplayFor(modelItem => item.Importe)}
+
+                                                        </td>
+                                                        <td>
+                                                            @if (item.Importe > 0)
+                                                            {
+                                                                @Html.DisplayFor(modelItem => item.Importe)}
+                                                        </td>
+                                                        <td>
+                                                            @ImporteSaldo
+
+                                                        </td>
+                                                        <td> @Html.DisplayFor(modelItem => item.GrupoCaja.Concepto)</td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row m-t-30">
+
+                                <div class="col-xlg-2 col-lg-2 col-md-2 col-sm-2">
+
+                                </div>
+
+                                <div class="col-xlg-6 col-lg-6 col-md-6 col-sm-6">
+
+                                    <div class="row">
+                                        <div class="col-xlg-6 col-lg-6 col-md-6 col-sm-6">
+                                            Movimientos Conciliado
+                                        </div>
+                                        <div class="col-xlg-6 col-lg-6 col-md-6 col-sm-6">
+                                            
+                                            <small class="font-weight-bold "> $ @Html.Raw(ImporteTotlMovConciliados) </small>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xlg-6 col-lg-6 col-md-6 col-sm-6">
+                                            Saldo Conciliado
+                                        </div>
+                                        <div class="col-xlg-6 col-lg-6 col-md-6 col-sm-6">
+                                            
+                                            @{ decimal saldoConciliacion = ImporteTotlMovConciliados+ Model.BancoCuenta.Saldo; }
+                                            @Html.Hidden("SaldoConciliado", saldoConciliacion)
+                                            <small class="font-weight-bold "> $ @Html.Raw(saldoConciliacion) </small>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xlg-6 col-lg-6 col-md-6 col-sm-6">
+                                            Movimientos sin conciliar
+                                        </div>
+                                        <div class="col-xlg-6 col-lg-6 col-md-6 col-sm-6">
+                                            <small class="font-weight-bold "> $ @Html.Raw(ImporteTotlMovSinConciliados) </small>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xlg-4 col-lg-4 col-md-4 col-sm-4">
+
+                                    @*@Html.ActionLink("Confirmar Conciliación", "ConfirmarConciliacion", "Banco", htmlAttributes: new { @id = "btnConfirmaConciliacion", @class = "hide btn btn-dark btn-sm" })*@
+                                    <input type="submit" id="btnConfirmaConciliacion" name="btnConfirmaConciliacion" value="Confirmar Conciliación" formaction=@Url.Action("ConfirmarConciliacion") formmethod="post" class="hide btn btn-dark btn-sm" />
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+}
+
+
+@section Scripts{
+
+
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/view/DatePickerReady.js"></script>
+
+
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="https://unpkg.com/jspdf></script"></script>
+    <script src="https://unpkg.com/jspdf-autotable"></script>
+
+    <script src="~/Content/assets/plugins/switchery/dist/switchery.min.js"></script>
+
+    <script src="~/Scripts/jspdf/libs/jspdf.min.js"></script>
+    <script src="~/Scripts/jspdf/jspdf.plugin.autotable.js"></script>
+    <script src="~/Scripts/view/Banco/BancoCheques.js"></script>
+    <script src="~/Scripts/view/Reporte/ReporteCtaBria.js"></script>
+
+    <script type="text/javascript">
+
+
+        function myPesosDolar(val) {
+            var ImpDolar = 0;
+            //ImpDolar = parseInt(val) / parseInt($("#ValorCotizacion").val());
+            ImpDolar = parseFloat($("#ValorCotizacion").val());
+            $("#ImporteDolar").val(ImpDolar);
+            $(".ImporteDolar").val(parseFloat(val));
+            var ImpPesos = 0;
+            ImpPesos = parseFloat(val)
+            $("#Importe").val(ImpPesos);
+            $(".ImportePesos").val(ImpPesos);
+
+
+        }
+
+        function myDolarPesos(val) {
+            var ImpPesos = 0;
+            //   ImpPesos = parseInt(val) * parseInt($("#ValorCotizacion").val());
+            ImpPesos = parseFloat($("#ValorCotizacion").val());
+            $("#Importe").val(ImpPesos);
+            $(".ImportePesos").val(ImpPesos);
+            var ImpDolar = 0;
+            ImpDolar = parseFloat(val)
+            $("#ImporteDolar").val(ImpDolar);
+            $(".ImporteDolar").val(parseFloat(val));
+
+        }
+
+        $(document).ready(function () {
+
+            $("#btnImprimir").click(function () {
+
+                var idNroCierre = parseInt($("#IdNroCierre").val());
+                var idBancoCuenta = $("#IdBancoCuenta").val();
+                var fecha = $("#searchFecha").val();
+                console.log(`Valor de fechaN: ${fecha}`);
+
+
+/*
+                console.log(`Valor de idNroCierre: ${idNroCierre}`);
+                console.log(`Valor de idBancoCuenta: ${idBancoCuenta}`);
+                console.log(`Valor de NombreCuenta: ${NombreCuenta}`);
+*/
+                // Llamar al método en C# a través de una solicitud AJAX
+                $.ajax({
+                    url: '/Banco/GetImprimirCtaBriaJson',
+                    type: 'GET',
+                    data: { IdCierre: idNroCierre, IdBanco: idBancoCuenta, searchFecha: FechaSeleccionada },
+
+                    success: function (response) {
+                        var tablaJson = response.tablaJson;
+                        var NombreCuenta = response.NombreCuenta;
+                        var Fecha = response.FechaCierre;
+
+                        console.log(`Valor de NombreCuenta: ${NombreCuenta}`);
+                        console.log(`Valor de Fecha: ${Fecha}`);
+
+                          ImprimirCtaBria(idNroCierre, idBancoCuenta, tablaJson, NombreCuenta, Fecha);
+
+                    },
+
+                    error: function (xhr, status, error) {
+                        // console.error(xhr.responseText);
+                        console.error(error);
+                    }
+                });
+
+                $(this).css("background-color", "red"); // Cambiar a color rojo, puedes usar cualquier color
+            });
+
+            $("input[name=TipoMovimiento]").click(function () {
+                // alert("La edad seleccionada es: " + $('input:radio[name=TipoMovimiento]:checked').val());
+                //alert("La edad seleccionada es: " + $(this).val());
+                $("#ctrIngreso").removeClass("hide");
+
+                $("#ImporteTarjeta").removeAttr("disabled");
+
+                $("#TipoMovimiento").val($(this).val());
+
+
+                $("#CtrCtaDestino").addClass("hide");
+
+                $("#CtrTTImporteDolar").addClass("hide");
+                $("#CtrTTImportePesos").addClass("hide");
+                //$("#CtrImporte").addClass("hide");
+                // $("#CtrGrupoCaja").addClass("hide");
+                switch ($(this).val()) {
+
+
+                    case "cv":
+                        $("#CtrImporte").removeClass("hide");
+                        $("#CtrGrupoCaja").removeClass("hide");
+                        $("#CtrImporte").addClass("show");
+                        $("#CtrGrupoCaja").addClass("show");
+                        break;
+                    case "de":
+                        $("#CtrImporte").removeClass("hide");
+                        $("#CtrGrupoCaja").removeClass("show");
+                        $("#CtrImporte").addClass("show");
+                        $("#CtrGrupoCaja").addClass("hide");
+                        break;
+                    case "tc":
+                        $("#CtrImporte").removeClass("hide");
+                        $("#CtrGrupoCaja").removeClass("show");
+                        $("#CtrImporte").addClass("show");
+                        $("#CtrGrupoCaja").addClass("hide");
+                        //$("#CtrCtaDestino").removeClass("hide");
+                        //$("#CtrCtaDestino").addClass("show");
+
+                        break;
+                    case "tt":
+
+                        $("#CtrImporte").removeClass("show");
+                        $("#CtrImporte").addClass("hide");
+                        $("#CtrGrupoCaja").removeClass("show");
+                        $("#CtrGrupoCaja").addClass("hide");
+                        $("#CtrCtaDestino").removeClass("hide");
+                        $("#CtrCtaDestino").addClass("show");
+                        $("#CtrTTImportePesos").removeClass("hide");
+                        $("#CtrTTImportePesos").addClass("show");
+@*
+                        if ($("#IdTipoMoneda").val() == 1) {
+                            $("#CtrTTImportePesos").removeClass("hide");
+                            $("#CtrTTImportePesos").addClass("show");
+                        } else {
+                            $("#CtrTTImporteDolar").removeClass("hide");
+                            $("#CtrTTImporteDolar").addClass("show");
+                        }
+*@
+                        break;
+                    case "ch":
+
+                        $("#ImporteTarjeta").attr('disabled', 'disabled');
+
+                        $("#CtrImporte").removeClass("hide");
+                        $("#CtrImporte").addClass("show");
+                        $("#CtrGrupoCaja").removeClass("show");
+                        $("#CtrGrupoCaja").addClass("hide");
+                        fnVerModalCheques();
+                        break;
+
+                    default:
+                        // ok
+                        break;
+                }
+            });
+        });
+    </script>
+}
+

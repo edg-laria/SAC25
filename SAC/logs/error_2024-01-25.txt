@@ -1,0 +1,33 @@
+----------------------------------------               
+----------------------------------------               
+2024-01-25 18:15:24.5754 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 28
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-01-25 19:28:35.7215 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 28
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-01-25 19:36:37.0246 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 28
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40

@@ -1,0 +1,4 @@
+2024-08-01 14:55:28.1803 INFO Message: CuentaController.Acceder():admin
+2024-08-01 16:39:56.0880 INFO Message: CuentaController.Acceder():admin
+2024-08-01 16:50:02.2129 INFO Message: FacturaController.GrabarFactura():Factura Afip Valor400
+2024-08-01 17:18:13.1743 INFO Message: CuentaController.Acceder():admin

@@ -1,0 +1,194 @@
+﻿@{
+    Layout = null;
+}
+@model SAC.Models.LoginViewModel
+
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Analista de Sistemas Esteban Soraire  , Lic. Maximiliano Bre, Lic. Leonardo Lucero">
+    <title>
+        Bienvenido
+    </title>
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/assets/images/logo.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/Content/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Custom CSS -->
+    <link href="/Content/assets/css/style.css" rel="stylesheet">
+
+    <!-- page css -->
+    <link href="/Content/assets/css/pages/login-register-lock.css" rel="stylesheet">
+
+    <!-- You can change the theme colors from here -->
+    <link href="/Content/assets/css/colors/default-dark.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        div.transbox {
+            background-color: #ffffff;
+            opacity: 0.6;
+            filter: alpha(opacity=60); /* For IE8 and earlier */
+        }
+    </style>
+</head>
+<body class="card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Bienvenido</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <section id="wrapper">
+
+
+        <div class="login-register" style="background-image:url(/Content/assets/images/background/login-register.jpg);">
+            <div class="login-box card">
+                <div class="card-body ">
+
+                    @using (Html.BeginForm("Acceder", "Cuenta", FormMethod.Post,
+new { @class = "form-horizontal form-material", novalidate = true }))
+                    {
+                        @Html.AntiForgeryToken()
+
+
+                        <div class="text-center">
+                            <img src="/Content/assets/images/logo-icon.png" alt="Icon" class="dark-logo" />
+                            <img src="/Content/assets/images/logo-text.png" alt="SAC" class="dark-logo" />
+                        </div>
+
+                        if (!Html.ViewData.ModelState.IsValid)
+                        {
+                            <div id="noSchedulesAlert" class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                                </button>
+                               Los datos del usuario no son validos...
+                            </div>
+                        }
+
+                        <div class="form-group m-t-40">
+                            <label>Usuario</label>
+                            <input type="text" class="form-control form-control-line" name="Usuario" value="" required placeholder="Escribir usuario" />
+
+                        </div>
+
+                        <div class="form-group ">
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control form-control-line" name="Password" value="" required placeholder="Escribir contraseña" />
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="javascript:void(0)" class="text-dark pull-right" data-toggle="modal" data-target="#modalResert">
+                                    <i class="fa fa-lock m-r-5"></i> Olvido su contraseña?
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="row m-t-20">
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <div class="col-xs-12 p-b-20">
+                                        <button class="btn  btn-info btn-rounded" type="submit"> Iniciar sesión</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--.modal- -->
+                        <div id="modalResert" class="modal" tabindex="-1" data-backdrop="false" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Recuperar contraseña</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group ">
+                                            <div class="col-xs-12">
+                                                <p class="text-muted">Ingrese su correo electrónico y se le enviarán las instrucciones. </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <div class="col-xs-12">
+                                                <input class="form-control" type="text" required="" placeholder="Escribir su email">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" value="Recuperar"
+                                               formaction="@Url.Action("CreateAccion", "Configuracion")"
+                                               class="btn btn-success" />
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.modal- -->
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+
+    <script src="./Content/assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="/Content/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Content/assets/plugins/moment/moment.js"></script>
+
+    <script src="~/Content/assets/plugins/moment/min/locales.js"></script>
+    <!--Custom JavaScript -->
+    <script type="text/javascript">
+        $(function () {
+            $(".preloader").fadeOut();
+
+            //moment.locale('es'); // change the global locale to Spanish
+            // $(".mesActual").html(moment.months()[moment().month()]);
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+            // ==============================================================
+            // Login and Recover Password
+            // ==============================================================
+            //$('#to-recover').on("click", function () {
+            //    $("#loginform").slideUp();
+            //    $("#recoverform").fadeIn();
+            //});
+
+
+    </script>
+
+</body>
+</html>

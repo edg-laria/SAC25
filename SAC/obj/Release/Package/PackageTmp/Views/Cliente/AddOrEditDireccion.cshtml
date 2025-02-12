@@ -1,0 +1,342 @@
+﻿@model SAC.Models.ClienteDireccionModelView
+
+@{
+    ViewBag.Title = "Dirección del Cliente ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<SelectListItem> ListaPais = (List<SelectListItem>)ViewBag.ListaPais;
+    List<SelectListItem> ListaProvincia = (List<SelectListItem>)ViewBag.ListaProvincia;
+    List<SelectListItem> ListaLocalidad = (List<SelectListItem>)ViewBag.ListaLocalidad;
+    List<SelectListItem> ListaPieNota = (List<SelectListItem>)ViewBag.ListaPieNota;
+    List<SelectListItem> ListaTipoMoneda = (List<SelectListItem>)ViewBag.ListaTipoMoneda;
+    List<SelectListItem> ListaTipoIdioma = (List<SelectListItem>)ViewBag.ListaTipoIdioma;
+
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+
+  
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+
+            <div class="card-body">
+                <h4 class="card-title">Direcciones</h4>
+                <div class="form-body">
+                    <div class="form-horizontal">
+
+
+
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.IdCliente)
+
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="readonly5" class="control-label form-control-sm">Nro Cliente</label>
+                                    <input type="text" class="form-control" id="readonly5" value="@Html.DisplayFor(x => x.IdCliente)" readonly>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CodigoAfip, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.CodigoAfip, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.CodigoAfip, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div style="margin-top:1em">
+                                    <div class="form-group">
+                                        @Html.Label("País")
+                                        @Html.DropDownList("IdPais", ListaPais, null, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessage("IdPais", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div style="margin-top:1em">
+                                    <div class="form-group">
+                                        <label for="readonly5">Provincia</label>
+                                        @Html.DropDownList("IdProvincia", ListaProvincia, null, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessage("IdProvincia", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <div class="col-md-3">
+                                <div style="margin-top:1em">
+                                    <div class="form-group">
+                                        @Html.Label("Localidad")
+                                        @Html.DropDownList("IdLocalidad", ListaLocalidad, null, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessage("IdLocalidad", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-md-2">
+                                <div style="margin-top:1em">
+                                    @Html.LabelFor(model => model.IdCodigoPostal, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(p => p.IdCodigoPostal, new { htmlAttributes = new { @class = "form-control form-control-sm text-box single-line", @placeholder = "C.P.", @readOnly = true } })
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Fax, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+
+                                    <label for="readonly5" class="control-label form-control-sm">Idioma</label>
+
+                                    @Html.DropDownList("IdIdioma", ListaTipoIdioma, null, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessage("IdIdioma", new { @class = "text-danger form-control-sm" })
+
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Cuit, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.Cuit, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Cuit, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.LocalA, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.LocalA, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.LocalA, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+
+                                    <label for="readonly5" class="control-label form-control-sm">Tipo de Moneda</label>
+
+                                    @Html.DropDownList("IdTipoMoneda", ListaTipoMoneda, null, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessage("IdTipoMoneda", new { @class = "text-danger form-control-sm" })
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Guardar</button>
+                                @Html.ActionLink("Volver", "DireccionCliente", new { IdCliente = Model.IdCliente }, htmlAttributes: new { @class = "btn btn-dark btn-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+                        
+                     
+   }
+
+
+
+
+
+
+
+                        <script>
+
+
+
+
+
+                            //con este codigo cargo el 2do dropdown
+                            $(document).ready(function () {
+
+                                $("#IdPais").change(function () {
+                                    $.get("/Proveedor/GetlistaProvincias/", { idPais: $("#IdPais").val() }, function (data) {
+                                        // VACIAMOS EL DropDownList
+                                        $("#IdProvincia").empty();
+                                        $("#IdLocalidad").empty();
+                                        $("#IdLocalidad").append("<option value> -- Seleccionar Localidad --</option>");
+                                        document.getElementById("IdCodigoPostal").value = '';
+                                        
+                                        // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                                        $("#IdProvincia").append("<option value> -- Seleccionar Provincias de " + $("#IdPais option:selected").text() + " --</option>")
+                                        // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                                        $.each(data, function (index, row)
+                                        {
+                                            $("#IdProvincia").append("<option value='" + row.Id + "'>" + row.Nombre + "</option>")
+                                        });
+
+                                    });
+
+                                    $.get("/Proveedor/GetDatosPais/", { idPais: $("#IdPais").val() }, function (data) {
+                                        console.log(data);
+                                        document.getElementById("CodigoAfip").value = data.CodigoAfip
+                                        document.getElementById("Cuit").value = data.Cuit
+                                    });
+                                });
+
+                                $("#IdProvincia").change(function () {
+                                    $.get("/Proveedor/GetlistaLocalidades/", { idProvincia: $("#IdProvincia").val() }, function (data) {
+                                        //console.log(data);
+                                        $("#IdLocalidad").empty();
+                                        document.getElementById("IdCodigoPostal").value = '';
+                                        // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                                        $("#IdLocalidad").append("<option value> -- Seleccionar Localidades de " + $("#IdProvincia option:selected").text() + " --</option>")
+                                        // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                                        $.each(data, function (index, row) {
+                                            $("#IdLocalidad").append("<option value='" + row.Id + "'>" + row.Nombre + "</option>")
+                                        });
+                                    });
+                                });
+
+                                //asigno el codogo postal de la localidad seleccionada
+                                $("#IdLocalidad").change(function () {
+                                    $.get("/Proveedor/GetCodigoPostal/", { idLocalidad: $("#IdLocalidad").val() }, function (data) {
+                                        console.log(data);
+                                        document.getElementById("IdCodigoPostal").value = data;
+                                    });
+                                });
+
+                            });
+
+                        </script>
+
+                        @section Scripts{
+                            <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+                            <!-- start - This is for export functionality only -->
+                            <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+                            <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+                            <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+                            <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+                            <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+                            <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+                        }

@@ -1,0 +1,170 @@
+﻿@model SAC.Models.DiarioModelView
+
+@{
+    ViewBag.Title = "CompraFactura";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+    <div class="form-horizontal">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("ConsultaAsientosContables", "Contabilidad"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                        <small>Consulta Diario Mensual de Facturacion Compra</small>
+                            <div class="form-body mt-1">
+                                <div class="row">
+                                    <div class="col-xlg-2 col-lg-2 col-md-2">
+                                        <div class="form-group row">
+                                            <small class="col-md-4">Año</small>
+                                            <div class="col-md-8">
+                                                <select class="form-control form-control-sm" name="Anio" id="Anio">
+                                                    @Html.Raw(ViewBag.ListaAnio)
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xlg-3 col-lg-3 col-md-3">
+                                        <div class="form-group row">
+                                            <small class="col-md-4">Mes</small>
+                                            <div class="col-md-8">
+                                                <select class="form-control form-control-sm" name="Mes" id="Mes">
+                                                    @Html.Raw(ViewBag.ListaMes)
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xlg-2 col-lg-2 col-md-2">
+                                        <div class="form-group row">
+                                            <small class="col-md-6">Periodo:</small>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(m => m.Periodo, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                                @Html.ValidationMessageFor(m => m.Periodo, "", new { @class = "text-danger form-control-sm" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-xlg-3 col-lg-3 col-md-3">
+                                        <div class="form-group row">
+                                            <small class="col-md-4">Asiento de:</small>
+                                            <div class="col-md-8">                                               
+                                                @Html.DropDownListFor(model => model.Tipo,Model.TipoAsiento, "Seleccionar", new { @class = "form-control form-control-sm" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xlg-2 col-lg-2 col-md-2">
+                                        <button type="submit" id="btnConsultar" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Consultar</button>
+                                    </div>
+                                
+                                </div>
+                            </div>
+
+                        }
+
+                      
+                        <hr />
+                        @if (Model.ListaDiario != null)
+                        {
+
+
+                            <div class="row">
+                                <div class="col-xlg-10 col-lg-10 col-md-10 col-sm-10">
+                                    <div class="table-responsive-md">
+                                        <table id="example23" class="table stylish-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Imputacion</th>
+                                                    <th class="text-center">Descripcion</th>
+                                                    <th class="text-center">Debe</th>
+                                                    <th class="text-center">Haber</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    decimal? TotalDebe = 0;
+                                                    decimal? TotalHaber = 0;
+
+                                                }
+                                                @foreach (var item in Model.ListaDiario)
+                                                {
+                                                    TotalDebe += item.Debe;
+                                                    TotalHaber += item.Haber;
+
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            @Html.DisplayFor(modelItem => item.IdImputacion)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Descripcion)
+                                                        </td>
+                                                        <td class="text-right">
+                                                            @Html.DisplayFor(modelItem => item.Debe)
+                                                        </td>
+
+                                                        <td class="text-right">
+                                                            @Html.DisplayFor(modelItem => item.Haber)
+                                                        </td>
+
+                                                    </tr>
+
+                                                }
+                                                <tr>
+                                                    <td class="text-right">
+                                                       
+                                                    </td>
+                                                    <td>
+                                                     <small>Saldo Asientos</small>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <small class="font-weight-bold ">$@Html.Raw(TotalDebe)</small>
+                                                    </td>
+
+                                                    <td class="text-right">
+                                                        <small class="font-weight-bold ">$@Html.Raw(TotalHaber)</small>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    @section Scripts {
+             
+
+       
+        <script src="~/Scripts/view/ContabilidadScript.js"></script>
+    }
+
+
+
+
+</p>
+

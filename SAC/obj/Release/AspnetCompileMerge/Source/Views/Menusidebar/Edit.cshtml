@@ -1,0 +1,170 @@
+﻿@model SAC.Models.ConfigMenuSidebarModelView
+@{
+    ViewBag.Title = "Editar Menu SideBar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- page css -->
+<link href="/Content/assets/css/pages/floating-label.css" rel="stylesheet">
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Menú Inicio </h3>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+
+        @using (Html.BeginForm("Edit", "Menusidebar", FormMethod.Post, new { novalidate = true }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.menuSideBar.IdMenuSidebar)
+            <div class="card">
+
+
+                <div class="card-body">
+                    <h4 class="card-title">Editando Menú Inicio</h4>
+                    <div class="row">
+                        <div class="col-xlg-12 col-lg-12 col-md-12">
+                            <div class="floating-labels m-t-30">
+
+
+                                <div class="form-group m-b-30">
+                                    @Html.EditorFor(model => model.menuSideBar.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="bar"></span>
+                                    <label for="inputTitulo">Titulo</label>
+                                </div>
+
+                                <div class="form-group m-b-40">
+                                    @Html.EditorFor(model => model.menuSideBar.Icono, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="bar"></span>
+                                    <label for="inputIcono">Icono</label>
+                                    <span class="help-block"><small><a href="https://fontawesome.com/v4.7.0/icons/" target="_blank"> Ref. Iconos</a>  </small></span>
+                                </div>
+
+                                <div class="form-group m-b-40">
+                                    @Html.EditorFor(model => model.menuSideBar.Orden, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="bar"></span>
+                                    <label for="accion_orden">Orden </label>
+                                </div>
+                                <div class="form-group m-b-40">
+                                    @Html.EditorFor(model => model.menuSideBar.Url, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="bar"></span>
+                                    <label for="accion_Url">Url </label>
+                                </div>
+                                <div class="form-group m-b-30">
+                                    @Html.DropDownListFor(model => model.menuSideBar.IdParent,
+                                  (IEnumerable<SelectListItem>)(new SelectList(Model.IEmenuSideBar.Select(x => new { Value = x.IdMenuSidebar, Text = x.Titulo }),
+                                                 "Value",
+                                                 "Text"))
+                                  , "Seleccionar Menu Superior...", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group m-b-30">
+
+                                    @Html.DropDownListFor(model => model.menuSideBar.IdAccion,
+                                 (IEnumerable<SelectListItem>)(new SelectList(Model.ICaccion.Select(x => new { Value = x.IdAccion, Text = x.Descripcion }),
+                                                "Value",
+                                                "Text"))
+                                 , "Seleccionar Accion...", new { @class = "form-control" })
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+
+
+                            <a id="btnEliminar" href="#" class="btn btn-danger m-t-20 "> Eliminar </a>
+
+                            <button type="submit" class="btn btn-success m-t-20"><i class="fa fa-envelope-o"></i> Guardar</button>
+                            <a href="@Url.Action("Index", "Menusidebar" )" class="btn btn-inverse m-t-20"><i class="fa fa-times"></i> Cancelar </a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+        }
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Eliminar Registro</h3>
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("Delete", "Menusidebar", FormMethod.Post, new { @id = "frmEliminar" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("Id");
+                        }
+
+                        <h4>¿Está seguro de que desea eliminar?</h4>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                        <a id="btnConfirmEliminar" href="#" class="btn btn-success">Confirmar</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+
+            $("#btnEliminar").click(function (e) {
+                e.preventDefault();
+                $("#Id").val($("#menuSideBar_IdMenuSidebar").val());
+                $("#myModal").modal('show');
+            });
+
+            $("#btnConfirmEliminar").click(function (e) {
+                e.preventDefault();
+                var frmEliminar = document.getElementById("frmEliminar");
+                frmEliminar.submit();
+
+                //var x = $("#menuSideBar_IdMenuSidebar").val();
+                //$.ajax({
+                //    type: "POST",
+                //    url: "/Menusidebar/Delete",
+                //    data: { Id: x },
+                //    success: function (r) {
+                //        if (r.result) {
+                //            //var x = JSON.parse(r.data);
+                //            toastr.success(r.msj)
+                //        } else {
+                //            toastr.warning(r.msj)
+                //        }
+                //        $("#myModal").modal("hide");
+                //    }
+                //})
+            });
+
+        });
+
+
+    </script>
+
+
+}
+

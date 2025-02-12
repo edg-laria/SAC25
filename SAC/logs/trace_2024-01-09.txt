@@ -1,0 +1,2 @@
+2024-01-09 08:35:12.4823 INFO Message: CuentaController.Acceder():admin
+2024-01-09 08:36:31.5606 INFO Message: Factura Registrada: 6407

@@ -1,0 +1,2 @@
+2023-09-13 19:23:19.7828 INFO Message: CuentaController.Acceder():Admin
+2023-09-13 19:23:20.5290 INFO Message: CuentaController.Acceder():Admin

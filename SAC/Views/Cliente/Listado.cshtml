@@ -1,0 +1,261 @@
+﻿@model  SAC.Models.ClienteModelView
+
+
+@{
+    ViewBag.Title = "Listado de Clientes por Grupos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+
+            <div class="card-body">
+                <h4 class="card-title">Listado de Clientes</h4>
+                <div class="form-body">
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive-md">
+
+                                <table id="example23" class="table stylish-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Codigo</th>
+                                            <th style="max-width: 33%;" class="text-center">Nombre</th>
+                                            <th class="text-center">Telefono</th>
+                                            <th class="text-center">Imputacion</th>
+                                            <th class="text-center">Tipo Cliente</th>
+                                            <th style="max-width: 33%;">Accion</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+
+
+                                        @foreach (var item in Model.ListaCliente)
+                                        {
+
+
+                                            <tr>
+                                                <td style="max-width: 10%;">
+                                                    @Html.DisplayFor(modelItem => item.Codigo)
+                                                </td>
+                                                <td class="text-left">
+                                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                                </td>
+
+                                                <td class="text-right">
+                                                    @Html.DisplayFor(modelItem => item.Cuit)
+                                                </td>
+
+                                                <td class="text-right">
+                                                    @Html.DisplayFor(modelItem => item.IdImputacion)
+                                                </td>
+
+                                                <td class="text-right">
+                                                    @Html.DisplayFor(modelItem => item.TipoCliente.Descripcion)
+                                                </td>
+
+                                                <td>
+                                                    <a href="@Url.Action("AddOrEdit", "Cliente",new { id = item.Id })" data-toggle="tooltip" data-original-title="Editar" class="btn btn-primary fa fa-pencil-square-o fa-1x"></a>
+
+
+
+                                                    @if (item.Visible == true)
+                                                    {
+
+                                                        <span data-toggle="modal" data-target="#myModalBloquear" data-id="@Html.DisplayFor(modelItem => item.Id)">
+                                                            <a class="btn btn-success fa fa-check-circle" role='button' data-toggle="tooltip" data-placement="top" title="Ocultar">.</a>
+                                                        </span>
+
+                                                    }
+                                                    else
+                                                    {
+
+
+                                                        <span data-toggle="modal" data-target="#myModalActivar" data-id="@Html.DisplayFor(modelItem => item.Id)">
+
+                                                            <a class="btn btn-warning  fa fa-times-circle" role='button' data-toggle="tooltip" data-placement="top" title="Mostrar">.</a>
+                                                        </span>}
+
+
+                                                    <span data-toggle="modal" data-target="#myModalEliminar" data-id="@Html.DisplayFor(modelItem =>item.Id)">
+                                                        <a class="btn btn-danger fa fa-trash-o fa-1x" role='button' data-toggle="tooltip" data-placement="top" title="Eliminar">.</a>
+                                                    </span>
+
+
+
+
+                                                </td>
+
+
+
+
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+
+
+
+
+<div class="modal fade" id="myModalEliminar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" role="form" action="Eliminar">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="simpleModalLabel">Eliminar Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="ID" id="Id" value="" />
+                    <p>Esta seguro de que desea eliminar permanentemente el Cliente ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-raised btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModalBloquear" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" role="form" action="BloquearCliente">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="Ocultar">Bloquear Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Esta seguro de que desea bloquear al Cliente?</p>
+                    <input type="hidden" name="ID" id="Id" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-raised btn-warning">Bloquear</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="myModalActivar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" role="form" action="HabilitarCliente">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Activar Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Esta seguro de que desea activar al Cliente?</p>
+                    <input type="hidden" name="ID" id="Id" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-raised btn-success">Activar</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <!-- ============================================================== -->
+    <!-- Plugins for this page -->
+    <!-- ============================================================== -->
+    <!-- This is data table -->
+
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+    <script src="~/Scripts/view/ClienteScript.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $('#example23').DataTable({
+                "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                "order": [[2, 'asc']],
+                'paging': true,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true,
+                'dom': 'Bfrtip',
+                'buttons': [
+                    'pdf'
+                ]
+            });
+        });
+
+
+        jQuery(function ($) {
+            $('#myModalEliminar').on('show.bs.modal', function (e) {
+                var id = $(e.relatedTarget).data().id;
+                $(e.currentTarget).find('#Id').val(id);
+            });
+        });
+
+
+        jQuery(function ($) {
+            $('#myModalBloquear').on('show.bs.modal', function (e) {
+                var id = $(e.relatedTarget).data().id;
+                $(e.currentTarget).find('#Id').val(id);
+            });
+        });
+
+        jQuery(function ($) {
+            $('#myModalActivar').on('show.bs.modal', function (e) {
+                var id = $(e.relatedTarget).data().id;
+                $(e.currentTarget).find('#Id').val(id);
+            });
+        });
+
+
+    </script>
+}
+

@@ -1,0 +1,309 @@
+﻿@model List<SAC.Models.LocalidadModelView>
+
+@{
+                /**/
+
+                ViewBag.Title = "Lista Localidades";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+
+                List<SelectListItem> ListaPais = (List<SelectListItem>)ViewBag.ListaPais;
+                List<SelectListItem> ListaProvincia = (List<SelectListItem>)ViewBag.ListaProvincia;
+
+}
+
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.1em 1em;
+    }
+
+    .table td, .table th {
+        padding: .25rem;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Gestión de Localidades</h4>
+                <div class="table-responsive m-t-10">
+
+                    @Html.ActionLink("Agregar una nueva localidad", "Agregar", "Localidad", new { @class = "btn btn-secondary btn-sm" })
+
+
+                    @using (Ajax.BeginForm("ObtenerLocalidades", "", new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        UpdateTargetId = "divPagina",
+                        OnComplete="fntabla",
+                        InsertionMode = InsertionMode.Replace,
+                    }, new { @id = "frmBusqueda" }))
+                    {
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.Label("Seleccione un país")
+                                    @Html.DropDownList("idCmbPais", ListaPais, null, new { @class = "form-control form-control-sm" })
+                                    @*@Html.Hidden("IdComboPais")*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.Label("Seleccione una provincia")
+                                    @Html.DropDownList("idCmbProvincia", new List<SelectListItem>(), " -- Seleccionar Localidad --", new { @class = "form-control form-control-sm" })
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="divPagina">
+                            @Html.Partial("_Tabla", Model)
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalConfirmacion" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <h3> ¿Está seguro que desea eliminar la localidad seleccionada?</h3>
+            </div>
+
+
+            <div style="padding:1em;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="Eliminar()" class="btn btn-primary">Aceptar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* crea un formulario para ir al controlador *@
+@using (Html.BeginForm("Eliminar", "Localidad", FormMethod.Post, new { @id = "frmEliminar" }))
+{
+    @Html.Hidden("idLocalidad");
+}
+
+
+<script>
+
+    var idCmbProvincia = document.getElementById("idCmbProvincia")
+    idCmbProvincia.onchange = function () {
+     $("#frmBusqueda").trigger("submit");
+    }
+
+    function fntabla() {
+        $('#tblLocalidad').DataTable({
+            "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+            "order": [[2, 'asc']],
+            'paging': true,
+            'lengthChange': false,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            'dom': 'Bfrtip',
+            'buttons': [
+                'pdf'
+            ]
+        });
+    }
+
+
+
+    //idCmbProvincia.onchange = function () {
+
+
+    //    // $("#frmBusqueda").trigger("submit");
+
+    //    $.ajax({
+    //        type: 'get',
+    //        url: '/Localidad/getLocalidadesJson/',
+    //        data: {
+    //            idPais: $("#idCmbPais").val() || 0,
+    //            idProvincia: $("#idCmbProvincia").val() || 0,
+    //        },
+    //        cache: false,
+    //        dataType: 'json',
+    //        success: function (r) {
+    //            if (r.data != "null" && r.result) {
+    //                bindTabla(r.data, 'tbllocalidad');
+    //            } else {
+    //                alert('No se encontraron datos, reintente.')
+    //            }
+    //        },
+    //        error: function (jqXHR, textStatus, errorThrown) {
+    //            alert('Error - ' + errorThrown);
+    //        }
+    //    });
+
+
+    //}
+    function bindInforme(datosJson,oTable) {
+        datosJson = JSON.parse(datosJson);
+   
+        var th_ini = "";
+        var tr_ini = "";
+        var thjson = "";
+
+        if ((typeof (datosJson) !== 'undefined') && (datosJson.length > 0)) {
+
+            // CABECERA DE TABLA
+            for (h in datosJson[0]) { thjson += "<th> " + h + " </th>"; }
+            th_ini += "<tr>" + thjson + "</tr>";
+            var valor = 0;
+            // CUERPO DE TABLA
+            for (x in datosJson) {
+                tr_ini += "<tr>";
+                for (y in datosJson[x]) {
+                    valor = datosJson[x][y];
+                    tr_ini += "<td> " + valor + " </td>";
+                }
+                tr_ini += " </tr>";
+            }
+
+
+            if ($.fn.dataTable.isDataTable('#' + oTable)) {
+                table = $('#' + oTable).DataTable();
+                table.destroy();
+                $('#' + oTable + ' thead tr').remove();
+                $('#' + oTable + ' thead').append(th_ini);
+                $('#' + oTable + ' tbody tr').remove();
+                $('#' + oTable + ' tbody').append(tr_ini);
+                tablaAd(oTable);
+               
+            } else {
+                $('#' + oTable + ' thead').append(th_ini);
+                $('#' + oTable + ' tbody').append(tr_ini);
+                tablaAd(oTable);
+            }
+            var valores = '';
+            $('#tblInforme thead tr').each(function (index) {
+                $(this).children("th").each(function (index2) {
+                    switch (index2) {
+                        case 0: valores = $(this).text();
+                            break;
+                        default:
+                            valores = valores + ',' + $(this).text();
+                    }
+                })
+            })
+            $("#infomeColum").val('' + valores + '');
+
+        } else {
+           
+            toastr.warning('No se encontraron datos...');
+          
+        }   
+    };
+
+function tablaAd(oTable) {
+       
+        var table = $('#' + oTable).DataTable({
+                "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                "order": [[2, 'asc']],
+            'paging': true,
+            'lengthChange': false,
+            'searching': true,
+            'ordering': true,
+            'info': true,
+            'autoWidth': true,
+            'dom': 'Bfrtip',
+            'buttons': [
+                'pdf'
+            ]
+        });
+    }
+
+
+
+    $(document).ready(function () {
+        $("#idCmbPais").change(function () {
+            $.get("/Localidad/GetlistaProvincias/", { idPais: $("#idCmbPais").val() }, function (data) {
+                // VACIAMOS EL DropDownList
+                $("#idCmbProvincia").empty();
+                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                $("#idCmbProvincia").append("<option value> -- Seleccionar Provincias de " + $("#idCmbPais option:selected").text() + " --</option>")
+                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                $.each(data, function (index, row) {
+                    $("#idCmbProvincia").append("<option value='" + row.Id + "'>" + row.Nombre + "</option>")
+                });
+            });
+        });
+
+    });
+
+
+    function AsigarConfirmacion(idLocalidad) {
+        event.preventDefault();
+        document.getElementById("idLocalidad").value = idLocalidad;
+        //console.log(idPais);
+        $("#ModalConfirmacion").modal('show');
+    }
+
+
+    function Eliminar() {
+        var frmEliminar = document.getElementById("frmEliminar");
+        frmEliminar.submit();
+    }
+
+</script>
+
+
+@section Scripts{
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $('#tblPais').DataTable({
+                "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                "order": [[2, 'asc']],
+                'paging': true,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true,
+                'dom': 'Bfrtip',
+                'buttons': [
+                    'pdf'
+                ]
+            });
+        });
+    </script>
+   
+}
+
+
+

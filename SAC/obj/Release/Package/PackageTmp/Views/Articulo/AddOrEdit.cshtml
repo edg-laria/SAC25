@@ -1,0 +1,164 @@
+﻿@model SAC.Models.ArticuloModelView
+
+@{
+    ViewBag.Title = "Articulos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+
+    List<SelectListItem> ListaOpcion1 = (List<SelectListItem>)ViewBag.Opcion1;
+    List<SelectListItem> ListaOpcion2 = (List<SelectListItem>)ViewBag.Opcion2;
+
+
+    <div class="form-horizontal">
+        
+        <div class="row">
+            <!-- Column -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Detalles Articulo</h5>
+
+
+                        <div class="form-body">
+                            <div class="row">
+
+                                <div class="col-xlg-3 col-lg-4 col-md-4">
+                                    <div class="form-group row">
+                                        <small class="col-md-3">Codigo</small>
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                            @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xlg-3 col-lg-4 col-md-4">
+                                    <div class="form-group row">
+                                        <small class="col-md-4">Grupo</small>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Grupo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                            @Html.ValidationMessageFor(model => model.Grupo, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xlg-3 col-lg-4 col-md-4">
+                                    <div class="form-group row">
+                                        <small class="col-md-3">Honorarios</small>
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("Honorario", (List<SelectListItem>)ViewBag.Opcion1, null, new { @class = "form-control form-control-sm" })
+                                            @Html.ValidationMessage("Honorario", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+
+                            </div>
+
+
+
+                            <div class="row">
+
+                                <div class="col-xlg-3 col-lg-4 col-md-4">
+                                    <div class="form-group row">
+                                        <small class="col-md-3">Tipo</small>
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("Tipo", (List<SelectListItem>)ViewBag.Opcion2, null, new { @class = "form-control form-control-sm" })
+                                            @Html.ValidationMessage("Tipo", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xlg-3 col-lg-4 col-md-4">
+                                    <div class="form-group row">
+                                        <small class="col-md-4">Imputacion</small>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Imputacion, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                            @Html.ValidationMessageFor(model => model.Imputacion, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-xlg-8 col-lg-8 col-md-8">
+                                    <div class="form-group row">
+                                        <small class="col-md-4">Descripcion Castellano</small>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.DescripcionCastellano, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                            @Html.ValidationMessageFor(model => model.DescripcionCastellano, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-xlg-8 col-lg-8 col-md-8">
+                                    <div class="form-group row">
+                                        <small class="col-md-4">Descripcion Ingles</small>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.DescripcionIngles, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                            @Html.ValidationMessageFor(model => model.DescripcionIngles, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Guardar</button>
+
+                                    @Html.ActionLink("Cancelar", "Index", "Articulo", htmlAttributes: new { @class = "btn btn-dark btn-sm" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

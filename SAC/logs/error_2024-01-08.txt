@@ -1,0 +1,48 @@
+----------------------------------------               
+----------------------------------------               
+2024-01-08 12:22:46.5914 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Referencia a objeto no establecida como instancia de un objeto.               
+	ErrorDetails:    en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 311
+----------------------------------------               
+----------------------------------------               
+2024-01-08 12:26:26.1971 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Referencia a objeto no establecida como instancia de un objeto.               
+	ErrorDetails:    en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 311
+----------------------------------------               
+----------------------------------------               
+2024-01-08 16:03:43.8846 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Referencia a objeto no establecida como instancia de un objeto.               
+	ErrorDetails:    en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 311
+----------------------------------------               
+----------------------------------------               
+2024-01-08 16:13:48.1119 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: An error occurred while updating the entries. See the inner exception for details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.FacturaElectronicaRepositorio.Agregar(FacturaElectronica oFacturaElectronica) en F:\PandiNet\Datos\Repositorios\FacturaElectronicaRepositorio.cs:línea 33
+   en Negocio.Servicios.ServicioFacturaElectronica.Agregar(FacturaElectronicaModel oFacturaElectronica) en F:\PandiNet\Negocio\Servicios\ServicioFacturaElectronica.cs:línea 41
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 321
+----------------------------------------               
+----------------------------------------               
+2024-01-08 16:27:55.7972 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: An error occurred while updating the entries. See the inner exception for details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.FacturaElectronicaRepositorio.Agregar(FacturaElectronica oFacturaElectronica) en F:\PandiNet\Datos\Repositorios\FacturaElectronicaRepositorio.cs:línea 33
+   en Negocio.Servicios.ServicioFacturaElectronica.Agregar(FacturaElectronicaModel oFacturaElectronica) en F:\PandiNet\Negocio\Servicios\ServicioFacturaElectronica.cs:línea 41
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 321
+----------------------------------------               
+----------------------------------------               
+2024-01-08 16:31:48.7714 ERROR Message: FacturaController.GrabarFactura():Ops!, Notificacion de Afip: Campo Cbte_Tipo invalido:11. Debe ser algunos de los citados 19,20,21(1530)                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 

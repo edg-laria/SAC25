@@ -1,0 +1,43 @@
+﻿@model List<SAC.Models.ImputacionModelView>
+
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.1em 1em;
+    }
+
+    .table td, .table th {
+        padding: .25rem;
+    }
+</style>
+
+<table id="tblImputacion" class="table stylish-table">
+    <thead>
+        <tr>
+            <th>
+                Número
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Operación
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td class="text-left">
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    <button onclick="AgregarImputacion(@item.Id)" class="btn btn-secondary btn-sm">Seleccionar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

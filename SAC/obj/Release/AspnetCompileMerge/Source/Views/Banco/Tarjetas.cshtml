@@ -1,0 +1,227 @@
+﻿@model SAC.Models.TarjetaOperacionModelView
+
+@{
+    ViewBag.Title = "Tarjeta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <!-- Date picker plugins css -->
+    <link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("IdTarjetaConciliar")
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <small>Fecha Desde</small>
+                                        <input type="text" id="cFechaDesde" name="cFechaDesde"
+                                               class="form-control form-control-sm Calendario"
+                                               data-validation-required-message="Ingrese una fecha">
+
+                                    </div>
+                                    @*<div class="form-group row">
+                                            <label for="readonly5" class="control-label form-control-sm">Fecha Desde</label>
+                                            <div class="col-md-10">
+                                                @Html.TextBoxFor(x => x.cFechaDesde, "{0:yyyy-MM-dd}", new { @class = "form-control form-control-sm", @type = "date" })
+                                            </div>
+                                        </div>*@
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <small>Fecha Desde</small>
+                                        <input type="text" id="cFechaHasta" name="cFechaHasta"
+                                               class="form-control form-control-sm Calendario"
+                                               data-validation-required-message="Ingrese una fecha">
+                                    </div>
+                                    @*<div class="col-md-10">
+                                            <div class="form-group row">
+                                                <label for="readonly5" class="control-label form-control-sm">Fecha Hasta</label>
+                                                <div class="col-md-12">
+
+                                                    @Html.TextBoxFor(x => x.cFechaHasta, "{0:yyyy-MM-dd}", new { @class = "form-control form-control-sm", @type = "date" })
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <small>Tarjeta</small>
+                                        @Html.DropDownList("IdTipoTarjeta", (List<SelectListItem>)ViewBag.ListaTarjeta, null, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessage("IdTipoTarjeta", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Consultar</button>
+                                    @*@Html.ActionLink("Cancelar", "ConsultaCaja", "Caja", htmlAttributes: new { @class = "btn btn-dark btn-sm" })*@
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    if (Model.ListaTarjetaOperacion.Count > 0)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <div class="form-body">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group ">
+                                        <small>Consulta de Tarjetas Pendientes de Cobro</small>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="table-responsive-md">
+
+                                        <table id="tblOperacionesTarjeta" class="table stylish-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Paga</th>
+                                                    <th class="text-center">Fecha</th>
+                                                    <th class="text-center">Codigo</th>
+                                                    <th class="text-center">Descripcion</th>
+                                                    <th class="text-center">Importe</th>
+                                                    <th class="text-center">Datos</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @{
+                                                    decimal TotalTarjeta = 0;
+                                                }
+
+                                                @foreach (var item in Model.ListaTarjetaOperacion)
+                                                {
+                                                    TotalTarjeta += item.Importe;
+                                                    <tr>
+
+                                                        <td class="text-center">
+                                                            @if (item.Conciliacion == false)
+                                                            {
+                                                                <input type="checkbox" class="checkTarjeta checkTarjetaConciliacion" id=@item.Id value=@item.Importe>
+                                                            }
+                                                        </td>
+                                                        <td class="text-right">
+                                                            @Html.DisplayFor(modelItem => item.UltimaModificacion)
+                                                        </td>
+                                                        <td class="text-right">
+                                                            @Html.DisplayFor(modelItem => item.Tarjetas.Codigo)
+                                                        </td>
+
+                                                        <td class="text-right">
+                                                            @Html.DisplayFor(modelItem => item.Tarjetas.Descripcion)
+                                                        </td>
+
+                                                        <td class="text-right deuda">
+                                                            @Html.DisplayFor(modelItem => item.Importe)
+                                                        </td>
+
+                                                        <td class="text-right">
+                                                            @Html.DisplayFor(modelItem => item.Descripcion)
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            <tr >
+                                                <td class="text-right"></td>
+                                                <td class="text-right"></td>
+                                                <td class="text-right"></td>
+                                                <td class="text-right">
+                                                <label> Total</label>
+                                                </td>
+                                                <td class="text-right">
+                                                    <label> @Html.Raw(TotalTarjeta)</label>
+
+                                                </td>
+                                                <td class="text-right"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="row m-t-20 ">
+
+                                <div class="col-xlg-6 col-lg-6 col-md-6">
+                                    <div class="form-group row">
+                                        <small class="col-xlg-4 col-lg-4 col-md-4"> Monto Seleccionado</small>
+                                        <input type="text" id="MontoSeleccionado" class="form-control form-control-sm col-xlg-3 col-lg-3 col-md-3" disabled="disabled" />
+
+                                        <div class="col-xlg-3 col-lg-3 col-md-3">
+
+                                            <input type="submit" id="btnConciliarTarjeta"
+                                                   name="btnConciliarTarjeta" 
+                                                   value="Confirmar Conciliación"
+                                                   formaction=@Url.Action("ConciliarTarjeta") 
+                                                   formmethod="post" class="hide btn btn-dark btn-sm" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+}
+
+
+@section Scripts {
+
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- This is data table -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="~/Content/assets/plugins/datatables/jsTable/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/jszip.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/pdfmake.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/vfs_fonts.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.print.min.js"></script>
+
+   
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/view/DatePickerReady.js"></script>
+
+    <script src="~/Scripts/view/TarjetaScript.js"></script>
+
+}
+

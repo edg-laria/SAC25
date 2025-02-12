@@ -1,0 +1,203 @@
+﻿@model SAC.Models.CompraRegistroModelView
+
+@{
+
+    ViewBag.Title = "Registro Compras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal TotalNeto = 0;
+    decimal TotalNetoNoGravado = 0;
+    decimal TotalGastos = 0;
+    decimal TotalIVA = 0;
+    decimal TotalISBI = 0;
+    decimal TotalTotal = 0;
+}
+<link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    Registros de compras <strong>(Consulta Iva Compras) </strong>
+                </h5>
+
+                <div class="card-body">
+
+                    @using (Html.BeginForm("RegistroCompras", "Compras", FormMethod.Post, new { @class = "text-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                        <div class="row m-b-10">
+
+                            <div class="col-xlg-2 col-lg-2 col-md-2 ">
+                                <div class="form-group row text-right">
+                                    <small class="text-right col-md-6">Mes</small>
+                                    <div class="col-md-6">
+                                        <input type="number" id="mesFecha" name="mesFecha" class="form-control form-control-sm" data-validation-required-message="Mes">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xlg-3 col-lg-3 col-md-3">
+                                <div class="form-group row text-left">
+                                    <small class="text-right col-md-3">Año</small>
+                                    <div class="col-md-4">
+                                        <input type="number" id="anioFecha" name="anioFecha" class="form-control form-control-sm" data-validation-required-message="Año">
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-secondary"><i class="fa  fa-search"></i> Buscar </button>
+                                </div>
+
+
+                            </div>
+                         
+                            <div class="col-xlg-3 col-lg-3 col-md-3">
+                                <button type="button" class="btn btn-sm btn-secondary" onclick="DescargartxtAlicuota()"><i class="fa fa-file-text"></i> Exportar </button>
+                                <button type="button" class="btn btn-sm btn-secondary" onclick="DescargartxtComprasComprobante()"><i class="fa fa-file-text-o"></i> ExpComprobante </button>
+                            </div>
+
+                        </div>
+
+
+                    }
+
+
+                    <div class="row">
+                        <div class="col-xlg-12 col-lg-12 col-md-12">
+                            <div class="table-responsive">
+                                <table id="tblCtaCteProveedorDetalles" name="tblInforme" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Tipo</th>
+                                            <th class="text-center">PV</th>
+                                            <th class="text-center">Factura</th>
+                                            <th class="text-center">Fecha</th>
+                                            <th class="text-center">Empresa</th>
+                                            <th class="text-center">Neto $</th>
+                                            <th class="text-center">Neto No Gravado $</th>
+                                            <th class="text-center">Gasto</th>
+                                            <th class="text-center">Iva</th>
+                                            <th class="text-center">ISIB</th>
+                                            <th class="text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.DetalleFacturas)
+                                        {
+                                            TotalNeto += Convert.ToDecimal(item.Neto);
+                                            TotalNetoNoGravado += Convert.ToDecimal(item.NetoNoGravado);
+                                            TotalGastos += Convert.ToDecimal(item.Gasto);
+                                            TotalIVA += Convert.ToDecimal(item.Iva);
+                                            TotalISBI += Convert.ToDecimal(item.ISIB);
+                                            TotalTotal += Convert.ToDecimal(item.Total);
+
+
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.Cbte)</td>
+                                            <td class="text-center">@Html.DisplayFor(modelItem => item.PuntoVenta)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.NumeroFactura)</td>
+                                            <td class="text-center">@Html.DisplayFor(modelItem => item.Fecha)</td>
+                                            <td class="text-left">@Html.DisplayFor(modelItem => item.Empresa)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.Neto)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.NetoNoGravado)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.Gasto)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.Iva)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.ISIB)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.Total)</td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="text-center"></th>
+                                            <th class="text-center"></th>
+                                            <th class="text-center"></th>
+                                            <th class="text-center"></th>
+                                            <th class="text-center">Totales</th>
+                                            <th class="text-right">@Html.Raw(TotalNeto)</th>
+                                            <th class="text-right">@Html.Raw(TotalNetoNoGravado)</th>
+                                            <th class="text-right">@Html.Raw(TotalGastos)</th>
+                                            <th class="text-right">@Html.Raw(TotalIVA)</th>
+                                            <th class="text-right">@Html.Raw(TotalISBI)</th>
+                                            <th class="text-right">@Html.Raw(TotalTotal)</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+                            </div>
+
+                      
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("GenerarTxtComprasAlicuotas", "Compras", FormMethod.Post, new { @id = "frmDescargarAlicuota" }))
+{
+
+}
+
+@using (Html.BeginForm("GenerarTxtComprasComprobante", "Compras", FormMethod.Post, new { @id = "frmDescargarComprobante" }))
+{
+
+}
+
+<script>
+    function DescargartxtAlicuota() {
+        var frmDescargar = document.getElementById("frmDescargarAlicuota");
+        var nFilas = $("#tblCtaCteProveedorDetalles tr").length;
+        if (nFilas > 1) {
+            frmDescargar.submit();
+        }
+        
+    }
+
+
+    function DescargartxtComprasComprobante() {
+        var frmDescargar = document.getElementById("frmDescargarComprobante");
+        var nFilas = $("#tblCtaCteProveedorDetalles tr").length;
+        if (nFilas > 1) {
+            frmDescargar.submit();
+        }
+    }
+
+</script>
+
+
+@section Scripts{
+
+
+
+
+
+    <!-- This is data table -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="~/Content/assets/plugins/datatables/jsTable/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/jszip.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/pdfmake.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/vfs_fonts.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.print.min.js"></script>
+
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/view/CtaCteProveedorDetalle.js"></script>
+
+
+}

@@ -1,0 +1,12 @@
+2023-10-26 15:22:25.3206 INFO Message: CuentaController.Acceder():admin
+2023-10-26 15:22:26.9174 INFO Message: CuentaController.Acceder():admin
+2023-10-26 15:57:18.5852 INFO Message: CuentaController.Acceder():admin
+2023-10-26 16:10:03.7713 INFO Message: CuentaController.Acceder():admin
+2023-10-26 16:10:06.4484 INFO Message: CuentaController.Acceder():admin
+2023-10-26 16:52:10.1892 INFO Message: CuentaController.Acceder():admin
+2023-10-26 17:16:08.3803 INFO Message: CuentaController.Acceder():admin
+2023-10-26 17:16:09.7402 INFO Message: CuentaController.Acceder():admin
+2023-10-26 17:18:11.0918 INFO Message: CuentaController.Acceder():admin
+2023-10-26 17:18:12.0527 INFO Message: CuentaController.Acceder():admin
+2023-10-26 17:19:44.1226 INFO Message: CuentaController.Acceder():admin
+2023-10-26 17:20:48.9030 INFO Message: CuentaController.Acceder():admin

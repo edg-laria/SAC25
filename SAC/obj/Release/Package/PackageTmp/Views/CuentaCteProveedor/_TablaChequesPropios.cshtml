@@ -1,0 +1,93 @@
+﻿@model SAC.Models.ChequeraModelView
+
+
+<!-- Date picker plugins css -->
+<link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+
+<div id="PanelInsertar">
+
+
+  
+        @using (Ajax.BeginForm("IngresarChequeAjax", "", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "divPagina",
+            OnComplete = "onCompleteIngresarCheque(xhr, status)",
+            OnSuccess = "onSuccess(data, status, xhr)",
+            OnFailure = "onFailure(xhr, status, error)",
+
+        }, new { @id = "frmInsercion" }))
+        {
+
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+            <div class="row">
+                <div class="card" style="margin-bottom: 0px;">
+                    <div class="card-body">
+                      
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <small>Cuenta</small>
+                                @Html.DropDownList("idCuentaBancariaSeleccionada", (List<SelectListItem>)ViewBag.listaCuentaBancariaDrop, "Seleccionar...", new { @class = "form-control form-control-sm" })                                
+                            </div>
+                          
+                            <div class="col-md-2">
+                                <small>Número</small>
+                                @Html.TextBoxFor(model => model.NumeroCheque, new { @class = "form-control form-control-sm", @placeholder = "Nro cheque" })
+                                @Html.ValidationMessageFor(model => model.NumeroCheque, "", new { @class = "text-danger form-control-sm" })
+                            </div>
+
+                            <div class="col-md-2">
+                                <small>Importe</small>
+                                @Html.TextBoxFor(p => p.Importes, new { @class = "form-control form-control-sm", @placeholder = "importe" })
+                                @Html.ValidationMessageFor(p => p.Importes, "", new { @class = "text-danger form-control-sm" })
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <small>Fecha Ingreso</small>
+                                <input type="text" id="FechaIngreso" name="FechaIngreso"
+                                       class="form-control form-control-sm Calendario"
+                                       data-validation-required-message="Ingrese una fecha">
+                            </div>
+
+                            <div class="col-md-2">
+                                <small>Fecha Efectivo</small>
+
+                                <input type="text" id="FechaEgreso" name="FechaEgreso"
+                                       class="form-control form-control-sm Calendario"
+                                       data-validation-required-message="Ingrese una fecha">
+
+
+                            </div>
+                         
+                            <div class="col-md-1 m-t-10">
+                                <button type="submit" class="btn btn-secondary btn-circle"><i class="fa  fa-save"></i> </button>
+                            </div>
+                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+        <div id="loader" class=" aletr" style="display:none">
+            <div class="spinner-border"></div>
+        </div>
+        <div id="divPagina">
+
+        </div>
+        
+    </div>
+
+
+
+
+
+
+

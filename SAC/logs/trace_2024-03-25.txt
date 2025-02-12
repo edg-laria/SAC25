@@ -1,0 +1,9 @@
+2024-03-25 11:13:09.3880 INFO Message: CuentaController.Acceder():admin
+2024-03-25 11:20:33.5079 INFO Message: CuentaController.Acceder():admin
+2024-03-25 11:24:09.6805 INFO Message: Factura Registrada: 5581
+2024-03-25 12:09:56.7359 INFO Message: FacturaController.GrabarFactura():Factura Afip Valor100
+2024-03-25 12:31:28.2833 INFO Message: Factura Registrada: 5582
+2024-03-25 12:46:58.0625 INFO Message: CuentaController.Acceder():admin
+2024-03-25 15:10:20.5662 INFO Message: CuentaController.Acceder():admin
+2024-03-25 16:02:07.4504 INFO Message: CuentaController.Acceder():admin
+2024-03-25 16:07:36.3723 INFO Message: CuentaController.Acceder():admin

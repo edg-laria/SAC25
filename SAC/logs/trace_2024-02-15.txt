@@ -1,0 +1,19 @@
+2024-02-15 09:24:29.9089 INFO Message: CuentaController.Acceder():admin
+2024-02-15 09:41:32.9677 INFO Message: CuentaController.Acceder():admin
+2024-02-15 09:44:45.1835 INFO Message: CuentaController.Acceder():admin
+2024-02-15 09:46:21.6887 INFO Message: CuentaController.Acceder():admin
+2024-02-15 10:05:14.6112 INFO Message: CuentaController.Acceder():admin
+2024-02-15 10:12:21.7968 INFO Message: CuentaController.Acceder():admin
+2024-02-15 10:14:48.0101 INFO Message: CuentaController.Acceder():admin
+2024-02-15 10:39:31.1627 INFO Message: CuentaController.Acceder():admin
+2024-02-15 11:24:32.3817 INFO Message: CuentaController.Acceder():admin
+2024-02-15 11:40:48.8193 INFO Message: CuentaController.Acceder():admin
+2024-02-15 12:37:11.5396 INFO Message: CuentaController.Acceder():admin
+2024-02-15 12:47:50.2297 INFO Message: CuentaController.Acceder():admin
+2024-02-15 15:21:18.0398 INFO Message: CuentaController.Acceder():admin
+2024-02-15 15:30:13.8120 INFO Message: CuentaController.Acceder():admin
+2024-02-15 15:37:08.2479 INFO Message: Factura Registrada: 5435
+2024-02-15 16:35:29.7833 INFO Message: CuentaController.Acceder():admin
+2024-02-15 18:38:05.3456 INFO Message: CuentaController.Acceder():admin
+2024-02-15 19:25:59.9698 INFO Message: CuentaController.Acceder():admin
+2024-02-15 19:42:25.5876 INFO Message: CuentaController.Acceder():admin

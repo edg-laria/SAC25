@@ -1,0 +1,171 @@
+﻿@model IEnumerable<SAC.Models.DepartamentoModelView>
+
+@{
+    ViewBag.Title = "Lista de Departamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5 class="card-title"> Gestión de Departamento</h5>
+              
+                <a href="@Url.Action("AddOrEdit", "Departamento")" class="btn btn-sm btn-secondary "> Nuevo Departamento</a>
+        
+
+
+                    <div class="row m-t-10">
+                        <div class="col-lg-12">
+                            <div class="table-responsive-md">
+
+                                <table id="example23" class="table stylish-table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Descripcion)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Observaciones)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.TotalMes)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.TotalAnio)
+                                            </th>
+
+                                            <th>
+                                                Acciones
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Observaciones)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TotalMes)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TotalAnio)
+                                                </td>
+
+                                                <td>
+
+
+
+
+                                                    <a href="@Url.Action("AddOrEdit", "Departamento",new { id = item.Id })" data-toggle="tooltip" data-original-title="Editar" class="btn btn-primary fa fa-pencil-square-o fa-1x"></a>
+
+                                                    <span data-toggle="modal" data-target="#myModalEliminar" data-id="@Html.DisplayFor(modelItem =>item.Id)">
+                                                        <a class="btn btn-danger fa fa-trash-o fa-1x" role='button' data-toggle="tooltip" data-placement="top" title="Eliminar">.</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalEliminar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" role="form" action="Eliminar">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="simpleModalLabel">Eliminar Departamento</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="ID" id="Id" value="" />
+                    <p>Esta seguro de que desea eliminar permanentemente el Departamento?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-raised btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <!-- ============================================================== -->
+    <!-- Plugins for this page -->
+    <!-- ============================================================== -->
+    <!-- This is data table -->
+
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+    <script src="~/Scripts/view/ClienteScript.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $('#example23').DataTable({
+                "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                "order": [[2, 'asc']],
+                'paging': true,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true,
+                'dom': 'Bfrtip',
+                'buttons': [
+                    'pdf'
+                ]
+            });
+        });
+
+
+        jQuery(function ($) {
+            $('#myModalEliminar').on('show.bs.modal', function (e) {
+                var id = $(e.relatedTarget).data().id;
+                $(e.currentTarget).find('#Id').val(id);
+            });
+        });
+
+
+
+    </script>
+}

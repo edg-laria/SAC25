@@ -1,0 +1,87 @@
+﻿@model SAC.Models.LocalidadModelView
+
+@{
+    ViewBag.Title = "Editar Localidad";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> ListaPais = (List<SelectListItem>)ViewBag.ListaPais;
+    List<SelectListItem> ListaProvincia = (List<SelectListItem>)ViewBag.ListaProvincia;
+}
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Editando datos de la Localidad </h4>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Editar", "Localidad", FormMethod.Post))
+                        {
+                            <div>
+
+                                @Html.LabelFor(p => p.Id, new { @class = "hide" })
+                                @Html.TextBoxFor(p => p.Id, new { @class = "hide" })
+
+                                @Html.LabelFor(p => p.Nombre)
+                                @Html.TextBoxFor(p => p.Nombre, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("Nombre", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div style="margin-top:1em">
+                                @Html.LabelFor(p => p.CodigoPostal)
+                                @Html.TextBoxFor(p => p.CodigoPostal, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("CodigoPostal", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+
+                                @Html.LabelFor(p => p.IdPais)
+                                @Html.DropDownList("idPais", ListaPais, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("idPais", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(p => p.IdProvincia)
+                                @Html.DropDownList("IdProvincia", ListaProvincia, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdProvincia", new { @class = "text-danger" })
+                                @*@Html.Label("Seleccione una provincia")
+                        @Html.DropDownList("idCmbProvincia", new List<SelectListItem>(), " -- Seleccionar Localidad --", new { @class = "form-control form-control-sm" })*@
+
+                            </div>
+
+                            <br />
+                            <div style="margin:auto">
+                                <input type="submit" class="btn btn-success" value="Guardar" />
+                                @Html.ActionLink("Volver", "Index", "Localidad", null, new { @class = "btn btn-dark" })
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //con este codigo cargo el 2do dropdown
+    $(document).ready(function () {
+        $("#idPais").change(function () {
+            $.get("/Localidad/GetlistaProvincias/", { idPais: $("#idPais").val() }, function (data) {
+                // VACIAMOS EL DropDownList
+                $("#IdProvincia").empty();
+                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                $("#IdProvincia").append("<option value> -- Seleccionar Provincias de " + $("#idPais option:selected").text() + " --</option>")
+                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                $.each(data, function (index, row) {
+                    $("#IdProvincia").append("<option value='" + row.Id + "'>" + row.Nombre + "</option>")
+                });
+            });
+        });
+    });
+</script>
+
+

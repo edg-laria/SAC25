@@ -1,0 +1,240 @@
+﻿@model SAC.Models.CajaGrupoModelView
+
+@{
+    ViewBag.Title = "AddOrEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    @Html.Hidden("BotonSeleccion")
+
+
+<div class="form-horizontal">
+
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+
+                    
+                   
+                        <div class="form-body">
+                            <div class="row">
+
+
+                                <div class="col-xlg-3 col-lg-4 col-md-4">
+                                    <div class="form-group row">
+                                        <small class="col-md-3">Codigo</small>
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                            @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-xlg-6 col-lg-4 col-md-4">
+                                    <div class="form-group row">
+                                        <small class="col-md-3">Concepto</small>
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model.Concepto, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                            @Html.ValidationMessageFor(model => model.Concepto, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-xlg-4 col-lg-4 col-md-4">
+                                    <div class="form-group row">
+                                        <small class="col-md-4">Imputacion</small>
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(model => model.IdImputacion, new { @class = "form-control form-control-sm", @placeholder = "Ej: 00000", @readonly = true })
+                                        </div> 
+                                        <div class="col-md-2">
+                                            <button type="button" id="btnImpProvBuscarFact" class="btn btn-primary fa fa-search" onclick="BuscarImputacion(1)"></button>
+
+
+                                            <button id="btnCargandoFact" class="btn btn-primary" type="button" disabled style="display:none">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Loading...
+                                            </button>
+
+                                        </div>
+                                            <div class="col-md-2">
+                                                    @Html.ValidationMessage("IdImputacion", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        
+                                </div>
+
+
+                            </div>
+                        
+                            <div class="form-actions m">
+
+                                <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Guardar</button>
+
+
+                                <button type="button" class="btn btn-dark btn-sm">Cancel</button>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                   
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+
+
+
+
+</div>
+
+
+
+
+                    }
+
+                    <div class="modal fade" id="exampleModal" style="overflow-y: auto;" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="TituloModal">Seleccione un número de imputación</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="SubRubro">  </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <script>
+
+
+                        function AgregarImputacion(idSubRubro) {
+                            var Seleccion = document.getElementById("BotonSeleccion").value;
+                            if (Seleccion == "1") {
+                                document.getElementById("IdImputacion").value = idSubRubro;
+                            }
+
+
+                            $("#exampleModal").modal('hide');
+                        }
+
+                        function BuscarImputacion(boton) {
+                            document.getElementById("BotonSeleccion").value = boton;
+
+                            var botonBuscar = "";
+                            var botonCargando = "";
+
+                            if (boton == "1") {
+                                botonBuscar = "#btnImpProvBuscar";
+                                botonCargando = "#btnCargando";
+                            }
+                            if (boton == "2") {
+                                botonBuscar = "#btnImpProvBuscarFact";
+                                botonCargando = "#btnCargandoFact";
+                            }
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Proveedor/CargarImputacion",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "html",
+                                beforeSend: function () {
+                                    $(botonBuscar).css("display", "none");
+                                    $(botonCargando).css("display", "block");
+                                }, complete: function () {
+                                    $(botonBuscar).css("display", "block");
+                                    $(botonCargando).css("display", "none");
+
+                                },
+                                success: function (response) {
+                                    $('#SubRubro').html(response);
+                                    $("#exampleModal").modal('show');
+                                    fntabla();
+                                },
+                                failure: function (response) {
+                                    Console.log(response.responseText);
+                                },
+                                error: function (response) {
+                                    Console.log(response.responseText);
+                                }
+                            });
+
+                        }
+                        function fntabla() {
+
+                            if ($.fn.dataTable.isDataTable('#tblImputacion')) {
+                                table = $('#tblImputacion').DataTable();
+                                table.destroy();
+                                fntablaRenderizar();
+                            } else {
+                                fntablaRenderizar();
+                            }
+                        }
+                        function fntablaRenderizar() {
+                            $('#tblImputacion').DataTable({
+                                "language": { "url": "/Content/assets/plugins/datatables/es.txt" },
+                                "order": [[2, 'asc']],
+                                'paging': true,
+                                "scrollY": "300px",
+                                'lengthChange': false,
+                                'pageLength': 15,
+                                'searching': true,
+                                'ordering': true,
+                                'info': false,
+                                'autoWidth': true,
+                                'dom': 'Bfrtip',
+                                'buttons': []
+                            });
+                        }
+
+
+                    </script>
+
+                    @section Scripts{
+                        <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+                        <!-- start - This is for export functionality only -->
+                        <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+                        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+                        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+                        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+                        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+                        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+                    }
+
+
+
+

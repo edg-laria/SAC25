@@ -1,0 +1,30 @@
+----------------------------------------               
+----------------------------------------               
+2024-02-14 11:43:54.8379 ERROR Message: FacturaController.GrabarFactura():Ops!, El servicio de AFIP no responde...                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2024-02-14 17:00:20.6995 ERROR Message: FacturaController.GrabarFactura():Ops!, El servicio de AFIP no responde...                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2024-02-14 17:11:09.1420 ERROR Message: FacturaController.GrabarFactura():Ops!, El servicio de AFIP no responde...                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2024-02-14 17:27:47.3544 ERROR Message: FacturaController.GrabarFactura():Ops!, Notificacion de Afip: Er: Comprobante C (CbteDesde igual a CbteHasta), DocTipo: 80, DocNro 30709494478 no se encuentra registrado en los padrones de AFIP y no corresponde a una cuit pais.: 10015                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2024-02-14 17:51:54.3543 ERROR Message: FacturaController.GrabarFactura():Ops!, Notificacion de Afip: Er: Comprobante C (CbteDesde igual a CbteHasta), DocTipo: 80, DocNro 30709494478 no se encuentra registrado en los padrones de AFIP y no corresponde a una cuit pais.: 10015                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 

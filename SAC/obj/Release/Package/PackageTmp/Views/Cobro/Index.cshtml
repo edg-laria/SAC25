@@ -1,0 +1,582 @@
+﻿@model  SAC.Models.CobroFacturaModoModelView
+
+@{
+    ViewBag.Title = "Cobros";
+    <!-- Date picker plugins css -->
+    <link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+}
+<style>
+    fieldset {
+        /* min-width: 0; */
+        /* margin: 0; */
+        border: 1px solid lightgray !important;
+        padding: 5px;
+    }
+
+    legend {
+        padding: 3px;
+        font: small sans-serif;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+
+
+                @using (Html.BeginForm("Index", "Cobro", FormMethod.Get, new { @id = "frmBusqueda" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.IdCliente)
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <small> Cliente</small>
+                            <div class="form-group">
+                                @Html.TextBoxFor(p => p.Cliente.Nombre, new { @class = "form-control form-control-sm", @placeholder = "Nombre del cliente" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-sm btn-secondary mt-4"><i class="fa  fa-search"></i> Buscar </button>
+                        </div>
+                        <div class="col-xlg-3 col-lg-3 col-md-3">
+                            @if (Model.Cliente != null)
+                            {
+                                <small>
+                                    CUIT:
+                                    @{
+                                        var cuit = (Model.Cliente.Cuit != null) ? Model.Cliente.Cuit : "00-0000000-00";
+                                    }
+                                    @cuit
+                                </small>
+                                <div class="form-group">
+                                    <small>  TIPO:  @Model.Cliente.TipoCliente.Descripcion</small>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            <small>Operación en</small>
+                            <div class="form-group">
+                                @Html.DropDownList("IdTipoMoneda", Model.SelectTipoMoneda, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdTipoMoneda", new { @class = "text-danger form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <small>Cot. Dolar U.S.A</small>
+                            <div class="form-group">
+                                @Html.TextBoxFor(c => c.Cotizacion.Monto, new { @class = "form-control form-control-sm", id = "Cotizacion" })
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+                @if (Model.CuentaCorriente != null)
+                {
+                    <div class="row m-t-5">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Cuenta Corriente </legend>
+
+                                @{
+                                    decimal saldoCtaCte = 0;
+                                }
+                                <div class="table-responsive">
+                                    <div id="ListFacturasCtaCte" style="height:150px">
+                                        @using (Ajax.BeginForm("AgregarFacturaCobro", "Cobro", null, new AjaxOptions
+                                        {
+                                            HttpMethod = "POST",
+                                            UpdateTargetId = "ListResumenCobro",
+                                            InsertionMode = InsertionMode.Replace
+                                        }, new { @id = "frmCargarFactura" }))
+                                        {
+                                            <table id="TblFacturasAPagar" class="table stylish-table">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="text-center">Factura</td>
+                                                        <td class="text-center">Tipo</td>
+                                                        <td class="text-center">Fecha</td>
+                                                        <td class="text-center">Total</td>
+                                                        <td class="text-center">Parcial</td>
+                                                        <td class="text-center">Saldo</td>
+                                                        <td class="text-center">Cotizacion</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.CuentaCorriente != null)
+                                                    {
+                                                        foreach (var item in Model.CuentaCorriente)
+                                                        {
+
+                                                            var claseSele = "table-default";
+                                                            if (item.TipoComprobanteVenta.CodigoAfip == 99)
+                                                            {
+                                                                claseSele = "table-success";
+                                                            }
+                                                            else
+                                                            {
+                                                                claseSele = "table-default";
+                                                            }
+
+                                                    <tr ondblclick="Cobrar(@item.Id, @item.Saldo, @item.NumeroFactura, @item.TipoComprobanteVenta.Id , @item.IdMoneda)" class="Seleccionable @claseSele ">
+
+                                                        @Html.Hidden("idFacturaSeleccionada")
+                                                        @Html.Hidden("idModoCobro")
+                                                        @Html.Hidden("MontoCobro")
+                                                        @Html.Hidden("CotizacionActual")
+                                                        @Html.Hidden("idMoneda")
+
+                                                        <td>@Html.DisplayFor(modelItem => item.NumeroFactura)</td>
+                                                        <td class="text-right">@Html.DisplayFor(modelItem => item.TipoComprobanteVenta.Abreviatura)</td>
+                                                        <td class="text-right">@Html.DisplayFor(modelItem => item.Fecha)</td>
+                                                        <td class="text-right">@Html.DisplayFor(modelItem => item.Total)</td>
+                                                        <td class="text-right">@Html.DisplayFor(modelItem => item.Parcial)</td>
+                                                        <td class="text-center">@Html.DisplayFor(modelItem => item.Saldo)</td>
+                                                        <td class="text-center">@Html.DisplayFor(modelItem => item.Cotiza)</td>
+                                                    </tr>
+                                                            saldoCtaCte += item.Saldo;
+                                                        }
+                                                    }
+                                                </tbody>
+                                                <tfoot>
+
+                                                </tfoot>
+                                            </table>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-md-center">
+                                    <div class="col-md-4 text-right">
+                                        <small>Saldo de Cta. Cte. </small>
+                                    </div>
+                                    <div class="col-md-6 text-left">
+                                        <small id="sldocta" class="font-weight-bold"> @saldoCtaCte</small>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Resumen del Cobro </legend>
+                                <div class="table-responsive">
+                                    <div id="ListResumenCobro" style="height:150px">
+                                        @Html.Partial("_TablaFacturasCobro", Model)
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+
+                    using (Ajax.BeginForm("IngresoDelCobro", "Cobro", null, new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "ListResumenCobro",
+                        InsertionMode = InsertionMode.Replace
+                    }, new { @id = "frmCrearCobro" }))
+                    {
+                        @Html.HiddenFor(model => model.IdCliente)
+                        @Html.HiddenFor(model => model.idChequesCliente)
+                        @Html.HiddenFor(model => model.idRetencionesCliente)
+                        @Html.HiddenFor(model => model.Cotizacion.Monto)
+                        @Html.HiddenFor(model => model.IdMonedaDeOperacion)
+
+                        <div class="row m-t-10" id="DivMediosCobro">
+                            <div class="col-md-6">
+                                <fieldset>
+                                    <legend>Generar Comprobante de Cobro </legend>
+
+                                    <div class="row ">
+                                        <div class="col-md-3  text-right"> @Html.Label("Concepto", new { @class = "control-label form-control-sm" }) </div>
+                                        <div class="col-md-9"> @Html.TextBoxFor(p => p.ConceptoCobro, new { @class = "form-control form-control-sm" })</div>
+                                    </div>
+
+                                    <div class="row  m-t-5">
+                                        <div class="col-md-3  text-right">
+                                            @Html.Label("Nro Recibo", new { @class = "control-label form-control-sm" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.TextBoxFor(p => p.NumeroRecibo, new { @class = "form-control form-control-sm" })
+                                        </div>
+
+                                        <div class="col-md-3  text-right">
+                                            @Html.Label("Efectivo", new { @class = "control-label form-control-sm" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.TextBoxFor(p => p.montoEfectivo, new { @class = "form-control form-control-sm", @onkeyup = "SumarTotalPago()" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row  m-t-5">
+                                        <div class="col-md-3  text-right"> @Html.Label("Presupuesto", new { @class = "control-label form-control-sm" }) </div>
+                                        <div class="col-md-3">@Html.DropDownList("idPresupuesto", Model.SelectPresupuestoActual, null, new { @class = "form-control form-control-sm" }) </div>
+
+
+                                        <div class="col-md-3  text-right">
+                                            <input type="button" class="btn btn-secondary btn-sm" id="btnSelCheque" onclick="fnNewModalCheques();" value="Cheque">
+                                        </div>
+                                        <div class="col-md-3  text-left">
+                                            @Html.EditorFor(p => p.montoChequesSeleccionados, new { htmlAttributes = new { @class = "form-control form-control-sm", @readonly = true } })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row  m-t-5">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label form-control-sm">Periodo</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.TextBoxFor(c => c.Periodo, new { @class = "form-control form-control-sm" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.DropDownList("IdTarjeta", Model.SelectTarjetas, null, new { @class = "form-control form-control-sm" })
+                                            @Html.ValidationMessage("IdTarjeta", new { @class = "text-danger form-control-sm" })
+                                        </div>
+
+                                        <div class="col-md-3">@Html.TextBoxFor(p => p.montoTarjeta, new { @class = "form-control form-control-sm", @onkeyup = "SumarTotalPago()" })</div>
+
+
+
+
+                                    </div>
+                                    <div class="row  m-t-5">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label form-control-sm">Fecha </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" id="searchFecha" name="Fecha"
+                                                       class="form-control form-control-sm Calendario"
+                                                       data-validation-required-message="Ingrese una fecha">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">@Html.DropDownList("idCuentaBancariaSelec_", Model.SelectCuentasBancarias, null, new { @class = "form-control form-control-sm" }) </div>
+                                        <div class="col-md-3">@Html.TextBoxFor(p => p.montoCuentaBancaria, new { @class = "form-control form-control-sm", @onkeyup = "SumarTotalPago()" })</div>
+                                    </div>
+
+                                    <div class="row  m-t-5">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label form-control-sm">Comisión </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.TextBoxFor(c => c.montoComision, new { @class = "form-control form-control-sm", @onkeyup = "SumarTotalPago()", id = "montoComision" })
+                                        </div>
+                                        <div class="col-md-3  text-right">
+                                            <input type="button" class="btn btn-secondary btn-sm" id="btnSelRetencion" onclick="fnVerModalRetencion();" value="Retención">
+                                        </div>
+                                        <div class="col-md-3  text-left">
+                                            @Html.EditorFor(p => p.montoRetencion, new { htmlAttributes = new { @class = "form-control form-control-sm", @readonly = true } })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row  m-t-5">
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-3  text-right"> @Html.Label("Total", new { @class = "control-label form-control-sm" }) </div>
+                                        <div class="col-md-3"> @Html.TextBoxFor(p => p.montoTotal, new { @class = "form-control form-control-sm" })</div>
+                                    </div>
+                                    <div class="row  m-t-5">
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-3">
+                                            <input type="button" class="btn btn-success btn-block btn-sm " id="btnSelPago" onkeypress="EjecutarPago()" onclick="EjecutarPago()" value="Generar Pago">
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="row  m-t-40">
+                                </div>
+                                <div class="row  m-t-5">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-6  text-left">
+                                        <input type="button" class="btn btn-success btn-block btn-sm" style="display:none" id="btnGenerarPago" onclick="PagarFinal()" value=" Confirmar Pago ">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="button" class="btn btn-danger btn-block btn-sm" id="btnCancelarPago" onclick="CancelarPago()" value="Cancelar">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                }
+                @using (Html.BeginForm("Cobrar", "Cobro", FormMethod.Post, new { id = "frmPagar" }))
+                { }
+
+                <div class="modal fade" id="ModalModoPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel">Detalles de aplicación de cobro</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">×</button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <div class="row" id="tituloFactura">
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-4 text-left">
+                                            <h5> Número de factura: <label id="nroFacturaModal" class="form-control-label font-weight-bold"></label></h5>
+                                            <h5> Saldo de factura:  <label class="form-control-label font-weight-bold">$</label> <label id="lblMonto" class="form-control-label font-weight-bold"></label></h5>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row m-t-10">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-8 text-left">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    Saldo parcial:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="number" id="txtMonto" class="form form-control-sml" value="" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="tituloPago" style="display:none">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8 text-left">
+                                        <h5> Número de Pago: <label id="nroPagoModal" class="form-control-label font-weight-bold"></label></h5>
+                                        <h5> Saldo a favorable: <label id="lblMontoPago" class="form-control-label font-weight-bold"></label></h5>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+
+                                @Html.Hidden("tipoComprobante")
+                                @Html.Hidden("idMonedaFactura")
+                            </div>
+                            <div class="modal-footer">
+                                <div style="padding:1em;">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" onclick="ConfirmarModoPago()" class="btn btn-success btn-sm">Aceptar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="ModalNewCheque" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">Cheques</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="tab-pane active" id="Terceros">
+                                    @Html.Partial("~/Views/Cobro/_TablaChequesCliente.cshtml", Model.Cheque)
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-md-center" style="display: inline;">
+                                <div class="row ">
+                                    <div class="col-md-2 m-l-15 ">
+                                        <small>A pagar:</small>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <small id="ImporteAPagarCheque"></small>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <small>Total cheques:</small>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <small id="TotalChequeSeleccionados"></small>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <button type="button" class="btn btn-success btn-sm" onclick="fnAsignarNewCheque()">Asignar Cheques</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="ModalRetenciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Retenciones</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">×</button>
+                            </div>
+
+                            <div class="modal-body">
+                                @if (Model.CuentaCorriente != null)
+                                {
+                                    using (Ajax.BeginForm("AgregarRetencion", "Cobro", null, new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "divDatos",
+                                        OnSuccess = "mostrarBoton",
+                                        InsertionMode = InsertionMode.Replace
+                                    }, new { @id = "frmInsercionRetencion" }))
+                                    {
+
+                                        <div class="row col-md-12 m-t-10">
+                                            <div class="col-md-2"> @Html.Label("Tipo", new { @class = "control-label form-control-sm" })</div>
+                                            <div class="col-md-4">@Html.DropDownListFor(p => p.Retencion.IdTipoRetencion, Model.Retencion.ListaTipoRetencion, null, new { @class = "form-control form-control-sm" })</div>
+                                            <div class="col-md-2"> @Html.Label("Importe", new { @class = "control-label form-control-sm" })</div>
+                                            <div class="col-md-4">@Html.TextBoxFor(p => p.Retencion.Importe, new { @class = "form-control form-control-sm" })</div>
+                                        </div>
+
+                                        <div class="row col-md-12 m-t-10">
+                                            <div class="col-md-2"> @Html.Label("Comprobante", new { @class = "control-label form-control-sm" })</div>
+                                            <div class="col-md-4">@Html.TextBoxFor(p => p.Retencion.NroRecibo, new { @class = "form-control form-control-sm" })</div>
+                                            <div class="col-md-2"> @Html.Label("Provincia", new { @class = "control-label form-control-sm" })</div>
+                                            <div class="col-md-4">@Html.DropDownListFor(p => p.Retencion.IdProvincia, Model.Retencion.ListadoProvincias, null, new { @class = "form-control form-control-sm" })</div>
+                                        </div>
+
+                                        <div class="row col-md-12 m-t-10">
+                                            <div class="col-md-2">
+                                                @Html.Label("Factura Nº", new { @class = "control-label form-control-sm" })
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                @Html.DropDownListFor(p => p.Retencion.IdFactVenta, Model.Retencion.ListadoFacturas, null, new { @class = "form-control form-control-sm" })
+                                            </div>
+                                            <div class="col-md-2"> </div>
+                                            <div class="col-md-2 text-center"><button type="submit" class="btn btn-dark btn-sm">Asignar </button></div>
+                                        </div>
+                                        <br />
+
+                                        <div id="divDatos">
+                                            @Html.Partial("_TablaRetenciones", Model)
+                                        </div>
+
+
+                                        <div class="row m-t-10  ">
+                                            <div class="col-md-10"> </div>
+                                            <div class="col-md-2">
+                                                <button id="BtnSetear" type="button" class="btn btn-success btn-sm"
+                                                        onclick="SetearRetencion()" style="display:none">
+                                                    Confirmar
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+
+                                    }
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Retenciones</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <h3> ¿Está seguro que desea eliminar el registro?</h3>
+
+                                @using (Ajax.BeginForm("EliminarRetencion", "CObro", null, new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    OnSuccess = "mostrar",
+                                    UpdateTargetId = "divDatos",
+                                    InsertionMode = InsertionMode.Replace
+                                }, new { @id = "frmEliminarRetencion" }))
+                                {
+
+                                    @Html.Hidden("IdRetencionEliminar");
+                                    @Html.Hidden("IdFacturaEliminar");
+                                }
+                            </div>
+                            <div class="modal-footer">
+                                <div style="padding:1em;">
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="CancelarEliminacion()">Cancelar</button>
+                                    <button type="button" onclick="Eliminar()" class="btn btn-success btn-sm">Aceptar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade ModalConfirmaEliminar" id="ModalConfirmaEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">Aviso</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @using (Ajax.BeginForm("QuitarCheque", "", new AjaxOptions
+                            {
+                                HttpMethod = "POST",
+                                UpdateTargetId = "DivNewCheque",
+                                OnComplete = "onCompleteQuitarCheque",
+
+                            }, new { @id = "FormQuitarCheque" }))
+                            {
+                                <div class="modal-body">
+
+                                    <h3> ¿Está seguro que desea eliminar el registro?</h3>
+
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("IdCheque")
+                                </div>
+                                <div class="text-center p-10">
+                                    <button type="button" class="btn btn-secondary btn-sm " data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger btn-sm">Aceptar</button>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <!-- This is data table -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="~/Content/assets/plugins/datatables/jsTable/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/jszip.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/pdfmake.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/vfs_fonts.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.print.min.js"></script>
+
+
+    <script src="~/Scripts/view/Cobro/Cobro.js"></script>
+    <script src="~/Scripts/view/CtaCteProveedor.js"></script>
+ 
+}
+
+

@@ -1,0 +1,144 @@
+----------------------------------------               
+----------------------------------------               
+2024-03-04 16:11:30.0182 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 29
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-03-04 16:11:30.0483 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: No se puede implementar el método o la operación.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 46
+   en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago) en F:\PandiNet\Negocio\Servicios\ServicioCompra.cs:línea 890
+----------------------------------------               
+----------------------------------------               
+2024-03-04 16:17:45.6275 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 29
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-03-04 16:17:45.6565 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: No se puede implementar el método o la operación.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 46
+   en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago) en F:\PandiNet\Negocio\Servicios\ServicioCompra.cs:línea 890
+----------------------------------------               
+----------------------------------------               
+2024-03-04 16:46:44.1629 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 29
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-03-04 16:56:45.7548 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: No se puede implementar el método o la operación.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel)
+   en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago)
+----------------------------------------               
+----------------------------------------               
+2024-03-04 17:09:35.9872 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 29
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel)
+----------------------------------------               
+----------------------------------------               
+2024-03-04 17:09:36.0200 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: No se puede implementar el método o la operación.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel)
+   en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago)
+----------------------------------------               
+----------------------------------------               
+2024-03-04 18:31:50.9911 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 29
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-03-04 18:31:51.0131 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: No se puede implementar el método o la operación.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 46
+   en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago) en F:\PandiNet\Negocio\Servicios\ServicioCompra.cs:línea 890
+----------------------------------------               
+----------------------------------------               
+2024-03-04 18:51:37.8822 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 29
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-03-04 18:51:37.9532 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: No se puede implementar el método o la operación.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 46
+   en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago) en F:\PandiNet\Negocio\Servicios\ServicioCompra.cs:línea 890
+----------------------------------------               
+----------------------------------------               
+2024-03-04 19:09:31.8369 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 29
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-03-04 19:09:31.8369 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: No se puede implementar el método o la operación.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 46
+   en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago) en F:\PandiNet\Negocio\Servicios\ServicioCompra.cs:línea 890
+----------------------------------------               
+----------------------------------------               
+2024-03-04 19:16:07.5439 ERROR Message: ServicioBancoCuentaBancaria >> Agregar                
+	ErrorTitle: ServicioBancoCuentaBancaria >> Agregar               
+	ErrorSummary: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.               
+	ErrorDetails:    en System.Data.Entity.Internal.InternalContext.SaveChanges()
+   en System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   en System.Data.Entity.DbContext.SaveChanges()
+   en Datos.Repositorios.RepositorioBase`1.Insertar(T entidad) en F:\PandiNet\Datos\Repositorios\RepositorioBase.cs:línea 33
+   en Datos.Repositorios.BancoCuentaBancariaRepositorio.Agregar(BancoCuentaBancaria oBancoCuentaBancaria) en F:\PandiNet\Datos\Repositorios\BancoCuentaBancariaRepositorio.cs:línea 29
+   en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 40
+----------------------------------------               
+----------------------------------------               
+2024-03-04 19:16:07.6113 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: No se puede implementar el método o la operación.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBancoCuentaBancaria.Agregar(BancoCuentaBancariaModel oBancoCuentaBancariaModel) en F:\PandiNet\Negocio\Servicios\ServicioBancoCuentaBancaria.cs:línea 46
+   en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago) en F:\PandiNet\Negocio\Servicios\ServicioCompra.cs:línea 890

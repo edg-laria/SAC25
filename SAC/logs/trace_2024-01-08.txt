@@ -1,0 +1,9 @@
+2024-01-08 12:05:16.7034 INFO Message: CuentaController.Acceder():admin
+2024-01-08 12:18:07.7562 INFO Message: CuentaController.Acceder():admin
+2024-01-08 16:06:09.8993 INFO Message: CuentaController.Acceder():admin
+2024-01-08 16:51:50.6983 INFO Message: CuentaController.Acceder():admin
+2024-01-08 16:58:26.7095 INFO Message: CuentaController.Acceder():admin
+2024-01-08 17:01:27.4810 INFO Message: Factura Registrada: 5407
+2024-01-08 17:23:29.1724 INFO Message: Factura Registrada: 5408
+2024-01-08 19:50:58.5579 INFO Message: CuentaController.Acceder():admin
+2024-01-08 20:12:34.1121 INFO Message: Factura Registrada: 5409

@@ -1,0 +1,157 @@
+﻿@model SAC.Models.PlanContableModelView
+@{
+    ViewBag.Title = "Plan Contable";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- page css -->
+<link href="/Content/assets/css/pages/floating-label.css" rel="stylesheet">
+
+<link href="/Content/assets/plugins/switchery/dist/switchery.min.css" rel="stylesheet" />
+
+
+
+<div class="col-xlg-12 col-lg-12 col-md-12">
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <input id="JsonMenuSiderPorRol"
+               name="JsonMenuSiderPorRol"
+               type="hidden"
+               value="@ViewBag.JsonMenuSiderPorRol" />
+        <input id="JsonMenuSider"
+               name="JsonMenuSider"
+               type="hidden"
+               value="@ViewBag.JsonMenuSider" />
+
+        <div class="card ">
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xlg-12 col-lg-12 col-md-12">
+
+                            <div class="row">
+                                <div class="col-xlg-10 col-lg-10 col-md-10">
+                                    <h4 class="card-title">Plan de Cuentas </h4>
+                                </div>
+
+                            </div>
+
+                    
+                            <div class="row">
+                                <div class="col-xlg-12 col-lg-12 col-md-12">
+                                    <button type="button" class="btn btn-secondary btn-sm " data-toggle="modal" data-target="#add-menu">
+                                        <i class="fa fa-plus"></i> Agregar Nueva Cuenta
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row m-t-10">
+                                <div class="col-xlg-6 col-lg-6 col-md-6 col-md-offset-6">
+                                    <div id="treeview-selectable" class="TreePlan"></div>
+                                </div>
+
+                            </div>
+
+                            <!--.modal- -->
+                            <div id="add-menu" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel">Nueva Cuenta Contable </h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xlg-10 col-lg-10 col-md-10 ">
+
+
+                                                    <div class="form-group row">
+                                                        <small class="col-md-4 text-right ">Código de Cuenta</small>
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.cuentaContable.IdNuevo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                                            @Html.ValidationMessageFor(m => m.cuentaContable.IdNuevo, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <small class="col-md-4 text-right">Descripción</small>
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => model.cuentaContable.Descripcion, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                                            @Html.ValidationMessageFor(m => m.cuentaContable.Descripcion, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <small class="col-md-4 text-right">Tipo Elemento</small>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => model.cuentaContable.IdTipoElemento, Model.cuentaContable.TipoElemento, "Seleccionar", new { @class = "form-control form-control-sm" })
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <small class="col-md-4 text-right"> Cuenta Superior</small>
+                                                        <div class="col-md-8">
+                                                           
+                                                            @Html.DropDownListFor(model => model.cuentaContable.IdCuentaSuperior, (List<SelectListItem>)(Model.cuentaContable.selectListCuentaSuperior), "Seleccionar", new { @class = "form-control form-control-sm" })
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" value="Guardar" formaction="@Url.Action("Create", "Contabilidad")" class="btn btn-primary" />
+                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- /.modal- -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
+
+
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+<!-- Treeview Plugin JavaScript -->
+<script src="~/Content/assets/plugins/bootstrap-treeview-master/dist/bootstrap-treeview.min.js"></script>
+<script src="~/Scripts/TreeView/TreeView.js"></script>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //con este codigo cargo el 2do dropdown
+            $("#cuentaContable_IdTipoElemento").change(function () {
+                $.get("/Contabilidad/GetlistaCuentas/", { TipoElemento: $("#cuentaContable_IdTipoElemento").val() }, function (data) {
+
+                    $("#cuentaContable_IdCuentaSuperior").empty();
+                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                    $("#cuentaContable_IdCuentaSuperior").append("<option value> -- Seleccionar  --</option>")
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#cuentaContable_IdCuentaSuperior").append("<option value='" + row.Id + "'>" + row.Descripcion + "</option>")
+                    });
+                });
+            });
+
+        });
+
+    </script>
+
+}

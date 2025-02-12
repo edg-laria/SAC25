@@ -1,0 +1,661 @@
+﻿@model SAC.Models.ConsultaIvaVentaModelView
+@{ ViewBag.Title = "Registro de Ventas Mensuales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    List<SelectListItem> ListaProvincia = (List<SelectListItem>)ViewBag.ListaProvincia; }
+<!-- Date picker plugins css -->
+<link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    Consulta Iva Ventas
+                </h5>
+
+                <div class="card-body">
+
+                    @using (Html.BeginForm("ConsultaIvaVentas", "Cliente", FormMethod.Post, new { @class = "text-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div>
+                        <div class="form-body mt-1">
+                            <div class="row">
+                                <div class="col-xlg-2 col-lg-2 col-md-2">
+                                    <div class="form-group ">
+                                        <small>Año</small>
+                                        <select class="form-control form-control-sm" name="Anio" id="Anio">
+                                            @Html.Raw(ViewBag.ListaAnio)
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xlg-2 col-lg-2 col-md-2">
+                                    <div class="form-group ">
+                                        <small>Mes</small>
+                                        <select class="form-control form-control-sm" name="Mes" id="Mes" value="@(Model != null ? Model.MesNro : string.Empty)">
+                                            @Html.Raw(ViewBag.ListaMes)
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xlg-1 col-lg-1 col-md-1">
+                                    <div class="form-group ">
+                                        <small>Periodo:</small>
+                                        <input type="text" name="Periodo" value="@(Model != null ? Model.Periodo : string.Empty)" class="form-control" id="Periodo" readonly="true" />
+                                    </div>
+                                </div>
+
+                                <div class="col-xlg-2 col-lg-2 col-md-2 ">
+                                    <button type="submit" id="btnConsultar" class="btn btn-success btn-sm m-t-20"> <i class="fa fa-check"></i> Consultar</button>
+                                </div>
+
+                            </div>
+                        </div>}
+
+                    </div>
+                    }
+                    @if (Model.ListaConsultaIva != null)
+                    {
+
+                <div>
+                    <input type="hidden" id="PeriodoBuscar" name="PeriodoBuscar" value="$@Html.Raw(Model.Periodo)" />
+
+                    <div class="form-actions d-flex justify-content-start mt-5">
+                        <span style="margin-right: 15px;">
+                            <!-- Puedes ajustar el valor -->
+                            <a class="btn btn-success btn-sm m-t-20" role="button" data-toggle="tooltip" data-placement="top" title="Abrir Resumen">Resumen</a>
+                        </span>
+
+                        @using (Html.BeginForm("Export", "Cliente", FormMethod.Post, new { @class = "me-3" }))
+                        {
+                <input type="submit" class="btn btn-success btn-sm m-t-20" value="Export" />
+                                    <input type="hidden" name="ID" id="Id" value="" />}
+
+                        <span style="margin-left: 15px;">
+                            <!-- Puedes ajustar el valor -->
+                            <a class="btn btn-success btn-sm m-t-20" role="button" data-toggle="tooltip" data-placement="top" title="Generar PDF">PDF</a>
+                        </span>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            <div class="col-xlg-12 col-lg-12 col-md-12">
+                                <div class="table-responsive">
+                                    <table id="example23" class="table stylish-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="max-width: 10%;">Tipo</th>
+                                                <th class="text-center">Punto Vta</th>
+                                                <th class="text-center">Nro Factura</th>
+                                                <th class="text-center">Fecha</th>
+                                                <th class="text-center">Empresa</th>
+                                                <th class="text-center">CUIT</th>
+                                                <th class="text-center">Neto</th>
+                                                <th class="text-center">Gasto</th>
+                                                <th class="text-center">Iva</th>
+                                                <th class="text-center">ISIB</th>
+                                                <th class="text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @{ decimal NetoTotal = 0;
+                                                decimal TotalGasto = 0;
+                                                decimal TotalIva = 0;
+                                                double TotalIsib = 0;
+                                                decimal Total = 0; }
+
+                                            @foreach (var item in Model.ListaConsultaIva)
+                                            {
+
+                                                NetoTotal += item.Neto;
+                                                TotalGasto += item.Gasto;
+                                                TotalIva += item.Iva;
+                                                TotalIsib += item.Isib;
+                                                Total += item.Total;
+
+                            <tr>
+                                <td style="max-width: 10%;" class="text-center">
+                                    @Html.DisplayFor(modelItem => item.CodigoAfip)
+                                </td>
+                                <td style="max-width: 10%;" class="text-center">
+                                    @Html.DisplayFor(modelItem => item.PuntoVenta)
+                                </td>
+                                <td style="max-width: 10%;" class="text-center">
+                                    @Html.DisplayFor(modelItem => item.NumeroFactura)
+                                </td>
+                                <td style="max-width: 10%;" class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Fecha)
+                                </td>
+                                <td style="max-width: 10%;" class="">
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td style="max-width: 10%;" class="">
+                                    @Html.DisplayFor(modelItem => item.Cuit)
+                                </td>
+                                <td style="max-width: 10%;" class="text-right">
+                                    @Html.DisplayFor(modelItem => item.Neto)
+                                </td>
+                                <td style="max-width: 10%;" class="text-right">
+                                    @Html.DisplayFor(modelItem => item.Gasto)
+                                </td>
+                                <td style="max-width: 10%;" class="text-right">
+                                    @Html.DisplayFor(modelItem => item.Iva)
+                                </td>
+                                <td style="max-width: 10%;" class="text-right">
+                                    @Html.DisplayFor(modelItem => item.Isib)
+                                </td>
+                                <td style="max-width: 10%;" class="text-right">
+                                    @Html.DisplayFor(modelItem => item.Total)
+                                </td>
+                            </tr>}
+
+                                            <tr class="text-right">
+                                                <td style="max-width: 10%;">
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                    <small class="font-weight-bold ">Totales Mensuales</small>
+                                                </td>
+
+                                                <td style="max-width: 10%;">
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                    <small class="font-weight-bold">$@Html.Raw(NetoTotal)</small>
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                    <small class="font-weight-bold ">$@Html.Raw(TotalGasto)</small>
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                    <small class="font-weight-bold ">$@Html.Raw(TotalIva)</small>
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                    <small class="font-weight-bold ">$@Html.Raw(TotalIsib)</small>
+                                                </td>
+                                                <td style="max-width: 10%;">
+                                                    <small class="font-weight-bold ">$@Html.Raw(Total)</small>
+                                                </td>
+
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                        <thead>
+
+                                        </thead>
+
+                                    </table>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                   
+
+
+                        <div class="modal fullscreen-modal fade" id="myModalImpresionIva" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel">Resumen Iva Ventas Periodo: @Html.DisplayFor(x => x.ConsultaIvaTotales.Periodo)</h4>
+
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="table-responsive">
+                                            <table id="example24" class="table stylish-table">
+                                                <thead>
+                                                    <tr>
+
+                                                        <th>Clase</th>
+                                                        <th>Tipo</th>
+                                                        <th>Punto</th>
+                                                        <th>Numero Factura</th>
+                                                        <th>Empresa</th>
+                                                        <th>Neto</th>
+                                                        <th>Total Iva</th>
+                                                        <th>Gasto</th>
+                                                        <th>Isib</th>
+                                                        <th>Total</th>
+                                                        <th>Cuit</th>
+                                                        <th>Dolar</th>
+                                                        <th>Moneda</th>
+                                                        <th>Periodo</th>
+                                                        <th>Asiento</th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var iva in Model.ListaFacturaVentaIva)
+                                                    {
+                                                    <tr>
+                                                        <td>@iva.Clase</td>
+                                                        <td>@iva.Tipo</td>
+                                                        <td>@iva.Punto</td>
+                                                        <td>@iva.NumeroFactura</td>
+                                                        <td>@iva.Empresa</td>
+                                                        <td>@iva.Neto</td>
+                                                        <td>@iva.TotalIva</td>
+                                                        <td>@iva.Gasto</td>
+                                                        <td>@iva.Isib</td>
+                                                        <td>@iva.Total</td>
+                                                        <td>@iva.Cuit</td>
+                                                        <td>@iva.Dolar</td>
+                                                        <td>@iva.Moneda</td>
+                                                        <td>@iva.Periodo</td>
+                                                        <td>@iva.Asiento</td>
+
+                                                    </tr>
+                                                    }
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        @using (Html.BeginForm("Export", "Cliente", FormMethod.Post))
+                                        {
+                                        <input type="submit" class="btn btn-success btn-sm m-t-20" value="Export" />}
+                                        <input type="hidden" name="ID" id="Id" value="" />
+                                         </div>
+                                            <div class="modal-footer">
+
+                                                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                                          </div>
+
+                                       </div>
+                                    </div>
+                                    </div>}
+
+                      </div>
+                    
+                            }
+                        </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    
+                    <div class="modal fade" id="myModalResumen" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Resumen Iva Ventas Periodo: @Html.DisplayFor(x => x.ConsultaIvaTotales.Periodo)</h4>
+
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-4">
+
+
+                                        </div>
+
+                                        <div class="col-4">
+                                            Total $
+
+                                        </div>
+
+                                        <div class="col-4">
+                                            Total U$S
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <span class="control-labe label label-danger btn-block">Local</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="firstname" class="control-label btn-block">@Html.DisplayFor(x => x.ConsultaIvaTotales.LocalPesos)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="firstname" class="control-label btn-block">@Html.DisplayFor(x => x.ConsultaIvaTotales.LocalDolares)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <span class="control-labe label label-danger btn-block">Local Ext</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="firstname" class="control-label btn-block">@Html.DisplayFor(x => x.ConsultaIvaTotales.LocalEPesos)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="firstname" class="control-label btn-block">@Html.DisplayFor(x => x.ConsultaIvaTotales.LocalEDolares)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+
+                                                <span class="control-labe label label-danger btn-block">Exterior A</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <label for="firstname" class="control-label">@Html.DisplayFor(x => x.ConsultaIvaTotales.ExteriorPesos)</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <label for="firstname" class="control-label">@Html.DisplayFor(x => x.ConsultaIvaTotales.ExteriorDolares)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <span class="control-labe label label-danger btn-block">Total</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <label for="firstname" class="control-label">@Html.DisplayFor(x => x.ConsultaIvaTotales.TotalPesos)</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <label for="firstname" class="control-label">@Html.DisplayFor(x => x.ConsultaIvaTotales.TotalDolares)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <span class="control-labe label label-danger btn-block">Total Gastos</span>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <label for="firstname" class="control-label">@Html.DisplayFor(x => x.ConsultaIvaTotales.TotalGastosPesos)</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-4">
+
+
+                                        </div>
+
+                                        <div class="col-4">
+                                            <span class="control-labe label label-danger btn-block">Pagados</span>
+
+                                        </div>
+
+                                        <div class="col-4">
+                                            <span class="control-labe label label-danger btn-block">Pagar</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <span class="control-labe label label-danger btn-block">Ingresos Brutos</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <label for="firstname" class="control-label">@Html.DisplayFor(x => x.ConsultaIvaTotales.TotalIBPagados)</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+
+                                                <label for="firstname" class="control-label">@Html.DisplayFor(x => x.ConsultaIvaTotales.TotalIBaPagar)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+                                    <input type="hidden" name="ID" id="Id" value="" />
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    @section Scripts{
+
+                        <!-- ============================================================== -->
+                        <!-- Plugins for this page -->
+                        <!-- ============================================================== -->
+                        <!-- Date Picker Plugin JavaScript -->
+                        <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+
+
+                        <script src="~/Scripts/view/ClienteScript.js"></script>
+
+
+
+                        <!-- Date Picker Plugin JavaScript -->
+                        <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+                        @Scripts.Render("~/bundles/jqueryval")
+                        <script src="~/Scripts/js/mask.js"></script>
+                        <script src="~/Scripts/view/Caja/CajaScript.js"></script>
+                        <script src="~/Scripts/view/ContabilidadScript.js"></script>
+
+                        <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+                        <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+                        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+                        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+                        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+                        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+                        <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+                        <script src="~/Content/assets/plugins/switchery/dist/switchery.min.js"></script>
+                        <script src="https://unpkg.com/jspdf></script"></script>
+                        <script src="https://unpkg.com/jspdf-autotable"></script>
+
+                        <script src="~/Content/assets/plugins/switchery/dist/switchery.min.js"></script>
+
+                        <script src="~/Scripts/jspdf/libs/jspdf.min.js"></script>
+                        <script src="~/Scripts/jspdf/jspdf.plugin.autotable.js"></script>
+
+                        <script src="~/Scripts/view/Reporte/ReporteIvaVentas.js"></script>
+
+
+                        <script type="text/javascript">
+
+   //     $(document).ready(function () {
+            // Obtén el valor de Model.Periodo y guárdalo en una variable JavaScript
+            // var iva = '@Model.ListaFacturaVentaIva';
+            // Crea un array vacío para almacenar los datos
+
+        $(function () {
+            var iva = '@Model.ConsultaIvaTotales';
+
+            var facturaVentaIvaArray = [];
+
+
+               // Itera sobre cada elemento en Model.ListaFacturaVentaIva
+
+
+                let NetoTotal = 0;
+                let TotalGasto = 0;
+                let TotalIva = 0;
+                let TotalIsib = 0;
+                let TotalBruto = 0;
+
+                 @foreach (var item in Model.ListaConsultaIva)
+                 {
+                   <text>
+
+                    NetoTotal += parseFloat('@Html.Raw(Json.Encode((float)item.Neto))');
+                    TotalGasto += parseFloat('@Html.Raw(Json.Encode((float)item.Gasto))');
+                    TotalIva += parseFloat('@Html.Raw(Json.Encode((float)item.Iva))');
+                    TotalIsib += parseFloat('@Html.Raw(Json.Encode((float)item.Isib))');
+                    TotalBruto += parseFloat('@Html.Raw(Json.Encode((float)item.Total))');
+
+            //console.log(`Valor de Cuit: ${'@item.Cuit'}`);
+
+            //console.log(`Valor de Cuit : '@Html.Raw(Json.Encode(item.Cuit))'`);
+                    //console.log(`Valor de NombreCuenta: ${NombreCuenta}`);
+
+                    var itemData = [
+                      '@Html.Raw(Json.Encode(item.Abreviatura))',
+                      '@Html.Raw(Json.Encode(item.CodigoAfip))',
+                      '@Html.Raw(Json.Encode(item.PuntoVenta))',
+                      '@Html.Raw(Json.Encode((int)item.NumeroFactura))',
+                      '@Html.Raw(Json.Encode(item.Fecha.ToString("yyyy-MM-dd")))',
+                      '@Html.Raw(Json.Encode(item.Cuit))',
+                      '@Html.Raw(Json.Encode(item.Nombre))',
+                      '@Html.Raw(Json.Encode((float)item.Neto))',
+                      '@Html.Raw(Json.Encode((float)item.Iva))',
+                      '@Html.Raw(Json.Encode((float)item.Gasto))',
+                      '@Html.Raw(Json.Encode((float)item.Isib))',
+                      '@Html.Raw(Json.Encode((float)item.Total))'
+
+                  ];
+                        facturaVentaIvaArray.push(itemData);
+                   </text>
+                }
+
+
+            itemData = ["", "", "", "", "", "","Total Mensual ",NetoTotal,TotalIva,TotalGasto,TotalIsib,TotalBruto];
+                    facturaVentaIvaArray.push(itemData);
+
+                var headers = [
+                    "Clase",
+                    "Tipo",
+                   "Punto",
+                    "Numero",
+                    "Fecha",
+                   "Cuit",
+                   "Empresa",
+                   "Neto",
+                   "Iva",
+                   "Gasto",
+                   "Isib",
+                   "Total"
+                  ];
+
+
+             $('#example23').DataTable({
+                    "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                    "order": [[2, 'asc']],
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': true,
+                    'dom': 'Bfrtip',
+                    'buttons': [
+                        {
+                            extend: 'pdf',
+                            orientation: 'lancast',
+                            pageSize: 'A4',
+                            action: function (e, dt, button, config) {
+
+                                // Puedes pasar los datos necesarios a la función
+                                ImprimirIvaVentas(facturaVentaIvaArray, headers,iva);
+                            }
+                        }
+                    ]
+                });
+
+
+                $('#example24').DataTable({
+                    "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                    "order": [[2, 'asc']],
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': true
+                    /*,
+                    'dom': 'Bfrtip',
+                    'buttons': [
+                        {
+                            extend: 'excel',
+                            orientation: 'landscape',
+                            pageSize: 'legal'
+                        }
+                    ]*/
+                });
+            });
+
+                        </script>
+                    }
+

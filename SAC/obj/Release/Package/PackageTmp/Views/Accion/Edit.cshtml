@@ -1,0 +1,91 @@
+﻿@model SAC.Models.AccionModelView
+@{
+    ViewBag.Title = "Editar Acción";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- page css -->
+<link href="/Content/assets/css/pages/floating-label.css" rel="stylesheet">
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Evento </h3>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+
+        @using (Html.BeginForm("Edit", "Accion", FormMethod.Post, new { novalidate = true }))
+        {
+        @Html.AntiForgeryToken()
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IdAccion)
+        <div class="card">
+           
+
+                <div class="card-body">
+                    <h4 class="card-title">Editando Acción</h4>
+                    <div class="row">
+                        <div class="col-xlg-12 col-lg-12 col-md-12">
+                            <div class="floating-labels m-t-30">
+
+                                
+                                <div class="form-group m-b-40">
+                                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="bar"></span>
+                                    <label for="accion_nombre">Descripción </label>
+                                </div>
+
+                                <div class="form-group m-b-40">
+                                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="bar"></span>
+                                    <label for="accion_nombre">Nombre de Acción</label>
+                                </div>
+
+                                <div class="form-group m-b-30">
+                                    @Html.EditorFor(model => model.Controlador, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="bar"></span>
+                                    <label for="acccion_controlador">Nombre del Controlador </label>
+                                    <span class="help-block"><small>EJ.: Evento para EventoController </small></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="btn btn-success m-t-20"><i class="fa fa-envelope-o"></i> Guardar</button>
+                            <a href="@Url.Action("Edit", "Accion" )"class="btn btn-inverse m-t-20"><i class="fa fa-times"></i> Cancelar </a>
+                        </div>
+                    </div>
+                </div>
+           
+          
+        </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts{
+
+<script>
+    $(document).ready(function () { });
+
+
+</script>
+
+
+}
+

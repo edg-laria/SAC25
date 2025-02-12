@@ -1,0 +1,12 @@
+﻿@model Dictionary<string, string>
+
+    @if (Model != null)
+    {
+        foreach (var message in Model)
+        {
+            string[] keys = message.Key.Split('_');
+        <script>
+            toastr['@keys[0]']('@message.Value');
+        </script>
+    }
+    }

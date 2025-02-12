@@ -1,0 +1,18 @@
+----------------------------------------               
+----------------------------------------               
+2024-01-11 10:04:10.4189 ERROR Message: FacturaController.GrabarFactura():Ops!, Notificacion de Afip: Campo Cmp.Importe_total debe ser igual a la suma del campo Items.Pro_total_item de todos los items declarados.(1610)                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2024-01-11 11:45:38.3528 ERROR Message: FacturaController.GrabarFactura():Ops!, Notificacion de Afip: Campo Cmp.Items.Pro_total_item invalido. El valor no es igual a Pro_qty * Pro_precio_uni - Pro_bonificacion.(1815)                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2024-01-11 11:49:16.0814 ERROR Message: FacturaController.GrabarFactura():Ops!, Notificacion de Afip: Campo Cmp.Importe_total debe ser igual a la suma del campo Items.Pro_total_item de todos los items declarados.(1610)                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 

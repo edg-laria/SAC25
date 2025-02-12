@@ -1,0 +1,16 @@
+----------------------------------------               
+----------------------------------------               
+2024-08-14 12:24:46.5925 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Referencia a objeto no establecida como instancia de un objeto.               
+	ErrorDetails:    en Datos.Repositorios.FacturaVentasRepositorio.ActualizaVentaFacturaCobro(FactVenta model) en F:\PandiNet\Datos\Repositorios\FacturaVentasRepositorio.cs:línea 129
+   en Negocio.Servicios.ServicioFacturaVenta.ActualizaFacturaNC(FacturaVentaModel Factura) en F:\PandiNet\Negocio\Servicios\ServicioFacturaVenta.cs:línea 782
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 913
+----------------------------------------               
+----------------------------------------               
+2024-08-14 15:01:31.3464 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Referencia a objeto no establecida como instancia de un objeto.               
+	ErrorDetails:    en Datos.Repositorios.FacturaVentasRepositorio.ActualizaVentaFacturaCobro(FactVenta model)
+   en Negocio.Servicios.ServicioFacturaVenta.ActualizaFacturaNC(FacturaVentaModel Factura)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model)

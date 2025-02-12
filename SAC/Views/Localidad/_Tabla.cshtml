@@ -1,0 +1,35 @@
+﻿@model List<SAC.Models.LocalidadModelView>
+
+<table id="tblLocalidad" class="table stylish-table"> @*class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">*@
+    <thead>
+        <tr>
+            <th> Nombre</th>
+            <th> Codigo</th>
+            <th> Operaciones</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CodigoPostal)</td>
+                        <td>
+                            @Html.ActionLink(" ", "Editar", "Localidad", new { _id = @item.Id }, new { @class = "btn btn-primary fa fa-pencil-square-o" })
+                            @Html.ActionLink(" ", "Eliminar", "Localidad", new { _id = @item.Id }, new { @class = "btn btn-danger fa fa-trash-o", onclick = "AsigarConfirmacion(" + @item.Id + ")" })
+
+                        </td>
+                    </tr>
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+

@@ -1,0 +1,249 @@
+﻿@model List<SAC.Models.CajaSaldoModelView>
+
+@{
+    ViewBag.Title = "Caja";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.1em 1em;
+    }
+
+    .table td, .table th {
+        padding: .25rem;
+    }
+</style>
+<!-- page css
+<link href="/Content/assets/css/pages/inbox.css" rel="stylesheet">
+<link href="~/Content/assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+
+-->
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Grupo Cajas</h4>
+    </div>
+
+</div>
+
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Lista de Grupos de Caja</h5>
+                <h6 class="card-subtitle"> </h6>
+                <a href="@Url.Action("AddOrEdit", "CajaSaldo")" class="btn btn-sm btn-secondary "><i class="mdi mdi-calendar-plus"></i> Nuevo Grupo</a>
+                <div class="table-responsive m-t-40">
+
+                    <table id="example23" class="table stylish-table">
+
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td colspan="5">
+                                    Importes Iniciales
+                                </td>
+                                <td colspan="5">
+                                    Importes Finales
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <th>
+                                    Cierre
+                                </th>
+                                <th>
+                                    Pesos
+                                </th>
+                                <th>
+                                    Dolares
+                                </th>
+                                <th>
+                                    Cheques
+                                </th>
+                                <th>
+                                    Tarjeta
+                                </th>
+                                <th>
+                                    Depositos
+                                </th>
+
+                                <th>
+                                    Pesos
+                                </th>
+                                <th>
+                                    Dolares
+                                </th>
+                                <th>
+                                    Cheques
+                                </th>
+                                <th>
+                                    Tarjeta
+                                </th>
+                                <th>
+                                    Depositos
+                                </th>
+
+                                <th>Acciones</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr class="@("table-" + item.Id)">
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumeroCierrre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteInicialPesos)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteInicialDolares)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteInicialCheques)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteInicialTarjetas)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteInicialDepositos)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteFinalPesos)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteFinalDolares)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteFinalCheques)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteFinalTarjetas)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImporteFinalDepositos)
+                                </td>
+
+                                <td>
+                                    @*@Html.ActionLink(".", "Detalle", "CajaSaldo", new { id = item.Id }, htmlAttributes: new { @class = "btn ink-reaction btn btn-primary fa fa-pencil-square-o", data_toggle = "tooltip", data_placement = "top", data_original_title = "Detalle" })*@
+
+
+                                   
+
+                                   <a href="@Url.Action("Detalle", "CajaSaldo",new { id = item.Id })" data-toggle="tooltip" data-original-title="Detalle" class="btn btn-primary fa fa-pencil-square-o"></a>
+
+
+                                   
+                                </td>
+
+
+
+
+                            </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+
+
+
+
+<div class="modal fade" id="myModalEliminar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" role="form" action="Eliminar">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="simpleModalLabel">Eliminar Grupo Caja</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="ID" id="Id" value="" />
+                    <p>Esta seguro de que desea eliminar permanentemente el grupo de Caja ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-raised btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <!-- ============================================================== -->
+    <!-- Plugins for this page -->
+    <!-- ============================================================== -->
+    <!-- This is data table -->
+
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $('#example23').DataTable({
+                "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                "order": [[2, 'asc']],
+                'paging': true,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true,
+                'dom': 'Bfrtip',
+                'buttons': [
+                    'pdf'
+                ]
+            });
+        });
+
+
+        jQuery(function ($)
+        {
+            $('#myModalEliminar').on('show.bs.modal', function (e)
+            {
+                var id = $(e.relatedTarget).data().id;
+                $(e.currentTarget).find('#Id').val(id);
+            });
+        });
+
+
+
+    </script>
+}
+

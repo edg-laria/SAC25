@@ -1,0 +1,1 @@
+2024-10-01 10:16:59.8950 INFO Message: CuentaController.Acceder():admin

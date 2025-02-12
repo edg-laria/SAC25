@@ -1,0 +1,14 @@
+----------------------------------------               
+----------------------------------------               
+2024-11-20 14:29:24.7010 ERROR Message: ServicioFacturaVenta >> RegistroDeCobro                
+	ErrorTitle: ServicioFacturaVenta >> RegistroDeCobro               
+	ErrorSummary: Se produjo una excepción de tipo 'System.Exception'.               
+	ErrorDetails:    en Negocio.Servicios.ServicioFacturaVenta.ActualizaVentaFacturaCobro(CobroFacturaModel factura) en F:\PandiNet\Negocio\Servicios\ServicioFacturaVenta.cs:línea 882
+   en Negocio.Servicios.ServicioFacturaVenta.RegistroDeCobro(List`1 cobroFacturaModel, CobroFacturaModoModel medioCobro, Int32 IdTipoComprobanteVenta) en F:\PandiNet\Negocio\Servicios\ServicioFacturaVenta.cs:línea 279
+----------------------------------------               
+----------------------------------------               
+2024-11-20 14:41:35.2440 ERROR Message: ServicioFacturaVenta >> RegistroDeCobro                
+	ErrorTitle: ServicioFacturaVenta >> RegistroDeCobro               
+	ErrorSummary: Se produjo una excepción de tipo 'System.Exception'.               
+	ErrorDetails:    en Negocio.Servicios.ServicioFacturaVenta.ActualizaVentaFacturaCobro(CobroFacturaModel factura) en F:\PandiNet\Negocio\Servicios\ServicioFacturaVenta.cs:línea 882
+   en Negocio.Servicios.ServicioFacturaVenta.RegistroDeCobro(List`1 cobroFacturaModel, CobroFacturaModoModel medioCobro, Int32 IdTipoComprobanteVenta) en F:\PandiNet\Negocio\Servicios\ServicioFacturaVenta.cs:línea 279

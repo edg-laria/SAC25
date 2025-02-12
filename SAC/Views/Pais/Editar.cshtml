@@ -1,0 +1,66 @@
+﻿@model SAC.Models.PaisModelView
+
+@{
+    ViewBag.Title = "Editar País";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+@*<div class="row page-titles m-t-40">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Editar País</h3>
+    </div>
+
+</div>*@
+
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Editar", "Pais", FormMethod.Post))
+                        {
+                        <div>
+                            @*@Html.LabelFor(p => p.Id)*@
+                            @Html.TextBoxFor(p => p.Id, new { @class = "hide" })
+
+                            @Html.LabelFor(p => p.Nombre)
+                            @Html.TextBoxFor(p => p.Nombre, new { @class = "form-control", @placeholder = "Ej: Lituania" })
+                            @Html.ValidationMessage("Nombre", new { @class = "text-danger" })
+
+                            @if (Model != null && Model.MensajeError != null)
+                            {
+                                @Html.Label(Model.MensajeError, new { @class = "text-danger" })
+                            }
+                        </div>
+                            <div style="margin-top:1em">
+                                @Html.LabelFor(p => p.CodigoAfip)
+                                @Html.EditorFor(p => p.CodigoAfip, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @placeholder = "000000" } })
+                                @Html.ValidationMessage("CodigoAfip", new { @class = "text-danger" })
+                            </div>
+                            <div style="margin-top:1em">
+                                @Html.LabelFor(p => p.Cuit)
+                                @Html.EditorFor(p => p.Cuit, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @placeholder = "00-0000-00" } })
+                                @Html.ValidationMessage("Cuit", new { @class = "text-danger" })
+                            </div>
+                            <br />
+                            <div style="margin:auto">
+                                <input type="submit" class="btn btn-success" value="Guardar" />
+                                @Html.ActionLink("Volver", "Index", "Pais", null, new { @class = "btn btn-dark" })
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

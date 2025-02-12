@@ -1,0 +1,218 @@
+﻿@model SAC.Models.ClienteDireccionModelView
+
+    @{
+        ViewBag.Title = "Direcciones del Cliente";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+
+
+    @using (Html.BeginForm())
+
+
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.IdCliente)
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <h4 class="card-title"> Cliente : @Html.Raw(Model.Cliente.Nombre)</h4>
+
+                        <a href="@Url.Action("AddOrEditDireccion", "Cliente" , new { IdCliente = Model.IdCliente })" class="btn btn-sm btn-secondary "> Nueva Dirección</a>
+
+                        <div class="form-body">
+
+
+                            <div class="row m-t-10">
+                                <div class="col-xlg-12 col-lg-12 col-md-12 col-sm-12">
+                                    <div class="table-responsive-md">
+                                        <table id="example23" class="table stylish-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">Cod. Afip</th>
+                                                    <th class="text-center">Nombre</th>
+                                                    <th class="text-left">Direccion</th>
+                                                    <th class="text-left">Pais</th>
+                                                    <th class="text-left">Provincia</th>
+                                                    <th class="text-left">Localidad</th>
+                                                    <th class="text-left">Telefono</th>
+                                                    <th class="text-left">Accion</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach (var item in Model.ListaDireccion)
+                                                {
+
+                                                    //@foreach (var item in Model)
+                                                    //{
+                                                    <tr>
+
+                                                        <td class="text-left">
+                                                            @Html.DisplayFor(modelItem => item.CodigoAfip)
+                                                        </td>
+
+                                                        <td class="text-left">
+
+                                                            @Html.DisplayFor(modelItem => item.Nombre)
+                                                        </td>
+                                                        <td class="text-left">
+                                                            @Html.DisplayFor(modelItem => item.Direccion)
+                                                        </td>
+
+                                                        <td class="text-left">
+                                                            @Html.DisplayFor(modelItem => item.Pais.Nombre)
+                                                        </td>
+                                                        <td class="text-left">
+                                                            @Html.DisplayFor(modelItem => item.Provincia.Nombre)
+                                                        </td>
+                                                        <td class="text-left">
+                                                            @Html.DisplayFor(modelItem => item.Localidad.Nombre)
+                                                        </td>
+                                                        <td class="text-left">
+                                                            @Html.DisplayFor(modelItem => item.Telefono)
+                                                        </td>
+
+                                                        <td class="text-left">
+
+                                                            <a href="@Url.Action("AddOrEditDireccion", "Cliente",new { IdCliente = Model.IdCliente, Id = item.Id })" data-toggle="tooltip" data-original-title="Editar" class="btn btn-primary fa fa-pencil-square-o fa-1x "></a>
+                                                            <span data-toggle="modal" data-target="#myModalEliminar" data-id="@Html.DisplayFor(modelItem =>item.Id)">
+                                                                <a class="btn btn-danger fa fa-trash-o" role='button' data-toggle="tooltip" data-placement="top" title="Eliminar">.</a>
+                                                            </span>
+                                                        </td>
+
+
+                                                    </tr>
+
+
+
+
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+
+                                    @Html.ActionLink("Volver", "AddOrEdit", new { Id = Model.IdCliente }, htmlAttributes: new { @class = "btn btn-dark btn-sm" })
+
+
+
+                                </div>
+                            </div>
+                        
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+           
+
+    }
+
+
+
+
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+
+
+
+
+    <div class="modal fade" id="myModalEliminar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" role="form" action="EliminarDireccion">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="simpleModalLabel">Eliminar Direccion</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="Id" id="Id" value="" />
+                        @Html.HiddenFor(model => model.IdCliente)
+
+
+                        <p>Esta seguro de que desea eliminar permanentemente la Direccion del Cliente ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-raised btn-danger">Eliminar</button>
+                        <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    @section Scripts{
+
+        <!-- ============================================================== -->
+        <!-- Plugins for this page -->
+        <!-- ============================================================== -->
+        <!-- This is data table -->
+        <!-- This is data table -->
+        <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <!-- start - This is for export functionality only -->
+        <script src="~/Content/assets/plugins/datatables/jsTable/dataTables.buttons.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/buttons.flash.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/jszip.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/pdfmake.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/vfs_fonts.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/buttons.html5.min.js"></script>
+        <script src="~/Content/assets/plugins/datatables/jsTable/buttons.print.min.js"></script>
+
+
+
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                $('#example23').DataTable({
+                    "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                    "order": [[2, 'asc']],
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': true,
+                    'dom': 'Bfrtip',
+                    'buttons': [
+                        {
+                            extend: 'pdf',
+                            orientation: 'landscape',
+                            pageSize: 'legal'
+                        }
+                    ]
+                });
+            });
+
+
+
+            jQuery(function ($) {
+                $('#myModalEliminar').on('show.bs.modal', function (e) {
+                    var id = $(e.relatedTarget).data().id;
+                    $(e.currentTarget).find('#Id').val(id);
+                });
+            });
+
+
+
+        </script>
+    }
+

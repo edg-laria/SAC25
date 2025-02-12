@@ -1,0 +1,271 @@
+﻿@model SAC.Models.DiarioModelView
+
+@{
+    ViewBag.Title = "Contabilidad";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("ConsultaAsientosContables", "Contabilidad"))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                        <small>Consulta Diario por Periodo</small>
+                        <div class="form-body mt-1">
+                            <div class="row">
+                                <div class="col-xlg-2 col-lg-2 col-md-2">
+                                    <div class="form-group ">
+                                        <small>Año</small>
+                                        <select class="form-control form-control-sm" name="Anio" id="Anio">
+                                            @Html.Raw(ViewBag.ListaAnio)
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xlg-2 col-lg-2 col-md-2">
+                                    <div class="form-group ">
+                                        <small>Mes</small>
+                                        <select class="form-control form-control-sm" name="Mes" id="Mes">
+                                            @Html.Raw(ViewBag.ListaMes)
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xlg-1 col-lg-1 col-md-1">
+                                    <div class="form-group ">
+                                        <small>Periodo:</small>
+                                        @Html.TextBoxFor(m => m.Periodo, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                        @Html.ValidationMessageFor(m => m.Periodo, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+
+                                <div class="col-xlg-2 col-lg-2 col-md-2">
+                                    <div class="form-group ">
+                                        <small>Asiento de:</small>
+                                        @Html.DropDownListFor(model => model.Tipo, Model.TipoAsiento, "Seleccionar", new { @class = "form-control form-control-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-xlg-2 col-lg-2 col-md-2">
+                                    <small>Ver:</small>
+                                   
+                                    <div class="switch">
+                                        <label>
+                                            Resumen
+                                            <input name="TipoMovimiento" type="checkbox" id="TipoMovimiento" >                                           
+                                            <span class="lever"></span>Detalles
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xlg-2 col-lg-2 col-md-2 ">
+                                    <button type="submit" id="btnConsultar" class="btn btn-success btn-sm m-t-20"> <i class="fa fa-check"></i> Consultar</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    }
+
+                    <hr />
+
+
+
+
+                    @if (Model.ListaDiario != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-4 text-right">
+                                <p>La Busqueda se realizo por:</p>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-icons">
+                                    @Html.HiddenFor(model => model.Periodo)
+                                    @Html.HiddenFor(model => model.Tipo)
+                                    <li>Periodo:  @Model.Periodo</li>
+                                    <li>Tipo de Asiento: @Model.Tipo</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        @* <div class="row">
+                               <div class="col-xlg-10 col-lg-10 col-md-10 col-sm-10">
+            <div class="table-responsive-md">
+                <table id="example23" class="table stylish-table">*@
+                        <div class="row">
+                            <div class="col-xlg-12 col-lg-12 col-md-12">
+                                <div class="table-responsive">
+                                    <table id="tblAsientosResumen" name="tblAsientosResumen" class="table table-striped">
+
+                                        <thead>
+                                            <tr>
+
+                                                <th class="text-center">Imputacion</th>
+                                                <th class="text-center">Descripcion</th>
+                                                <th class="text-center">Debe</th>
+                                                <th class="text-center">Haber</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                decimal? TotalDebe = 0;
+                                                decimal? TotalHaber = 0;
+                                            }
+                                            @foreach (var item in Model.ListaDiario)
+                                            {
+                                                TotalDebe += item.Debe;
+                                                TotalHaber += item.Haber;
+
+                                                <tr onclick="verDetalle(@item.IdImputacion, @item.Periodo ,' @item.Tipo')" class="Seleccionable">
+                                                    <td class="text-right">
+                                                        @Html.DisplayFor(modelItem => item.IdImputacion)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @Html.DisplayFor(modelItem => item.Debe)
+                                                    </td>
+
+                                                    <td class="text-right">
+                                                        @Html.DisplayFor(modelItem => item.Haber)
+                                                    </td>
+
+                                                </tr>
+
+                                            }
+                                            <tr>
+                                                <td class="text-right">
+                                                </td>
+                                                <td>
+                                                    <small>Saldo Asientos</small>
+                                                </td>
+                                                <td class="text-right">
+                                                    <small class="font-weight-bold ">$@Html.Raw(TotalDebe)</small>
+                                                </td>
+
+                                                <td class="text-right">
+                                                    <small class="font-weight-bold ">$@Html.Raw(TotalHaber)</small>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="ModalDetallesCuenta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Detalles de Cuenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xlg-12 col-lg-12 col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblAsientoDetalles" name="tblAsientoDetalles" class="table table-striped">
+                              
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Cuenta</th>
+                                            <th class="text-center">Descripcion</th>
+                                            <th class="text-center">Debe</th>
+                                            <th class="text-center">Haber</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+
+</div>
+                    </div>
+                </div>
+                @*<div class="" id="">
+
+                    <div class="table-responsive-md">
+
+                        <table id="tblDetalles" class="table stylish-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Cuenta</th>
+                                    <th class="text-center">Descripcion</th>
+                                    <th class="text-center">Debe</th>
+                                    <th class="text-center">Haber</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xlg-10 col-lg-10 col-md-10 col-sm-10">   </div>
+                    </div>
+                </div>*@
+            </div>
+                        <div class="modal-footer justify-content-md-center" style="display: inline;">
+                            <div class="row ">
+                                <div class="col-md-2 m-l-15 ">
+
+                                </div>
+                                <div class="col-md-2 ">
+                                </div>
+                                <div class="col-md-2 ">
+                                    <small>Saldo Cuenta:</small>
+                                </div>
+                                <div class="col-md-2 ">
+                                    <small id="SaldoCuenta">0.00</small>
+                                </div>
+                                <div class="col-md-2 ">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- This is data table -->
+
+
+
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="~/Content/assets/plugins/datatables/jsTable/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/jszip.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/pdfmake.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/vfs_fonts.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.print.min.js"></script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/view/ContabilidadScript.js"></script>
+}
+
+
+
+

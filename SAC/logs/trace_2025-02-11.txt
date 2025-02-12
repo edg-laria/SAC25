@@ -1,0 +1,8 @@
+2025-02-11 10:31:51.7917 INFO Message: CuentaController.Acceder():admin
+2025-02-11 10:32:31.1635 INFO Message: CuentaController.Acceder():Admin
+2025-02-11 10:35:09.2568 INFO Message: CuentaController.Acceder():Admin
+2025-02-11 10:57:38.1874 INFO Message: CuentaController.Acceder():admin
+2025-02-11 10:58:55.8260 INFO Message: CuentaController.Acceder():admin
+2025-02-11 12:05:40.2031 INFO Message: CuentaController.Acceder():admin
+2025-02-11 12:16:26.2940 INFO Message: CuentaController.Acceder():admin
+2025-02-11 16:12:32.8081 INFO Message: CuentaController.Acceder():admin

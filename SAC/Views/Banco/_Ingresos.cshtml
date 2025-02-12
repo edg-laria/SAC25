@@ -1,0 +1,185 @@
+﻿@model SAC.Models.BancoCuentaBancariaModelView
+
+
+@*  form esta en el view
+        @using (Html.BeginForm("Ingreso", "Banco"))
+    { }
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+
+@Html.HiddenFor(model => model.TipoMovimiento)
+@Html.Hidden("IdBancoCuenta", Model.IdBancoCuenta)
+@Html.Hidden("IdTipoMoneda", Model.IdTipoMoneda)
+
+@Html.HiddenFor(m => m.Cotizacion)
+
+@Html.HiddenFor(model => model.idChequesTerceros)
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-xlg-3 col-lg-3 col-md-3">
+                        <label class="form-control-label ">Tipo de Movimiento</label>
+                    </div>
+                    <div class="col-xlg-9 col-lg-9 col-md-9">
+                        <input name="TipoMovimiento" type="radio" id="radio_cv" value="cv"> <label for="radio_cv">Cargos Varios</label>
+                        <input name="TipoMovimiento" type="radio" id="radio_de" value="de">  <label for="radio_de">Dep. Efectivo</label>
+                        <input name="TipoMovimiento" type="radio" id="radio_tc" value="tc">  <label for="radio_tc">Transf. a Caja</label>
+                        <input name="TipoMovimiento" type="radio" id="radio_tt" value="tt">  <label for="radio_tt">Transf. entre Ctas.</label>
+                        <input name="TipoMovimiento" type="radio" id="radio_ch" value="ch">  <label for="radio_ch">Dep. Cheques</label>
+
+                    </div>
+
+                </div>
+
+                <div id="ctrIngreso" class="row hide">
+
+                    <div class="col-md-3">
+                        <small>Concepto</small>
+                        @Html.TextBoxFor(model => model.CuentaDescripcion, new { @class = "form-control form-control-sm", @placeholder = "" })
+                        @Html.ValidationMessageFor(model => model.CuentaDescripcion, "", new { @class = "text-danger form-control-sm" })
+                    </div>
+
+                    <div class="col-md-2">
+                        <small>Fecha Op.</small>
+                        <input type="text" id="Fecha" name="Fecha"
+                               class="form-control form-control-sm Calendario"
+                               data-validation-required-message="Ingrese una fecha">
+                    </div>
+                    <div class="col-md-3">
+                        <div id="CtrImporte" class="">
+                            <small>Importe en $</small>
+                            @Html.TextBoxFor(p => p.Importe, new { @class = "ImportePesos form-control form-control-sm", @placeholder = "importe" })
+                            @Html.ValidationMessageFor(p => p.Importe, "", new { @class = "text-danger form-control-sm" })
+                        </div>
+                       
+
+                        <div id="CtrTTImportePesos" class="hide">
+                            <div class="row">
+                                <div class="col-xlg-6 col-lg-6 col-md-6">
+                                    <small>Importe en $</small>
+                                    @Html.TextBoxFor(p => p.Importe, new { @class = "ImportePesos form-control form-control-sm", @placeholder = "importe", onchange = "myPesosDolar(this.value)" })
+                                    @Html.ValidationMessageFor(p => p.Importe, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+
+                                <div class="col-xlg-6 col-lg-6 col-md-6">
+                                    <small>Cotizacion U$S</small>
+                                    @Html.TextBoxFor(p => p.ImporteDolar, new { @class = "form-control form-control-sm", @placeholder = "importe"})
+                                    @Html.ValidationMessageFor(p => p.ImporteDolar, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="CtrTTImporteDolar" class="hide">
+
+                            <div class="row">
+                                <div class="col-xlg-6 col-lg-6 col-md-6">
+                                    <small>Importe </small>
+                                    @Html.TextBoxFor(p => p.ImporteDolar, new { @class = "form-control form-control-sm", @placeholder = "importe", onchange = "myPesosDolar(this.value)" })
+                                    @Html.ValidationMessageFor(p => p.ImporteDolar, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+
+                                <div class="col-xlg-6 col-lg-6 col-md-6">
+                                    <small>Cotizacion u$s</small>
+                                    @Html.TextBoxFor(p => p.Importe, new { @class = "ImportePesos form-control form-control-sm", @placeholder = "importe" })
+                                    @Html.ValidationMessageFor(p => p.Importe, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="CtrGrupoCaja" class="col-md-2">
+                        <small>Grupo Caja</small>
+                        @Html.DropDownList("IdGrupoCaja", (List<SelectListItem>)Model.ListItemsGrupoCaja, null, new { @class = "form-control form-control-sm" })
+                        @Html.ValidationMessage("IdGrupoCaja", new { @class = "text-danger form-control-sm" })
+                    </div>
+
+                    <div id="CtrCtaDestino" class="col-md-2 hide">
+                        <small>Cta. Destino</small>
+                        @Html.DropDownList("IdBancoCuentaDestino", (List<SelectListItem>)Model.ListItemsBancoCuenta, null, new { @class = "form-control form-control-sm" })
+                        @Html.ValidationMessage("IdBancoCuentaDestino", new { @class = "text-danger form-control-sm" })
+                    </div>
+
+                    <div class="col-md-1 p-t-20">
+                        @*<button type="submit" class="btn btn-secondary "><i class="fa  fa-save"></i> </button>
+                            <input type="submit" class="btn btn-secondary btn-sm " id="btnIngreso" value="Confirmar Ingreso">
+                        *@
+                        <input type="submit" id="btnIngreso" name="btnIngreso" value="Confirmar Ingreso" formaction=@Url.Action("Ingreso") formmethod="post" class="btn btn-dark btn-sm" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="modal fade" id="ModalCheques" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Cheques</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">×</button>
+            </div>
+
+            <div class="modal-body">
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a href="#Terceros" data-toggle="tab" aria-expanded="true" class="nav-link active tabTerceros">
+                            <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Terceros</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="Terceros">
+                        @Html.Partial("~/Views/CuentaCteProveedor/_tablaChequesTerceros.cshtml", Model.ListaChequesTerceros)
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-md-center" style="display: inline;">
+                <div class="row ">
+                    <div class="col-md-2 m-l-15 ">
+                        <small class="hide">A pagar:</small>
+                    </div>
+                    <div class="col-md-2 ">
+                        <small class="hide" id="ImporteAPagarCheque"></small>
+                    </div>
+                    <div class="col-md-2 ">
+                        <small>Total cheques:</small>
+                    </div>
+                    <div class="col-md-2 ">
+                        <small id="TotalChequeSeleccionados">0.00</small>
+                    </div>
+                    <div class="col-md-2 ">
+                        <button type="button" id="btnAsignarCheque" class="btn btn-success btn-sm hide" onclick="fnAsignarChequeCaja()">Asignar Cheques</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/js/mask.js"></script>
+
+}

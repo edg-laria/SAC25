@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SAC.Models.MenuSideBarModelView>
+
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+<li href="navbar-brand @Url.Action("Edit", "MenuSidebar", new { id = item.IdMenuSidebar })" class="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower().Equals(item.Accion.Controlador)
+                                                        && ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower().Equals(item.Accion.Nombre) ) ? "active": " ")"
+    aria-expanded="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "true": "false")">
+
+
+    @if (item.Group.Count > 0)
+    {
+
+        <a href="@Url.Action("Edit", "MenuSidebar", new { id = item.IdMenuSidebar })"
+           class="has-arrow waves-effect waves-dark @Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "active": " ")"
+           aria-expanded="@Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "true": "false")">
+            <i class="fa @item.Icono"></i>
+            <span> @item.Titulo</span>
+        </a>
+
+        <ul aria-expanded="true" class="collapse in">
+            @{Html.RenderPartial("~/Views/Menusidebar/TreeItem.cshtml", item.Group);}
+        </ul>
+    }
+    else
+    {
+
+        <a href="@Url.Action("Edit", "MenuSidebar", new { id = item.IdMenuSidebar })"
+           class="navbar-brand @Html.Raw((ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower() == item.Accion.Nombre
+                                    &&  ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower() == item.Accion.Controlador ) ? "actives": " ")"
+           aria-expanded="false">
+            <i class="fa @item.Icono"></i>
+            <span> @item.Titulo</span>
+        </a>
+    }
+</li>
+
+}

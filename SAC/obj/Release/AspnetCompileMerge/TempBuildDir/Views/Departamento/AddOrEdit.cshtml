@@ -1,0 +1,83 @@
+﻿@model SAC.Models.DepartamentoModelView
+
+@{
+    ViewBag.Title = "Departamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+             
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h5 class="card-title">Departamento</h5>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TotalMes, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.TotalMes, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.TotalMes, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TotalAnio, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                    @Html.EditorFor(model => model.TotalAnio, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                    @Html.ValidationMessageFor(model => model.TotalAnio, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row col-12">
+                            <p>
+                                <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Guardar</button>
+                                @Html.ActionLink("Cancelar", "Index", "Departamento", htmlAttributes: new { @class = "btn btn-dark btn-sm" })
+                            </p>
+                        </div>
+
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

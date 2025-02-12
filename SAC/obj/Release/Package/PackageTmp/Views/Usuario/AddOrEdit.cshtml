@@ -1,0 +1,245 @@
+﻿@model SAC.Models.UsuarioModelView
+@{
+    ViewBag.Title = "Cuentas de Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/assets/plugins/switchery/dist/switchery.min.css" rel="stylesheet" />
+
+@*<div class="row page-titles">
+    <div class="col-md-5 col-12 align-self-center">
+        <h3 class="text-themecolor mb-0"> </h3>
+    </div>
+</div>*@
+
+@using (Html.BeginForm("AddOrEdit", "Usuario", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.idUsuario)
+    @Html.HiddenFor(model => model.idPersona)
+    @Html.HiddenFor(model => model.Persona.id)
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="#">
+                        <div class="form-body">
+                        
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.userName,
+     new { @class = "control-label", @for = "userName" })
+
+                                        @Html.ValidationMessageFor(m => m.userName, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.userName, new
+                                   {
+                                       @class = "form-control",
+                                       @id = "userName",
+                                       @placeholder = "permitirá el accceso al sistema"
+                                   })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(model => model.idRol, new { @class = "control-label" })
+
+                                        @Html.ValidationMessageFor(m => m.idRol, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.idRol,
+                                                             (IEnumerable<SelectListItem>)(new SelectList(Model.Roles.Select(x => new { Value = x.idRol, Text = x.descripcion }),
+                                                                            "Value",
+                                                                            "Text"))
+                                                             , "Seleccionar Rol...", new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Persona.email, new { @class = "control-label" })
+
+                                        @Html.ValidationMessageFor(m => m.Persona.email, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.Persona.email, new
+                                   {
+                                       @class = "form-control",
+                                       @placeholder = "permitirá el accceso al sistema"
+                                   })
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6 m-t-30">
+
+                                    <div class="checkbox">
+                                        <div class="form-group ">
+                                            Habilitar acceso al usuario?
+                                            <input type="checkbox" @Html.Raw((Model.activo) ? "checked" : " ") id="activo" class="js-switch js-check-activo" data-color="#26c6da" data-size="small" />
+                                            @Html.HiddenFor(model => model.activo)
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Persona.nombre, new { @class = "control-label" })
+
+                                        @Html.ValidationMessageFor(m => m.Persona.nombre, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.Persona.nombre, new
+                                   {
+                                       @class = "form-control",
+                                       @placeholder = ""
+                                   })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Persona.apellido,
+ new { @class = "control-label" })
+
+                                        @Html.ValidationMessageFor(m => m.Persona.apellido, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.Persona.apellido, new
+                                   {
+                                       @class = "form-control",
+                                       @placeholder = ""
+                                   })
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Persona.cuil,
+new { @class = "control-label" })
+
+                                        @Html.ValidationMessageFor(m => m.Persona.cuil, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.Persona.cuil, new
+                                   {
+                                       @class = "form-control",
+                                       @placeholder = ""
+                                   })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Persona.telefono,
+new { @class = "control-label" })
+
+                                        @Html.ValidationMessageFor(m => m.Persona.telefono, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.Persona.telefono, new
+                                   {
+                                       @class = "form-control",
+                                       @placeholder = ""
+                                   })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Persona.documento, new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(m => m.Persona.documento, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.Persona.documento, new
+                                   {
+                                       @class = "form-control",
+                                       @placeholder = ""
+                                   })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Persona.telefonoAlternativo, new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(m => m.Persona.telefonoAlternativo, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.Persona.telefonoAlternativo, new
+                                   {
+                                       @class = "form-control",
+                                       @placeholder = ""
+                                   })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                        </div>
+                        <div class="form-actions mt-5">
+
+                            <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Guardar</button>
+
+                            @{
+
+                                if (Model.idUsuario != null)
+                                {
+                                    <input type="submit" value="Restablecer Password"
+                                           formaction="@Url.Action("RestablecerCuenta", "Usuario", new { id = Model.idUsuario })"
+                                           class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Se actualiza la clave..." />
+
+                                }
+                            }
+
+                            
+                            <a href="@Url.Action("Index", "usuario" )" class="btn btn-sm btn-dark "> Volver </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+
+}
+
+
+@section Scripts{
+    <script src="~/Content/assets/plugins/switchery/dist/switchery.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            // Switchery
+            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+            $('.js-switch').each(function () {
+                new Switchery($(this)[0], $(this).data());
+            });
+
+            var changeCheckbox = document.querySelector('.js-check-activo')
+                , changeField = document.querySelector('.js-check-activo-field');
+            changeCheckbox.onchange = function () {
+                $("input[type='hidden'][name='activo']").val(changeCheckbox.checked);
+            };
+
+
+            $("#btnEliminar").click(function (e) {
+                e.preventDefault();
+                $("#myModal").modal('show');
+            });
+
+            $("#btnConfirmEliminar").click(function (e) {
+                e.preventDefault();
+                var x = $("input[type='hidden'][name='idRol']").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Rol/Delete",
+                    data: { Id: x },
+                    success: function (result) {
+                        $("#myModal").modal("hide");
+                    }
+                })
+            });
+
+        });
+    </script>
+
+}
+
+

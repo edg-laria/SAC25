@@ -1,0 +1,9 @@
+2024-08-13 10:09:07.6782 INFO Message: CuentaController.Acceder():admin
+2024-08-13 10:24:10.3266 INFO Message: CuentaController.Acceder():admin
+2024-08-13 10:41:31.6196 INFO Message: FacturaController.GrabarFactura():Factura Afip Valor480
+2024-08-13 10:43:12.4680 INFO Message: Factura Registrada: 12030
+2024-08-13 18:59:40.3374 INFO Message: CuentaController.Acceder():admin
+2024-08-13 19:02:36.0697 INFO Message: FacturaController.GrabarFactura():Factura Afip Valor480
+2024-08-13 19:06:54.3089 INFO Message: FacturaController.GrabarFactura():Factura Afip Valor480
+2024-08-13 19:15:16.1905 INFO Message: FacturaController.GrabarFactura():Factura Afip Valor480
+2024-08-13 19:17:38.3496 INFO Message: CuentaController.Acceder():admin

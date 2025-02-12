@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+<html lang="es-ar">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/assets/images/logo.ico">
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/Content/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <!-- toast CSS -->
+    <link href="~/Content/assets/plugins/toastr/toastr.min.css" rel="stylesheet" />
+
+
+    <link href="~/Content/assets/plugins/jqueryui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/assets/plugins/jqueryui/jquery-ui.theme.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="/Content/assets/css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="~/Content/assets/css/colors/green-dark.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/Content/assets/plugins/jquery/jquery.min.js"></script>
+    @*<script src="/Content/assets/plugins/calendar/jquery-ui.min.js"></script>*@
+    <script src="~/Content/assets/plugins/jqueryui/jquery-ui.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/Content/assets/plugins/bootstrap/js/popper.min.js"></script>
+
+    @* agegue para el ajax bre 24/11/2020 *@
+    <script src="~/Content/assets/plugins/jqueyr-unobtrusive-ajax/jquery.unobtrusive-ajax.js"></script>
+    @* ---------------------------------- *@
+    <script src="~/Content/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Content/assets/plugins/moment/moment.js"></script>
+
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .popover {
+            z-index: 9999;
+        }
+    </style>
+    @Styles.Render("~/Content/assets/css/styleSAC.css")
+</head>
+
+<body class="fix-header card-no-border fix-sidebar ">
+
+
+
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label"> Pandi Liquidadores SRL</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <!-- Logo icon --><b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon logo-icon.png-->
+                            <img src="/Content/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="/Content/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text --><span>
+                            <!-- dark Logo text -->
+                            <img src="/Content/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo text -->
+                            <img src="/Content/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                        </span>
+                    </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto">
+                        <!-- This is-->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <li class="nav-item hidden-sm-down"></li>
+
+
+                        <li class="nav-item active">
+                            <a class="nav-link waves-effect waves-dark " style="color:#333333 !important;"
+                               href="">
+                                <strong> @ViewBag.Title</strong>
+                            </a>
+
+                        </li>
+                    </ul>
+
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+
+                        <!-- ============================================================== -->
+                        <!-- Profile -->
+                        <!-- ============================================================== -->
+
+
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-dark" href="">
+                                @if (ViewBag.UserCompleteName != null)
+                                {
+                                    <i class="fa fa-user"></i> @Html.Raw(ViewBag.UserCompleteName)
+                                }
+
+                            </a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-dark"
+                               href="@Url.Action("Logout", "Cuenta")">
+                                <i class="fa fa-times"></i> Salir
+                            </a>
+
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="nav-devider"></li>
+                        <li class="nav-small-cap">Inicio</li>
+                        @if (ViewBag.Menu != null)
+                        {
+                            @Html.Partial("_PartialMenu")
+                        }
+
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                @RenderBody()
+
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer">
+                <samp class="card-subtitle"> @DateTime.Now.Year </samp>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+
+        </div>
+
+
+        <!-- /.modal -->
+        <div class="modal modal-primary fade" id="modal_Cargando" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">                      
+                        <h3 class="modal-title"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <p>  <label style="font-size:20px"> Procesando la información, Aguarde por favor...  </label></p>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    
+                    </div>
+                </div>             
+            </div>
+        </div>
+
+
+        <div id="modalLogOut" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    @using (Ajax.BeginForm("RestablecerSesion", "Cuenta", null, new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        OnComplete = "onCompleteSubmit()",
+                    }, new { @id = "frmSession" }))
+                    {
+
+                        @Html.AntiForgeryToken()
+
+                        @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
+
+                        @Html.Hidden("Usuario", Request.Cookies["ckUsuario"].Value)
+
+                        <div class="modal-header">
+                            <h6 class="modal-title text-danger">  <i class="fa fa-warning text-danger"></i> Oops! Tú sesión finalizo...</h6>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="login-box card">
+                                <div class="card-body">
+
+                                    <div class="form-group">
+                                        <div class="col-xs-12 text-center">
+                                            <div class="user-thumb text-center">
+                                                <i class="fa fa-user fa-3x"></i>
+
+                                                <h3>  @Html.Raw(Request.Cookies["ckUsuario"].Value)</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+
+                                        <div class="col-xs-12">
+                                            <input type="password" class="form-control form-control-sm" name="Password" value="" required placeholder="Escribir contraseña" />
+
+                                        </div>
+                                        <div class="col-xs-12 text-center">
+                                            <br>
+                                            <p>Introduce tu contraseña para recuperar tu sesión</p>
+                                            <a href="@Url.Action("Logout","Cuenta")">O inicie sesión como un usuario diferente</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="submit" class="btn btn-info btn-sm waves-effect waves-light">Recuperar tu sesión</button>
+                        </div>
+
+
+                    }
+
+                </div>
+            </div>
+        </div>
+
+
+        @*@Html.HiddenFor(model => model.IdUsuario)*@
+
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/Scripts/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="~/Scripts/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/Scripts/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="/Content/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="/Content/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    @RenderSection("Scripts", false)
+    <!--Custom JavaScript -->
+    <script src="~/Scripts/js/custom.js"></script>
+    <script src="~/Content/assets/plugins/toastr/toastr.min.js"></script>
+
+    <!-- ============================================================== -->
+    <!--Style switcher-- >
+    <!-- ============================================================== -->
+    <script src="/Content/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <div>
+        <!-- SE EJECUTA SI TODO FUE BIEN -->
+        <script type="text/javascript">
+            var onCompleteSubmit = function () {
+                $("#modalLogOut").modal("hide");
+            };
+        </script>
+
+        @if (HttpContext.Current.Request.Cookies["ckUsuario"] != null && HttpContext.Current.Session["currentUser"] == null)
+        {
+            <script type="text/javascript">
+
+                $("#modalLogOut").modal("show");
+
+            </script>
+        }
+
+        @if (TempData["ok"] != null)
+        {
+            <script type="text/javascript">
+                toastr.success("@Html.Raw(@TempData["ok"].ToString())");
+            </script>
+        }
+        @if (TempData["error"] != null)
+        {
+            <script type="text/javascript">
+                toastr.error("@Html.Raw(@TempData["error"].ToString())");
+            </script>
+        }
+        @if (TempData["war"] != null)
+        {
+            <script type="text/javascript">
+                toastr.warning("@Html.Raw(@TempData["war"].ToString())");
+            </script>
+        }
+    </div>
+
+    @if (TempData["messages"] != null)
+    {
+        @Html.Partial("_Messages", (Dictionary<string, string>)TempData["messages"])
+    }
+
+
+</body>
+
+</html>

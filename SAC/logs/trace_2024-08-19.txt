@@ -1,0 +1,2 @@
+2024-08-19 11:46:10.0015 INFO Message: CuentaController.Acceder():admin
+2024-08-19 12:27:44.6777 INFO Message: Factura Registrada: 12039

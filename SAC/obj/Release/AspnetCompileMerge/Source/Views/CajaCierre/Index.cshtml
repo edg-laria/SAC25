@@ -1,0 +1,464 @@
+﻿@model SAC.Models.CajaModelView
+
+@{
+    ViewBag.Title = "Cierre de Caja";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> ListaCajaCierre = (List<SelectListItem>)ViewBag.Listapagina;
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <!-- Column -->
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <h6 class="card-title">Cierre de Caja</h6>
+                        <div class="form-body">
+
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <div class="col-xlg-4 col-lg-4 col-md-4 text-right">
+                                            <small>Seleccione un Cierre</small>
+                                        </div>
+                                        <div class="col-xlg-4 col-lg-4 col-md-4">
+                                            @Html.DropDownList("searchIdCierre", ListaCajaCierre, null, new { @class = "form-control form-control-sm" })
+                                        </div>
+                                        <div class="col-xlg-4 col-lg-4 col-md-4">
+
+                                            <button type="submit" formaction="@Url.Action("Index", "CajaCierre")"
+                                                    class="btn btn-sm btn-secondary">
+                                                <i class="fa  fa-search"></i> Buscar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="col-2">
+                                        <div class="form-group">
+                                            <label class="form-control-sm"> Pesos</label>
+                                            @Html.EditorFor(model => model.CajaSaldoInicial.ImporteInicialPesos, new { htmlAttributes = new { @class = "form-control form-control-sm", @onKeyUp = "format(this)", @onchange = "format(this)" } })
+
+                                        </div>
+
+                                    </div>*@
+
+                                @*<div class="col-2">
+                                        <div class="form-group">
+
+                                            <label class="form-control-sm"> Dolares</label>
+                                            @Html.EditorFor(model => model.CajaSaldoInicial.ImporteInicialDolares, new { htmlAttributes = new { @class = "form-control form-control-sm", @onKeyUp = "format(this)", @onchange = "format(this)" } })
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-2">
+
+                                        <div class="form-group">
+
+                                            <label class="form-control-sm">Cheques</label>
+                                            @Html.EditorFor(model => model.CajaSaldoInicial.ImporteInicialCheques, new { htmlAttributes = new { @class = "form-control form-control-sm", @onKeyUp = "format(this)", @onchange = "format(this)" } })
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-2">
+
+                                        <div class="form-group">
+
+                                            <label class="form-control-sm"> Tarjetas</label>
+                                            @Html.EditorFor(model => model.CajaSaldoInicial.ImporteInicialTarjetas, new { htmlAttributes = new { @class = "form-control form-control-sm", @onKeyUp = "format(this)", @onchange = "format(this)" } })
+
+
+                                        </div>
+
+                                    </div>*@
+
+
+                            </div>
+
+                            <div class="table-responsive">
+
+                                <table id="tblCajaCierre" class="table stylish-table">
+
+                                    <thead>
+                                        <tr>
+                                            <th style="max-width: 33%;"></th>
+                                            <th class="text-center">
+                                                &nbsp;&nbsp;&nbsp;
+                                            </th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th> </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="max-width: 33%;" class="text-right">Saldo Inicial</td>
+                                            <td class="text-right">
+                                                <small> Pesos</small><br />
+                                                <small class="font-weight-bold ">$@Html.Raw(@Model.CajaSaldoInicial.ImporteInicialPesos)</small>
+                                            </td>
+                                            <td class="text-right">
+
+                                                <small> Dolares</small><br />
+                                                <small class="font-weight-bold ">$@Html.Raw(@Model.CajaSaldoInicial.ImporteInicialDolares)</small>
+                                            </td>
+                                            <td class="text-right">
+
+                                                <small> Cheques</small><br />
+                                                <small class="font-weight-bold ">$@Html.Raw(@Model.CajaSaldoInicial.ImporteInicialCheques)</small>
+                                            </td>
+                                            <td class="text-right">
+
+                                                <small> Tarjeta</small><br />
+                                                <small class="font-weight-bold ">$@Html.Raw(@Model.CajaSaldoInicial.ImporteInicialTarjetas)</small>
+                                            </td>
+                                            <td class="text-center">
+
+                                                <small> Fecha</small><br />
+                                            </td>
+                                            <td class="text-center">
+
+                                                <small> Grupo Caja</small><br />
+                                            </td>
+                                        </tr>
+                                        <tr class="table-dark text-dark">
+                                            <td style="max-width: 33%;">Concepto</td>
+                                            <td class="text-center"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td> </td>
+                                        </tr>
+
+
+                                        @{
+                                            decimal TotalPesos = 0;
+                                            decimal TotalDolares = 0;
+                                            decimal TotalCheque = 0;
+                                            decimal TotalTarjeta = 0;
+                                            decimal TotalDeposito = 0;
+                                        }
+
+                                        @if (Model.ListaCaja.Count > 0)
+                                        {
+                                            foreach (var item in Model.ListaCaja)
+                                            {
+                                                TotalPesos += item.ImportePesos;
+                                                TotalDolares += item.ImporteDolar;
+                                                TotalCheque += item.ImporteCheque;
+                                                TotalTarjeta += item.ImporteTarjeta;
+                                                TotalDeposito += item.ImporteDeposito;
+                                                <tr>
+                                                    <td style="max-width: 33%;">
+                                                        @Html.DisplayFor(modelItem => item.Concepto)
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @Html.DisplayFor(modelItem => item.ImportePesos)
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @Html.DisplayFor(modelItem => item.ImporteDolar)
+                                                    </td>
+
+                                                    <td class="text-right">
+                                                        @Html.DisplayFor(modelItem => item.ImporteCheque)
+                                                    </td>
+
+                                                    <td class="text-right">
+                                                        @Html.DisplayFor(modelItem => item.ImporteTarjeta)
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        @Convert.ToDateTime(item.Fecha).ToString("dd/MM/yyyy")
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.GrupoCaja.Codigo)
+                                                    </td>
+
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td style="max-width: 33%;" class="text-right">
+                                                    <small>
+                                                        Ningún dato disponible en esta tabla
+                                                    </small>
+                                                </td>
+                                                <td class="text-right">
+                                                </td>
+                                                <td class="text-right">
+                                                </td>
+                                                <td class="text-right">
+                                                </td>
+                                                <td class="text-right">
+                                                </td>
+                                                <td class="text-center">
+                                                </td>
+                                                <td class="text-center">
+                                                </td>
+                                            </tr>
+                                        }
+
+
+
+
+
+
+
+                                    </tbody>
+                                    <tfoot>
+
+                                        <tr>
+                                            <td style="max-width: 33%;" class="text-right"> &nbsp;&nbsp;&nbsp; </td>
+                                            <td class="text-right">
+                                            </td>
+                                            <td class="text-right">
+                                                &nbsp;&nbsp;&nbsp;
+
+                                            </td>
+                                            <td class="text-right">
+                                            </td>
+                                            <td class="text-right">
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="max-width: 33%;" class="text-right"> Saldo Procesado</td>
+                                            <td class="text-right">
+
+                                                <small class="font-weight-bold ">$@Html.Raw(TotalPesos)</small>
+                                            </td>
+                                            <td class="text-right">
+
+
+                                                <small class="font-weight-bold ">$@Html.Raw(TotalDolares)</small>
+                                            </td>
+                                            <td class="text-right">
+
+
+                                                <small class="font-weight-bold ">$@Html.Raw(TotalCheque)</small>
+                                            </td>
+                                            <td class="text-right">
+
+
+                                                <small class="font-weight-bold ">$@Html.Raw(TotalTarjeta)</small>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+
+                                        @{
+
+                                            decimal TotalFinalPesos = TotalPesos + Model.CajaSaldoInicial.ImporteInicialPesos;
+                                            decimal? TotalFinalDolares = TotalDolares + Model.CajaSaldoInicial.ImporteInicialDolares;
+                                            decimal TotalFinalCheques = TotalCheque + Model.CajaSaldoInicial.ImporteInicialCheques;
+                                            decimal TotalFinalTarjeta = TotalTarjeta + Model.CajaSaldoInicial.ImporteInicialTarjetas;
+
+                                        }
+
+                                        <tr>
+                                            <td style="max-width: 33%;" class="text-right"> Saldo Final</td>
+                                            <td class="text-right">
+
+                                                <small class="font-weight-bold ">$@Html.Raw(TotalFinalPesos)</small>
+                                            </td>
+                                            <td class="text-right">
+
+
+                                                <small class="font-weight-bold ">$@Html.Raw(TotalFinalDolares)</small>
+                                            </td>
+                                            <td class="text-right">
+
+
+                                                <small class="font-weight-bold ">$@Html.Raw(TotalFinalCheques)</small>
+                                            </td>
+                                            <td class="text-right">
+
+
+                                                <small class="font-weight-bold ">$@Html.Raw(TotalFinalTarjeta)</small>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+
+                            </div>
+
+                            @*<div class="row m-t-10">
+                                    <div class="col-4">
+                                        <div class="form-group text-right">
+                                            Saldo Procesado
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="text" id="ProcesadoPesos" value="@Html.Raw(TotalPesos)" class="form-control form-control-sm" onKeyUp="format(this)" onchange="format(this)" />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="text" id="ProcesadoDolares" value="@Html.Raw(TotalDolares)" class="form-control form-control-sm" onKeyUp="format(this)" onchange="format(this)" />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="text" id="ProcesadoDepositos" value="@Html.Raw(TotalCheque)" class="form-control form-control-sm" onKeyUp="format(this)" onchange="format(this)" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="text" id="ProcesadoTarjeta" value="@Html.Raw(TotalTarjeta)" class="form-control form-control-sm" onKeyUp="format(this)" onchange="format(this)" />
+                                        </div>
+                                    </div>
+
+                                </div>*@
+
+                            @*<div class="row">
+                                    <div class="col-4">
+                                        <div class="form-group text-right">
+                                            Saldo Final
+                                        </div>
+                                    </div>
+                                    @{
+
+                                        decimal TotalFinalPesos = TotalPesos + Model.CajaSaldoInicial.ImporteInicialPesos;
+                                        decimal? TotalFinalDolares = TotalDolares + Model.CajaSaldoInicial.ImporteInicialDolares;
+                                        decimal TotalFinalCheques = TotalCheque + Model.CajaSaldoInicial.ImporteInicialCheques;
+                                        decimal TotalFinalTarjeta = TotalTarjeta + Model.CajaSaldoInicial.ImporteInicialTarjetas;
+
+                                    }
+
+                                    <div class="col-2">
+                                        <div>
+                                            <input type="text" id="FinalPesos" value="@Html.Raw(TotalFinalPesos)" class="form-control form-control-sm" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="text" id="FinalDolares" value="@Html.Raw(TotalFinalDolares)" class="form-control form-control-sm" onKeyUp="format(this)" onchange="format(this)" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="text" id="FinalDepositos" value="@Html.Raw(TotalFinalCheques)" class="form-control form-control-sm" onKeyUp="format(this)" onchange="format(this)" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="text" id="Final" value="@Html.Raw(TotalFinalTarjeta)" class="form-control form-control-sm" onKeyUp="format(this)" onchange="format(this)" />
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+
+                            @if (ViewBag.HabilitarCierre)
+                            {
+                                <div class="row m-t-30  justify-content-md-center">
+
+                                    <div class="col-xlg-4 col-lg-4 col-md-4">
+                                        <div class="form-group row">
+                                            <small class="text-right col-md-6">Fecha de Cierre</small>
+                                            <div class="col-md-6">
+
+                                                <input type="text" id="FechaCierre" name="FechaCierre"
+                                                       class="form-control form-control-sm Calendario"
+                                                       data-validation-required-message="Ingrese una fecha">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <button type="submit" formaction="@Url.Action("CierreDeCaja", "CajaCierre")"
+                                                class="btn btn-success btn-sm">
+                                            <i class="fa fa-check"></i> Confirmar Cierre de Caja
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+}
+
+@section Scripts{
+
+
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/js/mask.js"></script>
+    <script src="~/Scripts/view/Caja/CajaScript.js"></script>
+
+
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+

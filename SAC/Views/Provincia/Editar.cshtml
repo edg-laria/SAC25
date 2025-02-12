@@ -1,0 +1,72 @@
+﻿@model SAC.Models.ProvinciaModelView
+
+
+@{
+    ViewBag.Title = "Editar Provincia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> ListaPais = (List<SelectListItem>)ViewBag.Listapagina;
+}
+
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Editando datos de la Provincia </h4>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Editar", "Provincia", FormMethod.Post))
+                        {
+                            <div>
+
+                                @Html.LabelFor(p => p.Id, new { @class = "hide" })
+                                @Html.TextBoxFor(p => p.Id, new { @class = "hide" })
+
+                                @Html.LabelFor(p => p.Nombre)
+                                @Html.TextBoxFor(p => p.Nombre, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("Nombre", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div style="margin-top:1em">
+                                @Html.LabelFor(p => p.IdPais)
+                                @Html.DropDownList("idPais", ListaPais, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("idPais", new { @class = "text-danger" })
+                            </div>
+
+                            <div style="margin-top:1em">
+                                @Html.LabelFor(p => p.Codigo)
+                                @Html.TextBoxFor(p => p.Codigo, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("Codigo", new { @class = "text-danger" })
+                            </div>
+
+                            <div style="margin-top:1em">
+                                @Html.LabelFor(p => p.CodigoNumero)
+                                @Html.EditorFor(p => p.CodigoNumero, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control form-control-sm" } })
+                                @Html.ValidationMessage("CodigoNumero", new { @class = "text-danger" })
+                            </div>
+
+                            <div style="margin-top:1em">
+                                @Html.LabelFor(p => p.CodigoAfip)
+                                @Html.EditorFor(p => p.CodigoAfip, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control form-control-sm", @placeholder = "000000" } })
+                                @Html.ValidationMessage("CodigoAfip", new { @class = "text-danger" })
+                            </div>
+
+
+                            <br />
+                            <div style="margin:auto">
+                                <input type="submit" class="btn btn-success" value="Guardar" />
+                                @Html.ActionLink("Volver", "Index", "Provincia", null, new { @class = "btn btn-dark" })
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

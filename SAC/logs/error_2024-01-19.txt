@@ -1,0 +1,16 @@
+----------------------------------------               
+----------------------------------------               
+2024-01-19 17:16:29.3573 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: El índice y la longitud deben hacer referencia a una ubicación en la cadena.
+Nombre del parámetro: length               
+	ErrorDetails:    en System.String.Substring(Int32 startIndex, Int32 length)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 700
+----------------------------------------               
+----------------------------------------               
+2024-01-19 17:18:24.7312 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: El índice y la longitud deben hacer referencia a una ubicación en la cadena.
+Nombre del parámetro: length               
+	ErrorDetails:    en System.String.Substring(Int32 startIndex, Int32 length)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model)

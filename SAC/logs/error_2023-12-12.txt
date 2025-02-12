@@ -1,0 +1,31 @@
+----------------------------------------               
+----------------------------------------               
+2023-12-12 09:39:19.3553 ERROR Message: BaseController.AddMessage():Ya se agregó un elemento con la misma clave.                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2023-12-12 09:39:22.7237 ERROR Message: BaseController.AddMessage():Ya se agregó un elemento con la misma clave.                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2023-12-12 10:11:00.9759 ERROR Message: BaseController.AddMessage():El argumento especificado está fuera del intervalo de valores válidos.
+Nombre del parámetro: index                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2023-12-12 10:20:02.3664 ERROR Message: BaseController.AddMessage():Se produjo una excepción de tipo 'System.OutOfMemoryException'.                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 
+----------------------------------------               
+----------------------------------------               
+2023-12-12 10:20:10.0793 ERROR Message: BaseController.AddMessage():Ya se agregó un elemento con la misma clave.                
+	ErrorTitle:                
+	ErrorSummary:                
+	ErrorDetails: 

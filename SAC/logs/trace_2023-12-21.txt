@@ -1,0 +1,7 @@
+2023-12-21 10:42:15.1370 INFO Message: CuentaController.Acceder():admin
+2023-12-21 11:45:40.4322 INFO Message: CuentaController.Acceder():admin
+2023-12-21 12:17:56.9289 INFO Message: CuentaController.Acceder():admin
+2023-12-21 15:38:39.1409 INFO Message: CuentaController.Acceder():admin
+2023-12-21 16:32:37.3206 INFO Message: CuentaController.Acceder():admin
+2023-12-21 18:02:34.8475 INFO Message: CuentaController.Acceder():admin
+2023-12-21 19:59:07.7968 INFO Message: CuentaController.Acceder():admin

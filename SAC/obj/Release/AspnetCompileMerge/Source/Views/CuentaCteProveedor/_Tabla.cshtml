@@ -1,0 +1,57 @@
+﻿@model List<SAC.Models.CuentaCteProveedorModelView>
+
+
+<div class="table-responsive">
+    <table id="TblProveedor" class="table stylish-table">
+        <thead>
+            <tr>
+                @*<th class="text-center"> @Html.DisplayNameFor(model => model[0].ProveedorCodigo)</th>*@
+                <th class="text-center"> Descripción</th>
+                <th class="text-center"> Total $</th>
+                <th class="text-center"> Total US$</th>
+                <th class="text-center"> Total Deuda $</th>
+                <th class="text-center"> @Html.DisplayNameFor(model => model[0].UltimoMovimiento)</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                decimal TotalPesos = 0;
+                decimal TotalDolares = 0;
+                decimal Total = 0;
+            }
+
+            @foreach (var item in Model)
+            {
+                @*<tr ondblclick="IraPagar(@item.ProveedorCodigo)" class="Seleccionable">*@
+                <tr>
+                    @*<td class="text-center">@Html.DisplayFor(modelItem => item.ProveedorCodigo)</td>*@
+                    <td>@Html.DisplayFor(modelItem => item.ProveedorNombre)</td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.MontoPesos)</td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.MontoDolares)</td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.TotalDeuda)</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.UltimoMovimiento)</td>
+                </tr>
+                TotalPesos += item.MontoPesos;
+                TotalDolares += item.MontoDolares;
+                Total += (Decimal)item.TotalDeuda;
+
+            }
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>
+
+<br />
+<div class="row justify-content-md-center">
+    <div class="col-md-2 text-right"><label class="font-weight-bold"> Total $:</label></div>
+    <div class="col-md-2 text-left"><label class="font-weight-bold"> @TotalPesos </label></div>
+
+    <div class="col-md-2 text-right"><label class="font-weight-bold"> Total US$: </label></div>
+    <div class="col-md-2 text-left"> <label class="font-weight-bold"> @TotalDolares</label> </div>
+
+    <div class="col-md-2 text-right"><label class="font-weight-bold"> Total Deuda $: </label></div>
+    <div class="col-md-2 text-left"> <label class="font-weight-bold"> @Total</label> </div>
+</div>

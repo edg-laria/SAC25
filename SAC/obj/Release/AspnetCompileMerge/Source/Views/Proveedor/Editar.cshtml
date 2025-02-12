@@ -1,0 +1,365 @@
+﻿@model SAC.Models.ProveedorModelView
+
+@{
+    ViewBag.Title = "Editar Proveedor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+   
+
+    List<SelectListItem> ListaPais = (List<SelectListItem>)ViewBag.ListaPais;
+    List<SelectListItem> ListaProvincia = (List<SelectListItem>)ViewBag.ListaProvincia;
+    List<SelectListItem> ListaLocalidad = (List<SelectListItem>)ViewBag.ListaLocalidad;
+    List<SelectListItem> ListaTipoIva = (List<SelectListItem>)ViewBag.ListaTipoIva;
+    List<SelectListItem> ListaSubRubro = (List<SelectListItem>)ViewBag.ListaSubRubro;
+    List<SelectListItem> ListaTipoProveedor = (List<SelectListItem>)ViewBag.ListaTipoProveedor;
+    List<SelectListItem> ListaTipoMoneda = (List<SelectListItem>)ViewBag.ListaTipoMoneda;
+}
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Editando datos del  Proveedor </h4>
+                <div class="row">
+                    <div class="col-xlg-12 col-lg-12 col-md-12 ">
+                        <div class="floating-labels m-t-10">
+
+                            @using (Html.BeginForm("Editar", "Proveedor", FormMethod.Post, new { @id = "frmBusqueda" }))
+                            {
+
+
+                                <div class="row">
+                                    @Html.Hidden("BotonSeleccion")
+
+                                    @Html.LabelFor(p => p.Id, new { @class = "hide" })
+                                    @Html.TextBoxFor(p => p.Id, new { @class = "hide" })
+
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(p => p.Nombre)
+                                        @Html.TextBoxFor(p => p.Nombre, new { @class = "form-control form-control-sm", @placeholder = "Ej: Nombre empresa srl" })
+                                        @Html.ValidationMessage("Nombre", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(p => p.Email)
+                                        @Html.EditorFor(p => p.Email, new { htmlAttributes = new { @class = "form-control form-control-sm", @placeholder = "email@mail.com" } })
+                                        @Html.ValidationMessage("Email", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div style="margin-top:1em">
+                                            <div class="form-group">
+                                                @Html.Label("Seleccione un país")
+                                                @Html.DropDownList("IdPais", ListaPais, null, new { @class = "form-control form-control-sm" })
+                                                @Html.ValidationMessage("IdPais", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div style="margin-top:1em">
+                                            <div class="form-group">
+                                                @Html.Label("Seleccione una provincia")
+                                                @Html.DropDownList("IdProvincia", ListaProvincia, null, new { @class = "form-control form-control-sm" })
+                                                @*@Html.DropDownList("IdProvincia", new List<SelectListItem>(), " -- Seleccionar Provincia --", new { @class = "form-control form-control-sm" })*@
+                                                @Html.ValidationMessage("IdProvincia", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div style="margin-top:1em">
+                                            <div class="form-group">
+                                                @Html.Label("Seleccione una localidad")
+                                                @Html.DropDownList("IdLocalidad", ListaLocalidad, null, new { @class = "form-control form-control-sm" })
+                                                @Html.ValidationMessage("IdLocalidad", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div style="margin-top:1em">
+                                            @Html.LabelFor(p => p.IdCodigoPostal)
+                                            @Html.EditorFor(p => p.IdCodigoPostal, new { htmlAttributes = new { @class = "form-control form-control-sm", @placeholder = "", @readOnly = true } })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                        @Html.LabelFor(p => p.Direccion)
+                                        @Html.EditorFor(p => p.Direccion, new { htmlAttributes = new { @class = "form-control form-control-sm", @placeholder = "Av. corrientes 000" } })
+                                        @Html.ValidationMessage("Direccion", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.LabelFor(p => p.Telefono)
+                                        @Html.EditorFor(p => p.Telefono, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control form-control-sm", @placeholder = "0000000" } })
+                                        @Html.ValidationMessage("Telefono", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(p => p.IdImputacionProveedor)
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(p => p.IdImputacionProveedor, new { @type = "number", @min = "0", @class = "form-control form-control-sm", @placeholder = "Ej: 00000", @readOnly = true })
+                                            <button type="button" id="btnImpProvBuscar" class="btn btn-primary fa fa-search" onclick="BuscarImputacion(1)"></button>
+                                            <button id="btnCargando" class="btn btn-primary" type="button" disabled style="display:none">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Loading...
+                                            </button>
+                                        </div>
+                                        @Html.ValidationMessage("IdImputacionProveedor", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-3"></div>
+
+                                </div>
+
+                                
+                                <br />
+                                <h4 class="card-title"> Datos Comerciales</h4>                                
+                                
+                                <div class="row m-t-10">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Seleccione tipo iva")
+                                            @Html.DropDownList("IdTipoIva", ListaTipoIva, null, new { @class = "form-control form-control-sm" })
+                                            @Html.ValidationMessage("IdTipoIva", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.LabelFor(p => p.Cuit)
+                                        @Html.TextBoxFor(p => p.Cuit, new { @class = "form-control form-control-sm", @placeholder = "Ej: 00-00000-0" })
+                                        @Html.ValidationMessage("Cuit", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-3">
+
+                                        @Html.LabelFor(p => p.IdImputacionFactura)
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(p => p.IdImputacionFactura, new { @class = "form-control form-control-sm", @placeholder = "Ej: 00000", @readOnly = true })
+                                            <button type="button" id="btnImpProvBuscarFact" class="btn btn-primary fa fa-search" onclick="BuscarImputacion(2)"></button>
+                                            <button id="btnCargandoFact" class="btn btn-primary" type="button" disabled style="display:none">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Loading...
+                                            </button>
+                                        </div>
+                                        @Html.ValidationMessage("IdImputacionFactura", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-3">
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Seleccione tipo proveedor")
+                                            @Html.DropDownList("idTipoProveedor", ListaTipoProveedor, null, new { @class = "form-control form-control-sm" })
+                                            @Html.ValidationMessage("idTipoProveedor", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("Seleccione tipo moneda")
+                                            @Html.DropDownList("idTipoMoneda", ListaTipoMoneda, null, new { @class = "form-control form-control-sm" })
+                                            @Html.ValidationMessage("IdTipoMoneda", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(p => p.Observaciones)
+                                        @Html.TextAreaFor(p => p.Observaciones, new { @class = "form-control form-control-sm", @placeholder = "Ej: agregue información", @rows = 4 })
+                                        @Html.ValidationMessage("Observaciones", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div style="margin:auto; text-align:center">
+                                    <input type="submit" class="btn btn-success" value="Guardar" />
+                                    @Html.ActionLink("Volver", "Index", "Proveedor", null, new { @class = "btn btn-dark" })
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <
+</div>
+
+<div class="modal fade" id="exampleModal" style="overflow-y: auto;" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="TituloModal">Seleccione un número de imputación</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="SubRubro">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+
+    function AgregarImputacion(idSubRubro)
+
+    {
+        var Seleccion = document.getElementById("BotonSeleccion").value;
+        if (Seleccion == "1") {
+            document.getElementById("IdImputacionProveedor").value = idSubRubro;
+        }
+        if (Seleccion == "2") {
+            document.getElementById("IdImputacionFactura").value = idSubRubro;
+        }
+
+        $("#exampleModal").modal('hide');
+    }
+
+    function BuscarImputacion(boton) {
+        document.getElementById("BotonSeleccion").value = boton;
+
+        var botonBuscar = "";
+        var botonCargando = "";
+
+        if (boton == "1") {
+            botonBuscar = "#btnImpProvBuscar";
+            botonCargando = "#btnCargando";
+        }
+        if (boton == "2") {
+            botonBuscar = "#btnImpProvBuscarFact";
+            botonCargando = "#btnCargandoFact";
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Proveedor/CargarImputacion",
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            beforeSend: function () {
+                $(botonBuscar).css("display", "none");
+                $(botonCargando).css("display", "block");
+            }, complete: function () {
+                $(botonBuscar).css("display", "block");
+                $(botonCargando).css("display", "none");
+
+            },
+            success: function (response) {
+                $('#SubRubro').html(response);
+                $("#exampleModal").modal('show');
+                fntabla();
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+        fntabla();
+    }
+
+
+    function fntabla() {
+
+        if ($.fn.dataTable.isDataTable('#tblImputacion')) {
+            table = $('#tblImputacion').DataTable();
+            table.destroy();
+            fntablaRenderizar();
+        } else {
+            fntablaRenderizar();
+        }
+    }
+    function fntablaRenderizar() {
+        $('#tblImputacion').DataTable({
+            "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+            "order": [[2, 'asc']],
+            'paging': true,
+            'lengthChange': false,
+            'pageLength': 15,
+            'searching': true,
+            'ordering': true,
+            'info': false,
+            'autoWidth': true,
+            'dom': 'Bfrtip',
+            'buttons': []
+        });
+    }
+
+    //con este codigo cargo el 2do dropdown
+    $(document).ready(function () {
+
+        $("#IdPais").change(function () {
+            $.get("/Proveedor/GetlistaProvincias/", { idPais: $("#IdPais").val() }, function (data) {
+                // VACIAMOS EL DropDownList
+                $("#IdProvincia").empty();
+                $("#IdLocalidad").empty();
+                $("#IdLocalidad").append("<option value> -- Seleccionar Localidad --</option>");
+                document.getElementById("IdCodigoPostal").value = '';
+                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                $("#IdProvincia").append("<option value> -- Seleccionar Provincias de " + $("#IdPais option:selected").text() + " --</option>")
+                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                $.each(data, function (index, row) {
+                    $("#IdProvincia").append("<option value='" + row.Id + "'>" + row.Nombre + "</option>")
+                });
+            });
+        });
+
+        $("#IdProvincia").change(function () {
+            $.get("/Proveedor/GetlistaLocalidades/", { idProvincia: $("#IdProvincia").val() }, function (data) {
+                //console.log(data);
+                $("#IdLocalidad").empty();
+                document.getElementById("IdCodigoPostal").value = '';
+                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                $("#IdLocalidad").append("<option value> -- Seleccionar Localidades de " + $("#IdProvincia option:selected").text() + " --</option>")
+                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                $.each(data, function (index, row) {
+                    $("#IdLocalidad").append("<option value='" + row.Id + "'>" + row.Nombre + "</option>")
+                });
+            });
+        });
+
+        //asigno el codogo postal de la localidad seleccionada
+        $("#IdLocalidad").change(function () {
+            $.get("/Proveedor/GetCodigoPostal/", { idLocalidad: $("#IdLocalidad").val() }, function (data) {
+                //console.log(data);
+                document.getElementById("IdCodigoPostal").value = data;
+            });
+        });
+
+    });
+
+</script>
+
+@section Scripts{
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+}

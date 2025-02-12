@@ -1,0 +1,45 @@
+﻿@model  IEnumerable<SAC.Models.ChequeraModelView>
+
+
+<div class="table-responsive">
+    <table id="TblChequesPropios" class="table stylish-table">
+        <thead>
+            <tr>
+                <th class="text-center"> </th>               
+                <th class="text-center"> Número</th>
+                <th class="text-center"> Banco</th>
+                <th class="text-center"> Fecha</th>
+                <th class="text-center"> Importe</th>
+                <th class="text-center"> Moneda</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+            <tr id=@item.Id import=@item.Importes >
+                <td>
+                    <a href="#" data-toggle="tooltip" data-original-title="Eliminar "
+                       class="btn btn-danger btn-xs fa fa-trash-o "
+                       onclick="ConfirmaEliminar(@item.Id)">
+                    </a>
+                </td>
+                @*<td>
+                    <input type="checkbox" class="checkCheques checkChequePropio" id=@item.Id value=@item.Importes>
+                </td>*@
+                <td class="text-right">@Html.DisplayFor(modelItem => item.NumeroCheque)</td>
+                <td class="text-center">@Html.DisplayFor(modelItem => item.BancoCuenta.Banco.Nombre)</td>
+                <td class="text-center">@Html.DisplayFor(modelItem => item.Fecha)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.Importes)</td>
+                <td class="text-center">@Html.DisplayFor(modelItem => item.TipoMoneda.Descripcion)</td>
+            </tr>
+            }
+        </tbody>
+
+    </table>  
+</div>
+
+
+
+
+

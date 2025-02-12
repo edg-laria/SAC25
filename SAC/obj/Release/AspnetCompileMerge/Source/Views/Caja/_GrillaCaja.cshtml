@@ -1,0 +1,98 @@
+﻿@model List<SAC.Models.CajaModelView>
+
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.1em 1em;
+    }
+
+    .table td, .table th {
+        padding: .25rem;
+    }
+</style>
+
+                    <table id="TablaCaja" class="table stylish-table" borde="2">
+
+                        <thead>
+
+                            <tr>
+                                <td align="center">
+                                    <strong>Saldo Inicial</strong>
+                                </td>
+                                <td align="center">
+                                    <strong>Pesos</strong>
+                                </td>
+                                <td align="center">
+                                    <strong>Dolares</strong>
+                                </td>
+                                <td align="center">
+                                    <strong>Cheques</strong>
+                                </td>
+                                <td align="center">
+                                    <strong>Tarjeta</strong>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <th class="sort-alpha">Concepto</th>
+                                <th class="sort-numeric">Pesos</th>
+                                <th>Dolares</th>
+                                <th>Cheques</th>
+                                <th>Tarjeta</th>
+                                <th>Fecha</th>
+                                <th>Grupo Caja</th>                             
+                             </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr class="@("table-" + item.Id)">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Concepto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ImportePesos)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ImporteDolar)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ImporteCheque)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ImporteTarjeta)
+                                    </td>
+                                    <td>
+                                        @Convert.ToDateTime(item.Fecha).ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GrupoCaja.Codigo)
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+
+                        <tr>
+                            <td align="center">
+                                <strong>Saldo Procesado</strong>
+
+                            </td>
+                            <td align="center">
+                                <strong>Pesos</strong>
+                            </td>
+                            <td align="center">
+                                <strong>Dolares</strong>
+                            </td>
+                            <td align="center">
+                                <strong>Cheques</strong>
+                            </td>
+                            <td align="center">
+                                <strong>Tarjeta</strong>
+                            </td>
+
+                        </tr>
+
+                    </table>
+            

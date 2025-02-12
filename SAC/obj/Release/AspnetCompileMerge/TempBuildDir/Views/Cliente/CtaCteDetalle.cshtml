@@ -1,0 +1,415 @@
+﻿@model SAC.Models.CtaCteClienteModelView
+@{
+
+
+    ViewBag.Title = "Cta. Cte. de Cliente - Detalle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Date picker plugins css -->
+<link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+<!-- Date picker plugins css -->
+<script src="~/Scripts/qr/QR/qrcode.js"></script>
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+
+            <div class="card-body"> 
+
+                @using (Html.BeginForm("ctacteDetalle", "Cliente", FormMethod.Post, new { @class = "text-right" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row m-b-10">
+
+                        <div class="col-xlg-4 col-lg-4 col-md-4">
+                            <div class="form-group row">
+                                <small class="text-right col-md-3">Cliente</small>
+                                <div class="col-md-9">
+                                    <input type="hidden" id="IdCliente" name="IdCliente" />
+                                    <input class="form-control form-control-sm" id="Nombre" name="Nombre" type="text" placeholder="Nombre del cliente">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xlg-4 col-lg-3 col-md-3">
+                            <div class="form-group row">
+                                <small class="text-right col-md-6">Fecha</small>
+                                <div class="col-md-6">
+                                    <input type="text" id="searchFecha" name="searchFecha"
+                                           class="form-control form-control-sm Calendario"
+                                           data-validation-required-message="Ingrese una fecha">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xlg-2 col-lg-2 col-md-2">
+                            <button type="submit" class="btn btn-sm btn-secondary"><i class="fa  fa-search"></i> Buscar </button>
+                            <div id="qr_codex"></div>
+                        </div>
+                    </div>
+
+                }
+
+                @if (Model.cliente != null)
+                {
+
+                    <div class="row m-t-15">
+                        <div class="col-md-4">
+                            <small> Razon Social:     @Model.cliente.Nombre</small>
+                        </div>
+
+                        <div class=" col-md-2">
+                            <small>
+                                Cuit:
+                                @Model.cliente.Cuit
+                            </small>
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <small>Desde el: @Model.FechaHasta</small>  @* @Model.cliente.IdTipoiva</small> *@
+                        </div>
+
+                        <div class=" col-md-4">
+                            <small>Direccion:</small>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xlg-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="table-responsive-md">
+
+                                <table id="example23" class="table stylish-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Tipo</th>
+                                            <th class="text-center">Cbte</th>
+                                            <th class="text-center">PV</th>
+                                            <th class="text-center">Factura</th>
+                                            <th class="text-center">Fecha</th>
+                                            <th class="text-center">Total</th>
+                                            <th class="text-center">Pago $</th>
+                                            <th class="text-center">Total U$S</th>
+                                            <th class="text-center">Pago</th>
+                                            <th class="text-center">Parcial</th>
+                                            <th class="text-center">Saldo</th>
+                                            <th class="text-center">Cotiza</th>
+                                            <th class="text-center">Nro Pago</th>
+                                            <th class="text-center">Descripcion</th>
+                                            <th class="hide">QR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model.CtaCte)
+                                        {
+
+                                            var claseSele = "";
+                                            if (item.TipoComprobanteVenta.CodigoAfip == 99)
+                                            {
+                                                claseSele = "table-success";
+                                            }
+                                            else
+                                            {
+                                                claseSele = "table-default";
+                                            }
+
+                                        <tr ondblclick="ImprimirFactura(@item.IdCliente, @item.Id ,@item.TipoComprobanteVenta.CodigoAfip)" class="Seleccionable @claseSele">
+                                            <!-- <td style="max-width: 33%;"> -->
+
+                                            <td style="width: 80px;">
+                                                @Html.DisplayFor(modelItem => item.TipoComprobanteVenta.Abreviatura)
+                                            </td>
+                                            <td class="text-right">
+                                                @Html.DisplayFor(modelItem => item.TipoComprobanteVenta.CodigoAfip)
+                                            </td>
+
+                                            <td class="text-right">
+                                                @Html.DisplayFor(modelItem => item.TipoComprobanteVenta.PuntoVenta)
+                                            </td>
+
+                                            <td class="text-right">
+                                                @Html.DisplayFor(modelItem => item.NumeroFactura)
+                                            </td>
+
+                                            <td class="text-right">
+                                                @Html.DisplayFor(modelItem => item.Fecha)
+                                            </td>
+
+                                            <td class="text-right">
+                                                @if (item.IdMoneda == 1 && item.TipoComprobanteVenta.CodigoAfip != 99)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Total)
+                                                }
+                                            </td>
+                                            <td class="text-right">
+                                                @if (item.IdMoneda == 1 && item.TipoComprobanteVenta.CodigoAfip == 99)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Total)
+                                                }
+
+                                            </td>
+
+                                            <td class="text-right">
+                                                @if (item.IdMoneda == 2 && item.TipoComprobanteVenta.CodigoAfip != 99)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Total)
+                                                }
+                                            </td>
+
+                                            <td class="text-right">
+                                                @if (item.IdMoneda == 2 && item.TipoComprobanteVenta.CodigoAfip == 99)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Total)
+                                                }
+                                            </td>
+                                            <td class="text-right">
+                                                @Html.DisplayFor(modelItem => item.Parcial)
+                                            </td>
+                                            <td class="text-right">
+                                                @Html.DisplayFor(modelItem => item.Saldo)
+                                            </td>
+                                            <td class="text-right">
+                                                @Html.DisplayFor(modelItem => item.Cotiza)
+                                            </td>
+
+                                            <td class="text-right">
+                                                @Html.DisplayFor(modelItem => item.NumeroCobro)
+                                            </td>
+
+                                            <td class="text-left">
+                                                @Html.DisplayFor(modelItem => item.Concepto)
+                                            </td>
+                                            <td class="hide">
+                                                <div id="QR_@item.Id"></div>
+                                                <script type="text/javascript">
+                                                        var contenedor = "QR_" + @item.Id.ToString() ;
+                                                        var p = '';
+                                                        @if (item.Tipo != "P" && item.FacturaElectronica.QR != null )
+                                                        {
+                                                            var p = "@item.FacturaElectronica.QR.ToString()";
+
+                                                        }
+                                                        new QRCode(contenedor, {
+                                                        text: "https://serviciosweb.afip.gob.ar/genericos/comprobantes/cae.aspx?p=" + p,
+                                                        width: 128,
+                                                        height: 128,
+                                                        colorDark: "#000000",
+                                                        colorLight: "#ffffff",
+                                                        correctLevel: QRCode.CorrectLevel.H
+                                                    });
+                                                </script>
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-b-10">
+
+                        <div class="col-md-2"> </div>
+                        <small class=" col-md-2">Total Fact. Impagas</small>
+                        <small class=" col-md-2">Parciales</small>
+                        <small class=" col-md-2">Cobros</small>
+                        <small class=" col-md-2">Saldo Cta. Cte.</small>
+                    </div>
+
+                    <div class="row m-b-10">
+                        <div class="col-md-2 text-right"> Pesos </div>
+                        <small class=" col-md-2 font-weight-bold">$ @Model.TotalPesos</small>
+                        <small class=" col-md-2 font-weight-bold">$ @Model.TotalParcialPesos</small>
+                        <small class=" col-md-2 font-weight-bold">$ @Model.TotalPesosCobros</small>
+                        <small class=" col-md-2 font-weight-bold">$ @Model.TotalSaldoPesos</small>
+                    </div>
+
+                    <div class="row m-b-10">
+                        <div class="col-md-2 text-right"> Dolares </div>
+                        <small class=" col-md-2 font-weight-bold">$ @Model.TotalDolares</small>
+                        <small class=" col-md-2 font-weight-bold">$ @Model.TotalParcialDolares</small>
+                        <small class=" col-md-2 font-weight-bold">$ @Model.TotalDolaresCobros</small>
+                        <small class=" col-md-2 font-weight-bold">$ @Model.TotalSaldoDolares</small>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div Class="modal fade" id="modalFactura" role="dialog">
+    <div Class="modal-dialog modal-xl ">
+        <!-- Modal content-->
+        <div Class="modal-content">
+            <div Class="modal-header">
+                <h6 Class="modal-title">Factura</h6>
+
+                <Button type="button" Class="close" data-dismiss="modal">&times;</Button>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <input id="factura"
+                                   name="factura"
+                                   type="hidden"
+                                   value="" />
+                            <iframe id="output" src=""></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary waves-effect text-left" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="Temp_code" class="hide">
+    <div id="qr_code" class="hide">
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <!-- ============================================================== -->
+    <!-- Plugins for this page -->
+    <!-- ============================================================== -->
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+
+    <script src="~/Scripts/view/ClienteScript.js"></script>
+
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/js/mask.js"></script>
+
+    <script src="~/Scripts/view/Caja/CajaScript.js"></script>
+
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+
+
+    <script src="~/Content/assets/plugins/switchery/dist/switchery.min.js"></script>
+
+    <script src="~/Scripts/jspdf/fontjs/jspdf.debug.js"></script>
+    <script src="~/Scripts/jspdf/jspdf.customfonts.min.js"></script>
+    <script src="~/Scripts/jspdf/arial-unicode-ms/arialu_vfs.js"></script>
+
+    <script src="~/Scripts/view/Reporte/ReportesJSPDF.js"></script>
+    <script src="~/Scripts/jspdf/libs/jspdf.min.js"></script>
+    <script src="~/Scripts/jspdf/jspdf.plugin.autotable.js"></script>
+
+    <script src="~/Scripts/view/Reporte/ReporteCtasCtesDetalle.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(function () {
+                var facturaVentaCtaCteArray = [];
+
+                @foreach (var item in @Model.CtaCte)
+                 {
+                   <text>
+
+                    var itemData = [
+                    '@Html.Raw(Json.Encode(item.IdCliente))',
+                    '@Html.Raw(Json.Encode(item.TipoComprobanteVenta.Abreviatura))',
+                    '@Html.Raw(Json.Encode(item.TipoComprobanteVenta.CodigoAfip))',
+                    '@Html.Raw(Json.Encode(item.TipoComprobanteVenta.PuntoVenta))',
+                    '@Html.Raw(Json.Encode((int)item.NumeroFactura))',
+                    '@Html.Raw(Json.Encode(item.Fecha.ToString("yyyy-MM-dd")))',
+                    '@Html.Raw(Json.Encode((float)item.Total))',
+                    '@Html.Raw(Json.Encode((float)item.Parcial))',
+                    '@Html.Raw(Json.Encode((float)item.Saldo))',
+                    '@Html.Raw(Json.Encode((float)item.Cotiza))',
+                    '@Html.Raw(Json.Encode(item.ORef))',
+                    '@Html.Raw(Json.Encode(item.Concepto))'
+
+                ];
+                facturaVentaCtaCteArray.push(itemData);
+                   </text>
+                }
+
+
+            var headers = [
+                "Cliente",
+                "Clase",
+                "Tipo",
+                "Punto",
+                "Numero",
+                "Fecha",
+                "Total",
+                "Parcial",
+                "Saldo",
+                "Cotiza",
+                "",
+                "Ref",
+                "Concepto"
+            ];
+
+            var Encabezado = [
+                '@Html.Raw(Json.Encode(Model.cliente.Codigo))',
+                '@Html.Raw(Json.Encode(Model.cliente.Nombre))',
+                '@Html.Raw(Json.Encode(Model.FechaHasta.ToString("yyyy-MM-dd")))',
+                @Model.TotalDolares,
+                @Model.TotalParcialDolares,
+                @Model.TotalSaldoDolares,
+                @Model.TotalPesos,
+                @Model.TotalParcialPesos,
+                @Model.TotalSaldoPesos
+            ];
+
+
+                $('#example23').DataTable({
+                    "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                    "order": [[2, 'asc']],
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': true,
+                    'dom': 'Bfrtip',
+                    'buttons': [
+                        {
+                            extend: 'pdf',
+                            orientation: 'lancast',
+                            pageSize: 'A4',
+                            action: function (e, dt, button, config) {
+
+                                // Puedes pasar los datos necesarios a la función
+                                ImprimirCtaCteClientes(facturaVentaCtaCteArray, headers, Encabezado);
+                            }
+                        }
+                    ]
+                });
+
+            });
+
+    </script>
+}
+
+
+
+
+
+

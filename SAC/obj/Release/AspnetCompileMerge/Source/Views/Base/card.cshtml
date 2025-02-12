@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SAC.Models.RolModelView>
+@{
+    ViewBag.Title = "Roles";
+}
+<link href="/Content/assets/css/pages/ui-bootstrap-page.css" rel="stylesheet">
+
+        <div class="row page-titles">
+            <div class="col-md-5 align-self-center">
+                <h3 class="text-themecolor">Roles</h3>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <button type="button" class="btn btn-secondary font-14 pull-right" data-toggle="modal" data-target="#add-rol">
+                            <i class="ti-menu"></i> Agregar Rol
+                        </button>
+
+                        <h4 class="card-title">Roles del Sistema </h4>
+                        <h6 class="card-subtitle"> Se configuran todas las acciones disponibles del sistema, puede agregar ó eliminar los items </h6>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        @section Scripts{
+
+        }
+

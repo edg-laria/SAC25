@@ -1,0 +1,203 @@
+﻿@model SAC.Models.ConfigRolModelView
+@{
+    ViewBag.Title = "Gestión de Rol";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- page css -->
+<link href="/Content/assets/css/pages/floating-label.css" rel="stylesheet">
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.1em 1em;
+    }
+    .table td, .table th {
+        padding: .25rem;
+    }
+</style>
+
+
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Roles</h3>
+    </div>
+    @*<div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item">Apps</li>
+                <li class="breadcrumb-item active">mailbox</li>
+            </ol>
+        </div>*@
+
+</div>
+
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+
+
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="col-xlg-12 col-lg-12 col-md-12">
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h4 class="card-title">Roles de Sistemas </h4>
+                        <h6 class="card-subtitle"> Permite agrupar funciones del sistema para asignar a un grupo de usuario </h6>
+                    </div>
+                    <div class="col-md-2 pull-right">
+                        <button type="button" class="btn btn-secondary btn-sm " data-toggle="modal" data-target="#add-rol">
+                            <i class="ti-menu"></i> Agregar Rol
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                     
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="tblMenusidebar" class="table stylish-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Rol
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Roles.Count() > 0)
+                            {
+                                foreach (var item in Model.Roles)
+                                {
+                                    <tr>
+                                        <td> @Html.DisplayFor(modelItem => item.descripcion) </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Rol",new { id = item.idRol })" class="btn btn-primary font-10" data-toggle="tooltip" data-original-title="Detalles">más </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }else{
+                                <tr>
+                                    <td>
+                                        No se encontraron registros...
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--.modal- -->
+                <div id="add-rol" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Nuevo Rol de Sistema </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="floating-labels m-t-30">
+                                    <div class="form-group m-b-40">
+                                        @Html.EditorFor(model => model.Rol.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                        <span class="bar"></span>
+                                        <label for="accion_nombre">Nombre de Rol</label>
+                                    </div>
+                                    @*<div class="form-group m-b-30">
+                                        @Html.EditorFor(model => model.Rol.idHome, new { htmlAttributes = new { @class = "form-control" } })
+                                        <span class="bar"></span>
+                                        <label for="acccion_controlador">Nombre del Controlador </label>
+                                        <span class="help-block"><small>EJ.: Evento para EventoController </small></span>
+                                    </div>*@
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" value="Guardar" formaction="@Url.Action("Create", "Rol")" class="btn btn-primary" />
+                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.modal- -->
+            </div>
+        </div>
+       
+    }
+
+</div>
+
+
+
+
+
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+
+@section Scripts{
+
+    <!-- This is data table -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+
+
+
+            //$('#tblAccion').DataTable({
+            //    dom: 'Bfrtip',
+            //    buttons: [
+            //        'pdf', 'print'
+            //    ]
+            //});
+            //$('#tblRol').DataTable({
+            //    dom: 'Bfrtip',
+            //    buttons: [
+            //        'pdf', 'print'
+            //    ]
+            //});
+            //$('#tblMenusidebar').DataTable({
+            //    dom: 'Bfrtip',
+            //    buttons: [
+            //        'pdf', 'print'
+            //    ]
+            //    });
+
+            //});
+
+
+
+
+            //$('#example23').DataTable({
+            //    dom: 'Bfrtip',
+            //    buttons: [
+            //        'pdf', 'print'
+            //    ]
+            //});
+
+    </script>
+
+}

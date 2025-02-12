@@ -1,0 +1,544 @@
+﻿@model SAC.Models.ClienteModelView
+
+@{
+    ViewBag.Title = "Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="/Content/assets/plugins/switchery/dist/switchery.min.css" rel="stylesheet" />
+
+
+@using (Html.BeginForm())
+
+
+{
+    @Html.AntiForgeryToken()
+
+    List<SelectListItem> ListaTipoCliente = (List<SelectListItem>)ViewBag.ListaTipoCliente;
+    List<SelectListItem> ListaTipoIva = (List<SelectListItem>)ViewBag.ListaTipoIva;
+
+    List<SelectListItem> ListaPieNota = (List<SelectListItem>)ViewBag.ListaPieNota;
+
+    List<SelectListItem> ListaPieNotaB = (List<SelectListItem>)ViewBag.ListaPieNota;
+
+    List<SelectListItem> ListaTipoMoneda = (List<SelectListItem>)ViewBag.ListaTipoMoneda;
+    List<SelectListItem> ListaTipoIdioma = (List<SelectListItem>)ViewBag.ListaTipoIdioma;
+
+    List<SelectListItem> ListaGrupoPresupuesto = (List<SelectListItem>)ViewBag.ListaGrupoPresupuesto;
+
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-6 float-sm-left">
+                            <h5 class="card-title">Datos del Cliente</h5>
+                        </div>
+
+                   
+
+                    </div>
+
+                    @Html.Hidden("BotonSeleccion")
+
+                <div class="form-horizontal">
+
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.IdCliente)
+                    @Html.HiddenFor(model => model.Activo)
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="readonly5" class="control-label form-control-sm">Tipo Cliente</label>
+
+                                @Html.DropDownList("IdTipoCliente", ListaTipoCliente, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdTipoCliente", new { @class = "text-danger form-control-sm" })
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IdTipoiva, htmlAttributes: new { @class = "control-label form-control-sm" })
+                                @Html.DropDownList("IdTipoIva", ListaTipoIva, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdTipoIva", new { @class = "text-danger form-control-sm" })
+
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Cuit, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                @Html.EditorFor(model => model.Cuit, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                @Html.ValidationMessageFor(model => model.Cuit, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DiasFactura, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                @Html.EditorFor(model => model.DiasFactura, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                @Html.ValidationMessageFor(model => model.DiasFactura, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MiPyme, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                @Html.EditorFor(model => model.MiPyme, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                @Html.ValidationMessageFor(model => model.DiasFactura, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+
+                            @Html.LabelFor(model => model.IdImputacion, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.IdImputacion, new { @class = "form-control form-control-sm text-box single-line valid", @placeholder = "Ej: 00000", @readonly = true })
+                                <button type="button" id="btnImpProvBuscarFact" class="btn btn-primary fa fa-search" onclick="BuscarImputacion(1)"></button>
+                                <button id="btnCargandoFact" class="btn btn-primary" type="button" disabled style="display:none">
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Loading...
+                                </button>
+                            </div>
+                            @Html.ValidationMessage("IdImputacion", new { @class = "text-danger" })
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label form-control-sm" })
+
+                                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+
+
+
+                                <label for="readonly5" class="control-label form-control-sm">Pie Nota</label>
+
+                                @Html.DropDownList("IdPieNota", ListaPieNota, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdPieNota", new { @class = "text-danger form-control-sm" })
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+
+                                <label for="readonly5" class="control-label form-control-sm">Idioma</label>
+
+                                @Html.DropDownList("IdIdioma", ListaTipoIdioma, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdIdioma", new { @class = "text-danger form-control-sm" })
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+
+                                <label for="readonly5" class="control-label form-control-sm">Grupo Presupuesto</label>
+
+                                @Html.DropDownList("IdGrupoPresupuesto", ListaGrupoPresupuesto, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdGrupoPresupuesto", new { @class = "text-danger form-control-sm" })
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="readonly5" class="control-label form-control-sm">Tipo de Moneda</label>
+                                @Html.DropDownList("IdTipoMoneda", ListaTipoMoneda, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdTipoMoneda", new { @class = "text-danger form-control-sm" })
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="col-md-3">
+
+                            @*<div class="form-group">
+                                <label for="readonly5" class="control-label form-control-sm">Pie Nota B</label>
+                                @Html.DropDownList("IdPieNotaB", ListaPieNotaB, null, new { @class = "form-control form-control-sm" })
+                                @Html.ValidationMessage("IdPieNotaB", new { @class = "text-danger form-control-sm" })
+                            </div>*@
+                        </div>
+
+                    </div>
+
+                    <div class="row  m-t-15">
+
+                        <div class="col-md-3">
+                            <div class="checkbox">
+                                <div class="form-group ">
+                                    Cliente Activo ?
+                                    <input type="checkbox" @Html.Raw((Model.Visible) ? "checked" : " ") id="Visible" class="js-switch js-check-activo" data-color="#00a65a" data-size="small" />
+                                    @Html.HiddenFor(model => model.Visible)
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.Id > 0)
+                        {
+                            <div class="col-md-2"><a href="@Url.Action("DireccionCliente", "Cliente",new { IdCliente = Model.Id})" data-toggle="tooltip" class="btn btn-primary btn-sm btn-block ">Direcciones </a></div>
+
+                        }
+
+                        <div class="col-md-7 text-right">
+                            <button type="submit" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> Guardar</button>
+                            @Html.ActionLink("Volver", "Index", "Cliente", new { idTipoCliente = Model.IdTipoCliente, CNombreCliente = Model.CNombreCliente }, htmlAttributes: new { @class = "btn btn-dark btn-sm" })
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+
+<div class="modal fade" id="exampleModal" style="overflow-y: auto;" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="TituloModal">Seleccione un número de imputación</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="SubRubro">  </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModalBloquear" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" role="form" action="BloquearCliente">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="Ocultar">Bloquear Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Esta seguro de que desea bloquear al Cliente?</p>
+                    <input type="hidden" name="ID" id="Id" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-raised btn-warning">Bloquear</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="myModalActivar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" role="form" action="HabilitarCliente">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Activar Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Esta seguro de que desea activar al Cliente?</p>
+                    <input type="hidden" name="ID" id="Id" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-raised btn-success">Activar</button>
+                    <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+    function AgregarImputacion(idSubRubro) {
+        var Seleccion = document.getElementById("BotonSeleccion").value;
+        if (Seleccion == "1") {
+            document.getElementById("IdImputacion").value = idSubRubro;
+        }
+
+
+        $("#exampleModal").modal('hide');
+    }
+
+    function BuscarImputacion(boton) {
+        document.getElementById("BotonSeleccion").value = boton;
+
+        var botonBuscar = "";
+        var botonCargando = "";
+
+        if (boton == "1") {
+            botonBuscar = "#btnImpProvBuscar";
+            botonCargando = "#btnCargando";
+        }
+        if (boton == "2") {
+            botonBuscar = "#btnImpProvBuscarFact";
+            botonCargando = "#btnCargandoFact";
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Proveedor/CargarImputacion",
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            beforeSend: function () {
+                $(botonBuscar).css("display", "none");
+                $(botonCargando).css("display", "block");
+            }, complete: function () {
+                $(botonBuscar).css("display", "block");
+                $(botonCargando).css("display", "none");
+
+            },
+            success: function (response) {
+                $('#SubRubro').html(response);
+                $("#exampleModal").modal('show');
+                fntabla();
+            },
+            failure: function (response) {
+                Console.log(response.responseText);
+            },
+            error: function (response) {
+                Console.log(response.responseText);
+            }
+        });
+
+    }
+    function fntabla() {
+
+        if ($.fn.dataTable.isDataTable('#tblImputacion')) {
+            table = $('#tblImputacion').DataTable();
+            table.destroy();
+            fntablaRenderizar();
+        } else {
+            fntablaRenderizar();
+        }
+    }
+    function fntablaRenderizar() {
+        $('#tblImputacion').DataTable({
+            "language": { "url": "/Content/assets/plugins/datatables/es.txt" },
+            "order": [[2, 'asc']],
+            'paging': true,
+            'lengthChange': false,
+            'pageLength': 15,
+            'scrollY': '200px',
+            'searching': true,
+            'ordering': true,
+            'info': false,
+            'autoWidth': true,
+            'dom': 'Bfrtip',
+            'buttons': []
+        });
+    }
+
+
+
+
+
+    function SetViewBag() {
+        $.ajax({
+            type: "POST",
+            url: '/Cliente/BloquearCliente',
+            data: $('#Id').serialize(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (r) {
+
+            }
+        });
+    }
+
+
+
+
+
+    $('#ocultar').click(function (e) {
+
+        $.ajax({
+            type: "POST",
+            url: "/Cliente/BloquearCliente",
+            content: "application/json; charset=utf-8",
+            dataType: "json",
+            data: $('#Id').serialize(),
+            success: function (d) {
+                if (d.success == true)
+
+                    alert('Se ha bloqueado el Cliente!!');
+                else { }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('Error!!');
+            }
+        });
+    });
+
+
+
+    $('#habilitar').click(function (e) {
+        $.ajax({
+            type: "POST",
+            url: "/Cliente/HabilitarCliente",
+            content: "application/json; charset=utf-8",
+            dataType: "json",
+            data: $('#Id').serialize(),
+            success: function (d) {
+                if (d.success == true)
+                    alert('Se ha habilitado el Cliente!!');
+                else { }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('Error!!');
+            }
+        });
+    });
+
+
+
+    jQuery(function ($) {
+        $('#myModalBloquear').on('show.bs.modal', function (e) {
+            var id = $(e.relatedTarget).data().id;
+            $(e.currentTarget).find('#Id').val(id);
+        });
+    });
+
+    jQuery(function ($) {
+        $('#myModalActivar').on('show.bs.modal', function (e) {
+            var id = $(e.relatedTarget).data().id;
+            $(e.currentTarget).find('#Id').val(id);
+        });
+    });
+
+</script>
+
+@section Scripts{
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+
+
+        <script src="~/Content/assets/plugins/switchery/dist/switchery.min.js"></script>
+
+        <script>
+            jQuery(document).ready(function () {
+                // Switchery
+                var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+                $('.js-switch').each(function () {
+                    new Switchery($(this)[0], $(this).data());
+                });
+
+                var changeCheckbox = document.querySelector('.js-check-activo')
+                    , changeField = document.querySelector('.js-check-activo-field');
+                changeCheckbox.onchange = function () {
+                    $("input[type='hidden'][name='Visible']").val(changeCheckbox.checked);
+                };
+
+
+             
+
+            });
+        </script>
+
+    }
+
+
+

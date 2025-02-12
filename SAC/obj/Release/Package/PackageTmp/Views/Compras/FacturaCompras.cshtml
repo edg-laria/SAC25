@@ -1,0 +1,437 @@
+﻿@model SAC.Models.CompraFacturaViewModel
+@{
+    ViewBag.Title = "Factura Compras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Date picker plugins css -->
+<link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+@using (Html.BeginForm("FacturaCompras", "Compras", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
+
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.IdProveedor)
+    @Html.HiddenFor(model => model.Proveedor.Id)
+    @Html.HiddenFor(model => model.IdCompraFacturaAplica)
+    @Html.HiddenFor(model => model.IdTipoIva)
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-body">
+                        <h5 class="card-title">Registro Facturas de Compras</h5>
+                        <hr>
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+
+                                        <small>Proveedor</small>
+                                        <small>[Autocompletable]</small>
+                                        @Html.TextBoxFor(m => m.Proveedor.Nombre, new
+                                        {
+                                            @class = "form-control form-control-sm",
+                                            @id = "NombreProveedor",
+                                            @placeholder = "Ingrese parte del nombre del proveedor"
+                                        })
+                                        @Html.ValidationMessageFor(m => m.Proveedor.Nombre, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Periodo</small>
+                                        @Html.TextBoxFor(m => m.Periodo, new { @class = "form-control form-control-sm", @placeholder = "" ,@type = "number" })
+                                        @Html.ValidationMessageFor(m => m.Periodo, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Imputación</small>
+                                        @Html.TextBoxFor(m => m.IdImputacion, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                        @Html.ValidationMessageFor(m => m.IdImputacion, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group bg-light">
+                                        <small>Iva:</small> <small id="ivaProv"></small>   &nbsp&nbsp&nbsp   <small>Teléfono:</small> <small id="telProv"></small><br />
+                                        <small>Dirección:</small> <small id="dirProv"></small><br />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Comprobante</small>
+                                        @Html.DropDownListFor(model => model.IdTipoComprobante, new List<SelectListItem>(), "Seleccionar...", new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessageFor(m => m.IdTipoComprobante, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Punto Venta</small>
+                                        @Html.TextBoxFor(m => m.PuntoVenta, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                        @Html.ValidationMessageFor(m => m.PuntoVenta, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Número</small>
+                                        @Html.TextBoxFor(m => m.NumeroFactura, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                        @Html.ValidationMessageFor(m => m.NumeroFactura, "", new { @class = "text-danger form-control-sm" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+
+                                        <small>Fecha</small>
+                                        <input type="text" id="Fecha" name="Fecha" class="form-control form-control-sm fechadatepicker" required
+                                               data-validation-required-message="Ingrese una fecha">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Vencimiento</small>
+                                        <input type="text" id="Vencimiento" name="Vencimiento" class="form-control form-control-sm fechadatepicker" required data-validation-required-message="Ingrese una fecha">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group invisible" id="AplicaFactura">
+                                         <small>Aplica Factura Nº</small>
+                                        <div class="input-group">
+                                            <input type="text" id="txtBusacarFactura" class="form-control form-control-sm">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="btnBuscarFacturaAplica">
+                                                    <i class="ti-search"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                       <small>Concepto</small>                                       
+                                            @Html.TextBoxFor(m => m.Concepto, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                            @Html.ValidationMessageFor(m => m.Concepto, "", new { @class = "text-danger form-control-sm" })                                      
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <small>Moneda</small>                                        
+                                            @Html.DropDownListFor(model => model.IdMoneda, (IEnumerable<SelectListItem>)
+                                           (new SelectList(Model.TipoMonedas.Select(x => new { Value = x.Id, Text = x.Descripcion }),
+                                            "Value", "Text")), new { @class = "form-control form-control-sm" })
+
+                                            @Html.ValidationMessageFor(m => m.IdMoneda, "", new { @class = "text-danger form-control-sm" })                                     
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">                                        
+                                        <small>Cotización</small>
+                                            @Html.TextBoxFor(m => m.Cotizacion, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                            @Html.ValidationMessageFor(m => m.Cotizacion, "", new { @class = "text-danger form-control-sm" })                                      
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 bg-light ">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center m-t-15">
+                                            <small>Neto y Alicuotas de IVA</small>
+                                            @*<h6 class="box-title">Neto y Alicuotas de IVA</h6>*@
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @Html.TextBoxFor(m => m.CompraIva.Importe21, new { @class = "form-control form-control-sm", @placeholder = "Importe" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Importe21, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @Html.TextBoxFor(m => m.CompraIva.Iva21, new { @class = "form-control form-control-sm", @placeholder = "IVA 21%", @readonly = true })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Iva21, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @*<label for="Importe105" class="control-label form-control-sm">Importe</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.Importe105, new { @class = "form-control form-control-sm", @placeholder = "Importe" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Importe105, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @*<label for="Iva105" class="control-label form-control-sm">IVA 10.5%</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.Iva105, new { @class = "form-control form-control-sm", @placeholder = "IVA 10.5%", @readonly = true })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Iva105, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @*<label for="Importe25" class="control-label form-control-sm">Importe</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.Importe25, new { @class = "form-control form-control-sm", @placeholder = "Importe" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Importe25, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @*<label for="Iva25" class="control-label form-control-sm">IVA 2.5%</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.Iva25, new { @class = "form-control form-control-sm", @placeholder = "IVA 2.5%", @readonly = true })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Iva25, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @*<label for="Importe5" class="control-label form-control-sm">Importe</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.Importe5, new { @class = "form-control form-control-sm", @placeholder = "Importe" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Importe5, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @*<label for="Iva5" class="control-label form-control-sm">IVA 5%</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.Iva5, new { @class = "form-control form-control-sm", @placeholder = "IVA 5%", @readonly = true })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Iva5, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @*<label for="Importe27" class="control-label form-control-sm">Importe</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.Importe27, new { @class = "form-control form-control-sm", @placeholder = "Importe" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Importe27, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group  text-center">
+                                                        @*<label for="Iva27" class="control-label form-control-sm">IVA 27%</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.Iva27, new { @class = "form-control form-control-sm", @placeholder = "IVA 27%", @readonly = true })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.Iva27, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="row">
+                                                <div class="col-md-12 text-center m-t-15">
+                                                    <small>Percepciones</small>
+                                                    @*<h6 class="box-title">Percepciones</h6>*@
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-center">
+                                                        @*<label for="txtImputacion" class="control-label form-control-sm">% IVA </label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.PercepcionIva, new { @class = "form-control form-control-sm", @placeholder = "% IVA" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.PercepcionIva, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-center">
+                                                        @*<label for="txtImputacion" class="control-label form-control-sm">Importe</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.PercepcionImporteIva, new { @class = "form-control form-control-sm", @placeholder = "Importe" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.PercepcionImporteIva, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-center">
+                                                        @*<label for="txtImputacion" class="control-label form-control-sm">% I.B. Capital</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.PercepcionIB, new { @class = "form-control form-control-sm", @placeholder = "% I.B. Capital" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.PercepcionIB, "", new { @class = "text-danger form-control-sm" })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-center">
+                                                        @*<label for="txtImputacion" class="control-label form-control-sm">Importe</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.PercepcionImporteIB, new { @class = "form-control form-control-sm", @placeholder = "Importe" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.PercepcionImporteIB, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-center">
+                                                        @*<label for="txtImputacion" class="control-label form-control-sm">% I.B. Prov.</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.PercepcionProvincia, new { @class = "form-control form-control-sm", @placeholder = "% I.B. Prov." })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.PercepcionProvincia, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-center">
+                                                        @*<label for="txtImputacion" class="control-label form-control-sm">Importe</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.PercepcionImporteProvincia, new { @class = "form-control form-control-sm", @placeholder = "Importe" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.PercepcionImporteProvincia, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-center">
+                                                        @*<label for="txtImputacion" class="control-label form-control-sm">Otros Importes</label>*@
+                                                        @Html.TextBoxFor(m => m.CompraIva.OtrosImpuestos, new { @class = "form-control form-control-sm", @placeholder = "Otros Importes" })
+                                                        @Html.ValidationMessageFor(m => m.CompraIva.OtrosImpuestos, "", new { @class = "text-danger form-control-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 bg-light ">
+
+
+                                    <div class="row">
+                                        <div class="col-md-12 text-center m-t-15">
+                                            @*<h6 class="box-title">Totales de Facturas</h6>*@
+                                            <small>Totales de Facturas</small>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        @*<label for="NetoGravado" class="col-md-6 col-form-label">Neto Gravado</label>*@
+                                        <small class="col-md-6">Neto Gravado</small>
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.CompraIva.NetoGravado, new { @class = "form-control form-control-sm", @placeholder = "", @readonly = true })
+                                            @Html.ValidationMessageFor(m => m.CompraIva.NetoGravado, "", new { @class = "text-danger form-control-sm" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        @*<label for="NetoGravado" class="col-md-6 col-form-label">Neto No Gravado</label>*@
+                                        <small class="col-md-6">Neto No Gravado</small>
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.CompraIva.NetoNoGravado, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                            @Html.ValidationMessageFor(m => m.CompraIva.NetoNoGravado, "", new { @class = "text-danger form-control-sm" })
+                                        </div>
+                                    </div>
+
+                                    @*<hr>*@
+
+                                <div class="form-group row">
+                                    @*<label for="NetoGravado" class="col-md-6 col-form-label">Sub Total</label>*@
+                                    <small class="col-md-6">Sub Total</small>
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.CompraIva.SubTotal, new { @class = "form-control form-control-sm", @placeholder = "", @readonly = true })
+                                        @Html.ValidationMessageFor(m => m.CompraIva.SubTotal, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @*<label for="NetoGravado" class="col-md-6 col-form-label">Total IVA</label>*@
+                                    <small class="col-md-6">Total IVA</small>
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.CompraIva.TotalIva, new { @class = "form-control form-control-sm", @placeholder = "", @readonly = true })
+                                        @Html.ValidationMessageFor(m => m.CompraIva.TotalIva, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @*<label for="NetoGravado" class="col-md-6 col-form-label">Total Percepciones</label>*@
+                                    <small class="col-md-6">Total Percepciones</small>
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.CompraIva.TotalPercepciones, new { @class = "form-control form-control-sm", @placeholder = "", @readonly = true })
+                                        @Html.ValidationMessageFor(m => m.CompraIva.TotalPercepciones, "", new { @class = "text-danger form-control-sm" })
+                                    </div>
+                                </div>
+                                    @*<hr>*@
+                                    <div class="form-group row">
+                                        @*<label for="NetoGravado" class="col-md-6 col-form-label">Total</label>*@
+                                        <small class="col-md-6">Total</small>
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.CompraIva.Total, new { @class = "form-control form-control-sm", @placeholder = "", @readonly = true })
+                                            @Html.ValidationMessageFor(m => m.CompraIva.Total, "", new { @class = "text-danger form-control-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="text-right m-t-10">
+                            <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
+
+                            @*@{
+
+                                      if (Model.idUsuario != null)
+                                      {
+                                          <input type="submit" value="Restablecer Password"
+                                                 formaction="@Url.Action("RestablecerCuenta", "Usuario", new { id = Model.idUsuario })"
+                                                 class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Se actualiza la clave..." />
+
+                                      }
+                                  }
+                                <button id="print" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@section Scripts {
+
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/js/mask.js"></script>
+
+    <script src="~/Scripts/view/FacturaCompraScript.js"></script>
+    <script src="~/Scripts/view/calcularporcentaje.js"></script>
+}

@@ -1,0 +1,17 @@
+----------------------------------------               
+----------------------------------------               
+2024-09-23 15:15:49.7126 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: El valor no puede ser nulo.
+Nombre del parámetro: String               
+	ErrorDetails:    en System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   en System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   en System.Int32.Parse(String s)
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model) en F:\PandiNet\SAC\Controllers\FacturaController.cs:línea 512
+----------------------------------------               
+----------------------------------------               
+2024-09-23 17:16:52.0277 ERROR Message: No se pudo guardar la factura                
+	ErrorTitle: No se pudo guardar la factura               
+	ErrorSummary: Referencia a objeto no establecida como instancia de un objeto.               
+	ErrorDetails:    en Negocio.Servicios.ServicioBuque.Agregar(BuqueModel oBuqueModel) en F:\PandiNet\Negocio\Servicios\ServicioBuque.cs:línea 43
+   en SAC.Controllers.FacturaController.GrabarFactura(FacturaModelView model)

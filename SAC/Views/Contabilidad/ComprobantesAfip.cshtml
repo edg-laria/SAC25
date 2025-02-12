@@ -1,0 +1,146 @@
+﻿@model SAC.Models.ComprobanteAfipModelView
+
+@{
+    ViewBag.Title = "Comprobantes en AFIP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--nestable CSS -->
+<link href="../assets/plugins/nestable/nestable.css" rel="stylesheet" type="text/css" />
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.1em 1em;
+    }
+
+    .table td, .table th {
+        padding: .25rem;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Consulta de Comprobantes en AFIP</h4>
+                @using (Html.BeginForm("ComprobantesAfip", "Contabilidad"))
+                {
+                    @Html.AntiForgeryToken()
+                    List<SelectListItem> SelectComprobantes = (List<SelectListItem>)ViewBag.SelectComprobantes;
+                    List<SelectListItem> SelectPuntoVenta = (List<SelectListItem>)ViewBag.SelectPuntoVenta;
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <small class="form-control-sm">Tipo </small>
+                                @Html.DropDownList("IdComprobanteAfip", SelectComprobantes, null, new { @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <small class="form-control-sm">Punto de Venta </small>
+                                @Html.DropDownList("IdPuntoVenta", SelectPuntoVenta, null, new { @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <div class="form-group ">
+                                <small class="form-control-sm">Comprobante Nº </small>
+                                <input type="text" id="ComprobanteNro" name="ComprobanteNro"
+                                       class="form-control form-control-sm "
+                                       data-validation-required-message="Ingrese un Comprobante Nº">
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-sm m-t-20"> <i class="fa fa-check"></i> Consultar</button>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Datos de AFIP</h4>
+                <div class="row">
+                    <div class="col-xlg-12 col-lg-12 col-md-12">
+                        @if (Model.Error != null)
+                        {
+                            if (Model.Error.ErrCode != 0)
+                            {
+                    <div class="alert alert-danger" role="alert">
+                        <strong>  @Model.Error.ErrCode - </strong>   @Model.Error.ErrMsg
+                    </div> }
+                                    else
+                                    { <div class="alert alert-success" role="alert">
+                                            <strong>  Comprobate Autorizado por AFIP </strong>
+                                        </div>}
+
+                                }
+                        @if (Model.comprobante != null)
+                        {
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Comprobante</h4>
+
+                                    <div class="myadmin-dd dd" id="nestable">
+                                        <ol class="dd-list">
+                                            @foreach (var item in Model.propertyInfosResult)
+                                            {
+                            <li class="dd-item" data-id="1">
+                                <div class="dd-handle"> @item.Name  -  @item.GetValue(Model.comprobante) </div>
+                            </li>}
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>}
+                        @if (Model.comprobanteLocal != null)
+                        {
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Comprobante</h4>
+
+                                    <div class="myadmin-dd dd" id="nestable">
+                                        <ol class="dd-list">
+                                            @foreach (var item in Model.propertyInfosResult)
+                                            {
+                            <li class="dd-item" data-id="1">
+                                <div class="dd-handle"> @item.Name  -  @item.GetValue(Model.comprobanteLocal) </div>
+                            </li>}
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <!--Nestable js -->
+    <script src="../assets/plugins/nestable/jquery.nestable.js"></script>
+    <script type="text/javascript">
+     
+    </script>
+
+}
+
+
+

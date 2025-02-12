@@ -1,0 +1,137 @@
+﻿@model IEnumerable<SAC.Models.UsuarioModelView>
+
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- page css
+<link href="/Content/assets/css/pages/inbox.css" rel="stylesheet">
+<link href="~/Content/assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+
+-->
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+@*<div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Cuenta de Usuario</h4>
+        </div>
+
+    </div>*@
+
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Lista de Usuarios </h5>
+                <h6 class="card-subtitle"> </h6>
+                <a href="@Url.Action("AddOrEdit", "Usuario")" class="btn btn-sm btn-secondary ">Nuevo Usuario</a>
+                <div class="table-responsive m-t-40">
+
+                    <table id="example23" class="table stylish-table">
+
+                        <thead>
+                            <tr>
+                                <th>Acciones</th>
+
+                                <th>
+                                    Usuario
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Rol
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="@("table-" + item.idPersona)">
+
+                                    <td style="width:50px;">
+                                        @*<a href="@Url.Action("Details", "Usuario",new { id = item.idUsuario })" data-toggle="tooltip" data-original-title="Detalles" class="btn waves-effect waves-light btn-rounded btn-xs btn-dark"><i class="fa  fa-file text-info"></i></a>*@
+                                        <a href="@Url.Action("AddOrEdit", "Usuario",new { id = item.idUsuario })" data-toggle="tooltip" data-original-title="Editar" class="btn waves-effect waves-light btn-rounded btn-xs btn-dark"><i class="fa fa-pencil text-success"></i>  Editar</a>
+                                        @*<a href="@Url.Action("Delete", "Usuario" ,new { id = item.idUsuario })" data-toggle="tooltip" data-original-title="Eliminar " class="btn waves-effect waves-light btn-rounded btn-xs btn-dark"> <i class="fa fa-close text-danger"></i></a>*@
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.userName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Persona.email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Persona.nombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Rol.descripcion)
+                                    </td>
+
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+
+
+
+@section Scripts{
+
+    <!-- ============================================================== -->
+    <!-- Plugins for this page -->
+    <!-- ============================================================== -->
+    <!-- This is data table -->
+
+    <script src="~/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $('#example23').DataTable({
+                "language": { "url": "../Content/assets/plugins/datatables/es.txt" },
+                "order": [[2, 'asc']],
+                'paging': true,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true,
+                'dom': 'Bfrtip',
+                'buttons': [
+                    'pdf'
+                ]
+            });
+        });
+    </script>
+}

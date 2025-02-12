@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Facturas";
+    // Layout = null;
+}
+<script src="~/Scripts/jspdf/libs/jspdf.min.js"></script>
+<script src="~/Scripts/view/Reporte/ReportesJSPDF.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="embed-responsive embed-responsive-16by9">
+            <input id="factura"
+                   name="factura"
+                   type="hidden"
+                   value="@ViewBag.Factura" />
+            <iframe id="output" src=""></iframe>
+        </div>
+    </div>
+</div>
+
+
+<!-- jsPDF-->
+<script>
+    window.onhashchange = function () {
+        update();
+    };
+    function update() {
+        var funcStr = "factura";
+        var FacturaJson = $('#factura').val();
+        var doc = factura(FacturaJson);
+        document.getElementById("output").src = doc.output('datauristring');
+    }
+    update();
+
+    //window.onhashchange = function () {
+    //    update();
+    //};
+    //function update() {
+    //    var funcStr = "factura";
+    //    var FacturaJson = $('#factura').val();
+    //    var doc = devall[funcStr](FacturaJson);
+    //    document.getElementById("output").src = doc.output('datauristring');
+    //}
+    //update();
+</script>
+

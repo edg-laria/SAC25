@@ -1,0 +1,2 @@
+2024-01-16 18:16:18.3358 INFO Message: CuentaController.Acceder():admin
+2024-01-16 18:27:05.1978 INFO Message: Factura Registrada: 6414

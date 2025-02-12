@@ -1,0 +1,20 @@
+2023-12-15 09:11:20.4873 INFO Message: CuentaController.Acceder():admin
+2023-12-15 09:14:53.6334 INFO Message: CuentaController.Acceder():admin
+2023-12-15 10:32:29.9817 INFO Message: CuentaController.Acceder():admin
+2023-12-15 10:51:51.6985 INFO Message: CuentaController.Acceder():admin
+2023-12-15 11:00:45.9625 INFO Message: CuentaController.Acceder():admin
+2023-12-15 11:13:04.2411 INFO Message: CuentaController.Acceder():admin
+2023-12-15 11:48:51.7848 INFO Message: CuentaController.Acceder():admin
+2023-12-15 13:35:33.2661 INFO Message: CuentaController.Acceder():admin
+2023-12-15 13:36:30.4519 INFO Message: CuentaController.Acceder():admin
+2023-12-15 13:42:27.3579 INFO Message: CuentaController.Acceder():admin
+2023-12-15 15:47:58.6334 INFO Message: CuentaController.Acceder():admin
+2023-12-15 15:49:41.9007 INFO Message: CuentaController.Acceder():admin
+2023-12-15 15:53:18.9173 INFO Message: CuentaController.Acceder():admin
+2023-12-15 16:07:17.0513 INFO Message: CuentaController.Acceder():admin
+2023-12-15 16:13:45.6029 INFO Message: CuentaController.Acceder():admin
+2023-12-15 16:52:14.6637 INFO Message: CuentaController.Acceder():admin
+2023-12-15 18:40:05.0896 INFO Message: CuentaController.Acceder():admin
+2023-12-15 18:40:07.6681 INFO Message: CuentaController.Acceder():admin
+2023-12-15 18:45:49.2571 INFO Message: Factura Registrada: 9395
+2023-12-15 19:25:23.4959 INFO Message: Factura Registrada: 9396

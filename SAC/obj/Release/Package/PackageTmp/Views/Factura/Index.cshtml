@@ -1,0 +1,962 @@
+﻿@model SAC.Models.FacturaModelView
+
+@{
+    ViewBag.Title = "Registro Factura ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Date picker plugins css -->
+<link href="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+<style>
+    fieldset {
+        /* min-width: 0; */
+        /* margin: 0; */
+        border: 1px solid lightgray !important;
+        padding: 5px;
+    }
+
+    legend {
+        padding: 3px;
+        font: small sans-serif;
+    }
+</style>
+
+@using (Html.BeginForm("GrabarFactura", "Factura", FormMethod.Post, new { id = "FrmGrabar" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IdCliente)
+    @Html.HiddenFor(model => model.idTipoIva)
+    @Html.HiddenFor(model => model.mipyme)
+    @Html.HiddenFor(model => model.IdArticulo)
+    @Html.HiddenFor(model => model.CodigoCliente)
+
+    @Html.HiddenFor(model => model.hdnArticulos)
+
+    @Html.HiddenFor(model => model.idPais)
+    @Html.HiddenFor(model => model.idProvincia)
+    @Html.HiddenFor(model => model.TotalFactura)
+    @Html.HiddenFor(model => model.CuitSeleccionado)
+    @Html.HiddenFor(model => model.idImputacion)
+
+    @Html.HiddenFor(model => model.IdAplicaCBT)
+    @Html.HiddenFor(model => model.TotalAplicaCBT)
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-body">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <small>Cliente</small>
+                                    @Html.TextBoxFor(m => m.Cliente.Nombre, new
+                                       {
+                                           @class = "form-control form-control-sm",
+                                           @id = "NombreCliente"
+                                       })
+                                    @Html.ValidationMessageFor(m => m.Cliente.Nombre, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+
+                                <div class="col-md-2">
+                                    <small>Pto Venta</small>
+                                    @Html.DropDownList("IdPuntoVenta", Model.SelectPuntoVenta, "Seleccione opcion", new { @class = "form-control form-control-sm" })
+                                </div>
+
+                                <div class="col-md-1">
+                                    <small>Fecha</small>
+                                    <input type="text" id="Fecha" name="Fecha" class="form-control form-control-sm fechadatepicker" required
+                                           data-validation-required-message="Ingrese una fecha">
+                                </div>
+
+                                <div class="col-md-2">
+                                    <small>CUIT</small>
+                                    @Html.TextBoxFor(m => m.Cuit, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                    @Html.ValidationMessageFor(m => m.Cuit, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+
+                                <div class="col-md-1">
+                                    <small>Cod Pais</small>
+                                    @Html.TextBoxFor(m => m.CodPaisAfip, new { @class = "form-control form-control-sm", @placeholder = "" })
+
+                                </div>
+
+                                <div class="col-md-2">
+                                    <small>Tipo Comprobante</small>
+                                    @Html.DropDownListFor(model => model.idTipoComprobanteSeleccionado, new List<SelectListItem>(), new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.idTipoComprobanteSeleccionado, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+
+                                <div class="col-md-2">
+                                    <small>Departamento</small>
+                                    @Html.DropDownList("idDepartamento", Model.Departamentos, null, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.idDepartamento, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-4">
+                                    <small>Dirección Factura</small>
+                                    @Html.DropDownListFor(model => model.IdDireccionCliente, new List<SelectListItem>(), "Seleccionar...", new { @class = "form-control form-control-sm" })
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <small>Tipo Pago</small>
+                                    @Html.DropDownList("IdTipoPago", Model.FormaPago, null, new { @class = "form-control form-control-sm" })
+                                </div>
+                                <div class="col-md-2">
+
+                                    <small>Nro Cbte</small>
+                                    @Html.TextBoxFor(m => m.NumeroFactura, new
+                                    {
+                                        @class = "form-control form-control-sm"
+
+                                    })
+                                </div>
+                                <div class="col-md-2">
+                                    <small>Oref</small>
+                                    @Html.TextBoxFor(m => m.ORef, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                    @Html.ValidationMessageFor(m => m.ORef, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+
+                                <div class="col-md-2">
+                                    <small>Yref</small>
+                                    @Html.TextBoxFor(m => m.YREf, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                    @Html.ValidationMessageFor(m => m.YREf, "", new { @class = "text-danger form-control-sm" })
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="card" style="margin-bottom:0px">
+
+                                Detalle de dirección
+
+                                <div class="row m-b-10 ">
+                                    <div class="col-sm-5">
+                                        @Html.TextBoxFor(m => m.Atencion, new { @class = "form-control form-control-sm", @placeholder = "Atención" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 text-right small" style="padding-top:5px;">Carpeta</label>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(m => m.nroCarpera, new { maxlength = 6, @class = "form-control form-control-sm" })
+                                            </div>
+                                            <label class="small" style="padding-top:5px;">/</label>
+                                            <div class="col-sm-3">
+                                                @Html.TextBoxFor(m => m.nroCarperaFinal, new { maxlength = 2, @class = "form-control form-control-sm" })
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+
+                                        <div class="row form-group">
+                                            <label class="col-sm-8 text-right small" style="padding-top:5px;">Factura Manual</label>
+                                            <div class="col-sm-4">
+                                                @Html.EditorFor(model => model.FacturaManual, new { @class = "form-check-input" })
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="row m-b-10 ">
+                                    <div class="col-sm-5">
+                                        @Html.TextBoxFor(m => m.NombreComp, new { @class = "form-control form-control-sm", @placeholder = "Nombre" })
+                                    </div>
+                                    <div class="col-sm-3">
+
+                                    </div>
+                                    <div class="col-sm-4" style="padding:1px;  border: 1px solid #28a745;">
+
+
+                                        <div class="row">
+
+                                            <div class="col-sm-5">
+                                                <small>Aplicar:  Tipo</small>
+                                                @Html.DropDownListFor(model => model.AplicaTipoCBT, new List<SelectListItem>(), "Seleccionar...", new { @class = "form-control form-control-sm" })
+                                                @Html.ValidationMessageFor(m => m.AplicaTipoCBT, "", new { @class = "text-danger form-control-sm" })
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <small>Nro. CBT</small>
+                                                @Html.TextBoxFor(m => m.AplicaNC, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                            </div>
+                                            <div class="col-sm-2">
+
+                                                <button type="button" id="BuscarFactura" class="btn btn-secondary btn-sm" style="margin-top:21px;"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                                <div class="row m-b-10">
+                                    <div class="col-sm-5">
+                                        @Html.TextBoxFor(m => m.DireccionCompuesta, new { @class = "form-control form-control-sm", @placeholder = "Dirección" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 text-right small" style="padding-top:5px">Moneda</label>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownList("idTipoMoneda", Model.TipoMonedas, null, new { @class = "form-control form-control-sm" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 text-left">
+                                        <div class="row form-group">
+                                            <label class="col-sm-5 text-center small" style="padding-top:5px">Idioma Factura</label>
+                                            <div class="col-sm-7">
+                                                @Html.DropDownList("IdTipoIdioma", Model.TipoIdioma, null, new { @class = "form-control form-control-sm" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row m-b-10">
+                                    <div class="col-sm-5">
+                                        @Html.TextBoxFor(m => m.PaisComp, new { @class = "form-control form-control-sm", @placeholder = "País" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="row form-group">
+                                            <label class="col-sm-4 text-right small" style="padding-top:5px">Cotización</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(m => m.Cotizacion, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row form-group">
+                                            <label class="col-sm-5 text-center small" style="padding-top:5px">Cuenta</label>
+                                            <div class="col-sm-7">
+                                                @Html.DropDownList("IdCuentaBancaria", Model.CuentaBancaria, null, new { @class = "form-control form-control-sm" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10 ">
+                                <div class="col-sm-7">
+                                    <small>Encabezado Factura</small>
+                                    @Html.TextAreaFor(m => m.EncabezadoFact, new { @class = "form-control form-control-sm", @rows = 4 })
+                                </div>
+                                <div class="col-sm-4">
+                                    <small>Notas</small>
+                                    @Html.TextAreaFor(m => m.Nota, new { @class = "form-control form-control-sm", @rows = 4 })
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <fieldset>
+                                        <legend>Detalle de la Facturación </legend>
+                                        <div class="row" id="ItemsCargaDatos">
+                                            <div class="col-md-2">
+                                                <small>Codigo</small>
+                                                <input type="text" id="txtCodigo" class="form-control form-control-sm" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small>Descripcion</small>
+                                                <input type="text" id="txtCodigoDescripcion" class="form-control form-control-sm" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <small>Monto</small>
+                                                <input type="text" id="txtMonto" class="form-control form-control-sm" />
+                                            </div>
+                                            <div class="col-md-2 m-t-20" id="ItemsCargaDatosBtn">
+                                                @*<button type="button" class="btn btn-info btn-circle btn-lg"><i class="fa fa-check"></i> </button>*@
+                                                <input type="button" id="ItemFact" class="btn btn-dark btn-sm" value="Agregar"
+                                                       onclick="fnAsignarItem()" />
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+
+
+                            <div class="row m-t-10">
+                                <div class="col-md-8" id="MostrarItems" style="display:none">
+                                    <table id="TblItemsFact" class="table table-bordered">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <td>Orden</td>
+                                                <td>Codigo</td>
+                                                <td>Descripcion</td>
+                                                <td>Valor</td>
+                                                <td class="text-center" id="ColumnaEliminar">Eliminar</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+
+                                    </table>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div id="Total" style="display:none">
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex no-block">
+                                                    <div class="align-self-center">
+                                                        <h4 class="text-muted m-t-10 m-b-0">Total:</h4>
+                                                        <h3 class="m-t-0">$<span id="LblTotalFactura"></span> </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2 text-left">
+                                    <div id="TotalAjuste" style="display:none">
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex no-block">
+                                                    <div class="align-self-center">
+                                                        <h4 class="text-muted m-t-10 m-b-0">Total Ajuste:</h4>
+                                                        <h3 class="m-t-0">
+                                                            $ @Html.TextBoxFor(m => m.MontoAjuste, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="text-right m-t-10">
+
+                        <button id="download" type="button" class="btn btn-info hide">Descargar PDF</button>
+                        <button id="NewCbt" type="button" class="btn btn-primary hide">Nuevo Comprobante</button>
+                        <button id="btnGuardar" type="submit" onclick="Validacion(event)" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+
+<!-- Modal Factura -->
+<div Class="modal fade" id="modalFactura" role="dialog">
+    <div Class="modal-dialog modal-xl ">
+        <!-- Modal content-->
+        <div Class="modal-content">
+            <div Class="modal-header">
+                <h6 Class="modal-title">Factura</h6>
+
+                <Button type="button" Class="close" data-dismiss="modal">&times;</Button>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <input id="factura"
+                                   name="factura"
+                                   type="hidden"
+                                   value="" />
+                            <iframe id="output" src=""></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary waves-effect text-left" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div id="Content_qr_code" class="hide">
+
+</div>
+<input id="IdComprobanteAFIP"
+       name="IdComprobanteAFIP"
+       type="hidden"
+       value="" />
+
+
+
+@section Scripts {
+
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/js/mask.js"></script>
+    <script src="~/Scripts/qr/QR/qrcode.js"></script>
+    <script src="~/Scripts/jspdf/fontjs/jspdf.debug.js"></script>
+    <script src="~/Scripts/jspdf/jspdf.customfonts.min.js"></script>
+    <script src="~/Scripts/jspdf/arial-unicode-ms/arialu_vfs.js"></script>
+    <script src="~/Scripts/view/Reporte/ReportesJSPDF.js"></script>
+
+    <script>
+
+        jQuery('.fechadatepicker').datepicker({
+            language: 'es',
+            autoclose: true,
+            format: 'dd/mm/yyyy',
+            todayHighlight: true
+
+        }).datepicker('setDate', new Date());
+
+        //autocompletar de los clientes
+        $('#NombreCliente').autocomplete({
+            source: function (request, response) {
+                $.getJSON("/Factura/GetListClienteJson/", request, function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            id: item.id,
+                            value: item.label
+                        }
+                    }))
+                })
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                getCliente(ui.item.id)
+                $("#IdCliente").val(ui.item.id);
+                return false;
+            }
+
+        });
+
+        function getCliente(codigo) {
+            $.getJSON("/Factura/GetClienteJson",
+                { IdCliente: codigo },
+                function (data) {
+                    var cliente = JSON.parse(data);
+
+                    var puntoVenta;
+                    if (cliente.IdTipoCliente == 2) {
+                        puntoVenta = 2;//exterior
+                    }
+                    else {
+                        puntoVenta = 1;//local
+                    }
+
+                    $("#IdPuntoVenta option[value=" + puntoVenta + "]").attr('selected', 'true');
+                    $("#IdPuntoVenta").val(puntoVenta);
+
+                    $("#NombreCliente").val(cliente.Nombre);
+                    $("#CodigoCliente").val(cliente.Codigo);
+
+                    $("#NombreComp").val(cliente.Nombre);
+                    $("#idImputacion").val(cliente.IdImputacion);
+
+
+                    $("#IdCliente").val(cliente.Id);
+                    $("#idTipoIva").val(cliente.IdTipoiva);
+                    $("#mipyme").val(cliente.MiPyme);
+
+
+                    $("#IdTipoIdioma").val(cliente.IdIdioma);
+                    $("#idTipoMoneda").val(cliente.IdTipoMoneda);
+                    $("#IdCuentaBancaria").val(cliente.IdBancoCuenta);
+
+                    if (cliente.PieNota) {
+                        $("#Nota").val(cliente.PieNota.Nota);
+                    }
+
+                    $("#idTipoComprobanteSeleccionado").empty();
+                    $.each(cliente.ListaComprobantesDrop, function (index, row) {
+                        $("#idTipoComprobanteSeleccionado").append("<option value='" + row.Value + "'>" + row.Text + "</option>")
+                    });
+                    ChangeTipoCBT($("#idTipoComprobanteSeleccionado").val());
+
+                    $("#AplicaTipoCBT").empty();
+                    $("#AplicaTipoCBT").append("<option value> Seleccionar ...</option>")
+                    $.each(cliente.ListaComprobantesDrop, function (index, row) {
+                        $("#AplicaTipoCBT").append("<option value='" + row.Value + "'>" + row.Text + "</option>")
+                    });
+
+                    $("#IdDireccionCliente").empty();
+                    $("#IdDireccionCliente").append("<option value> Seleccionar ...</option>")
+                    $.each(cliente.ClienteDireccion, function (index, row) {
+                        $("#IdDireccionCliente").append("<option value='" + row.Id + "'>" + row.Direccion + "</option>")
+                    });
+
+
+                });
+
+        }
+
+
+        $('#txtCodigo').autocomplete({
+            source: function (request, response) {
+                $.getJSON("/Factura/GetListCodigoJson/", request,
+                    function (data) {
+                        response($.map(data, function (item) {
+
+                            return {
+                                id: item.id,
+                                value: item.label
+                            }
+
+                        }))
+                    })
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                getArticulo(ui.item.id)
+                $("#IdArticulo").val(ui.item.id);
+                return false;
+            }
+
+        });
+
+        function getArticulo(cod) {
+            $.getJSON("/Factura/GetCodigoJson",
+                { IdArticulo: cod },
+                function (data) {
+                    var articulo = JSON.parse(data);
+                    $("#txtCodigo").val(articulo.Codigo);
+                    if ($("#IdTipoIdioma").val() == 1) {
+                        $("#txtCodigoDescripcion").val(articulo.DescripcionCastellano);
+                    }
+                    else {
+                        $("#txtCodigoDescripcion").val(articulo.DescripcionIngles);
+                    }
+
+
+                });
+
+        }
+
+        function fnAsignarItem() {
+            var codigo = $("#txtCodigo").val();
+            var descripcion = $("#txtCodigoDescripcion").val();
+            var monto = $("#txtMonto").val();
+
+            var item = $('#TblItemsFact >tbody >tr').length;
+
+            $("#ColumnaEliminar").css("display", "block");
+            if (codigo != "" && descripcion != "" && monto != "") {
+                item += 1;
+
+                var botonEliminar = "<button type='button' class='btn btn-danger btn-sm' onclick='el(" + item + ")'> <i class='fa fa-times'></i> </button>";
+
+                $('#TblItemsFact > tbody:last-child').append("<tr><td class='text-center'>" + item + "</td><td class='text-center'>" + codigo + "</td><td>" + descripcion + "</td><td class='text-right'>" + monto + "</td><td class='text-center'>" + botonEliminar + "</td></tr>");
+                $("#txtCodigo").val('');
+                $("#txtCodigoDescripcion").val('');
+                $("#txtMonto").val('');
+
+
+                SumarMontoTotal();
+                CargarItems();
+            }
+            else {
+                alert("Faltan datos");
+            }
+
+            if (item >= 1) {
+                $("#MostrarItems").css("display", "block");
+            }
+            //else {
+            //    $("#MostrarItems").css("display", "none");
+            //}
+
+        }
+
+        function CargarItems() {
+            $("#hdnArticulos").val('');
+
+            let arrayItems = [];
+
+            $('#TblItemsFact tbody tr').each(function () {
+                let ObjItem = {
+                    id: $(this).find("td").eq(0).html(),
+                    codigo: $(this).find("td").eq(1).html(),
+                    descripcion: $(this).find("td").eq(2).html(),
+                    valor: $(this).find("td").eq(3).html()
+                };
+                arrayItems.push(ObjItem);
+
+            })
+            $("#hdnArticulos").val(JSON.stringify(arrayItems));
+
+        }
+
+        function SumarMontoTotal() {
+            var total_col1 = 0;
+            $('#TblItemsFact tbody').find('tr').each(function (i, el) {
+
+                //Voy incrementando las variables segun la fila ( .eq(0) representa la fila 1 )
+                total_col1 += parseFloat($(this).find('td').eq(3).text());
+
+            });
+
+            if (total_col1 > 0) {
+                $("#Total").css("display", "block");
+                $("#LblTotalFactura").html(total_col1.toFixed(2));
+                $("#TotalFactura").val(total_col1);
+            }
+            else {
+                $("#Total").css("display", "none");
+                $("#TotalFactura").val(0);
+            }
+
+        }
+
+        function el(e) {
+            var index = e - 1;
+            $("table tr:eq(" + e + ")").remove();
+            var item = $('#TblItemsFact >tbody >tr').length;
+
+            $('#TblItemsFact > tbody  > tr').each(function (index1, tr) {
+                var a = index1 + 1;
+                $($('#TblItemsFact').find('tbody > tr')[index1]).children('td')[0].innerHTML = a;
+                var botonEliminar = "<button type='button' class='btn btn-danger btn-sm' onclick='el(" + a + ")'> <i class='fa fa-times'></i> </button>";
+                var td = $($('#TblItemsFact').find('tbody > tr')[index1]).children('td')[4];
+                td.innerHTML = botonEliminar;
+            });
+            //}
+            SumarMontoTotal();
+            CargarItems();
+        }
+
+        $('#BuscarFactura').on('click', function () {
+
+            var idCliente = $("#IdCliente").val();
+            var nroFactura = $("#AplicaNC").val();
+            var tipoComprobante = $("#idTipoComprobanteSeleccionado").val();
+            var tipoComprobanteNC = $("#AplicaTipoCBT").val();
+
+            if (idCliente != 0 && nroFactura != '' && tipoComprobante != '' && (tipoComprobante != '1' || tipoComprobanteNC == 4)) {
+                //           if (idCliente != 0 && nroFactura != '' && tipoComprobante != '' ) {
+
+                $.getJSON("/Factura/GetObtenerFacturaJson",
+                    {
+                        idCliente: idCliente,
+                        nroFactura: nroFactura,
+                        tipocbt: tipoComprobanteNC,
+                        idPuntoVenta: $("#IdPuntoVenta").val(),
+                    },
+                    function (data) {
+                        var resultado = JSON.parse(data);
+                        if (resultado) {
+                            $("#idTipoMoneda").val(resultado.factura.IdMoneda);
+                            $("#EncabezadoFact").val(resultado.factura.Concepto);
+                            if (resultado.factura.IdMoneda != 1) {
+                                $("#Cotizacion").val(resultado.factura.Cotiza);
+                            }
+                            $("#ORef").val(resultado.factura.ORef);
+                            $("#YREf").val(resultado.factura.YRef);
+                            $("#idDepartamento").val(resultado.factura.IdDto);
+                           
+                            //add Edgardo  Cargar idAplicaCBT y TotalAplicaCBT
+                            $("#IdAplicaCBT").val(resultado.factura.NumeroCobro); // Asigna el idAplicaCBT
+                            $("#TotalAplicaCBT").val(resultado.factura.Saldo); // Asigna el TotalAplicaCBT  
+                            console.log(resultado.factura.NumeroCobro); // Debe imprimir 5310
+                            console.log($("#IdAplicaCBT").length); // Debería imprimir '1' si el elemento existe  
+                            //var item = 0;
+                            var item = $('#TblItemsFact >tbody >tr').length;
+                            if (item == 0) {
+                                for (var clave in resultado.items) {
+                                    item += 1;
+                                    console.log(clave); // Debe imprimir 5310
+                                    $('#TblItemsFact > tbody:last-child').append("<tr><td class='text-center'>" + item + "</td><td class='text-center'>" + resultado.items[clave].Codigo + "</td><td>" + resultado.items[clave].Descripcion + "</td><td class='text-right'>" + resultado.items[clave].Precio + "</td><td class='text-center'> <button type = 'button' class= 'btn btn-danger btn-sm' onclick = 'el(" + item + ")' > <i class='fa fa-times'></i> </button></td>  </tr>");
+                                    SumarMontoTotal();
+                                }
+                                CargarItems();
+                                $("#MostrarItems").css("display", "block");
+                            }
+                        } else {
+                            //limpiar tabla item
+                            var item = $('#TblItemsFact >tbody >tr').length;
+                            $('#TblItemsFact > tbody:last-child').replaceAll();
+
+                            alert("Ingrese el cliente y el nro factura para buscar o verifique el tipo de comprobante");
+                        }
+
+                    });
+            }
+            else {
+
+                alert("Ingrese el cliente y el nro factura para buscar o verifique el tipo de comprobante");
+            }
+        });
+
+        $('#IdDireccionCliente').on('change', function () {
+            var idDir = this.value;
+            $.getJSON("/Factura/GetDireccionJson",
+                { idDireccion: idDir },
+                function (data) {
+                    var direccion = JSON.parse(data);
+
+                    var cuitLimpio;
+                    if ($("#IdPuntoVenta").val() == 1) {
+                        $("#DireccionCompuesta").val((direccion.Direccion != null ? direccion.Direccion : ' ') + ' / ' + (direccion.Provincia.Nombre != null ? direccion.Provincia.Nombre : '') + ' / ' + (direccion.Localidad.Nombre != null ? direccion.Localidad.Nombre : ''));
+                        cuitLimpio = direccion.Cuit;
+                    }
+                    else {
+                        $("#DireccionCompuesta").val((direccion.Direccion != null ? direccion.Direccion : ' ') + ' / ' + (direccion.Provincia.Nombre != null ? direccion.Provincia.Nombre : ''));
+
+                        cuitLimpio = direccion.Cuit.replaceAll("-", "");
+                    }
+
+                    $("#Cuit").val(cuitLimpio);
+                    $("#CuitSeleccionado").val(direccion.Cuit);
+                    $("#CodPaisAfip").val(direccion.CodigoAfip);
+                    $("#idPais").val(direccion.Pais.Id);
+                    $("#idProvincia").val(direccion.Provincia.Id);
+
+                    $("#PaisComp").val(direccion.Pais.Nombre);
+
+                });
+        });
+
+        $('#idTipoMoneda').on('change', function () {
+            var idTipoMoneda = this.value;
+            $.getJSON("/Factura/GetCotizacionJson",
+                { IdMoneda: idTipoMoneda },
+                function (data) {
+                    var resultado = JSON.parse(data);
+                    console.log(resultado);
+                    $("#Cotizacion").val(parseFloat(resultado.Importe).toFixed(2));
+                });
+        });
+
+        $('#IdCuentaBancaria').on('change', function () {
+            var idCuenta = this.value;
+            $.getJSON("/Factura/GetPieNotaJson",
+                { idCodigoCuentaBancaria: idCuenta },
+                function (data) {
+                    var pieNota = JSON.parse(data);
+                    if (pieNota) {
+                        $("#Nota").val(pieNota.Nota);
+                    }
+                });
+        });
+
+        $('#idTipoComprobanteSeleccionado').on('change', function () {
+
+            ChangeTipoCBT(this.value);
+        });
+        $('#idPuntoVenta').on('change', function () {
+
+            ChangeTipoCBT(this.value);
+        });
+
+
+        function ChangeTipoCBT(cbt) {
+            $('table tbody tr').remove();
+            $("#MostrarItems").css("display", "none");
+            $("#Total").css("display", "none");
+            $("#TotalAjuste").css("display", "none");
+            $("#AplicaNC").val('');
+            $.getJSON("/Factura/GetProximoNroCBTJson",
+                {
+                    IdPuntoVenta: $("#IdPuntoVenta").val(),
+                    tipoComprobante: cbt,
+                    miPyme: $("#mipyme").val()
+                },
+                function (response) {
+                    $("#NumeroFactura").val(response.data);
+                });
+
+        }
+
+        function Validacion(event) {
+            var cantidad = 7;
+            var contralor = 0;
+
+            event.preventDefault();
+
+            if ($("#ORef").val() != '') {
+                contralor += 1;
+                $("#ORef").css("border-color", "");
+            }
+            else {
+                $("#ORef").css("border-color", "red");
+            }
+
+            if ($("#YREf").val() != '') {
+                contralor += 1;
+                $("#YREf").css("border-color", "");
+            }
+            else {
+                $("#YREf").css("border-color", "red");
+            }
+            if ($("#Cuit").val() != '') {
+                contralor += 1;
+                $("#Cuit").css("border-color", "");
+            }
+            else {
+                $("#Cuit").css("border-color", "red");
+            }
+
+            if ($("#idDepartamento").val() != 0) {
+                contralor += 1;
+                $("#idDepartamento").css("border-color", "");
+            }
+            else {
+                $("#idDepartamento").css("border-color", "red");
+            }
+
+            if ($("#IdCuentaBancaria").val() != 0) {
+                contralor += 1;
+                $("#IdCuentaBancaria").css("border-color", "");
+            }
+            else {
+                $("#IdCuentaBancaria").css("border-color", "red");
+            }
+
+            if ($("#CodPaisAfip").val() != 0) {
+                contralor += 1;
+                $("#CodPaisAfip").css("border-color", "");
+            }
+            else {
+                $("#CodPaisAfip").css("border-color", "red");
+            }
+
+            if ($("#LblTotalFactura").html() != '') {
+                contralor += 1;
+            }
+
+
+            if (cantidad == contralor) {
+                $("#btnGuardar").toggle('hide');
+                $("#FrmGrabar").submit();
+            }
+            else {
+                alert("Faltan datos ");
+                return false;
+            }
+
+        }
+
+
+        $("#FrmGrabar").submit(function (event) {
+
+            event.preventDefault(); //prevent default action
+
+            $('#modal_Cargando').modal({ backdrop: 'static', keyboard: false });
+            $('#modal_Cargando').modal("show");
+
+            var post_url = $(this).attr("action"); //get form action url
+            var request_method = $(this).attr("method"); //get form GET/POST method
+            var form_data = $(this).serialize(); //Encode form elements for submission
+
+            $.ajax({
+                url: post_url,
+                type: request_method,
+                data: form_data
+            }).done(function (resp) {
+                if (resp.result) {
+                    toastr.success("Comprobante guardado correctamente");
+                    var division = document.getElementById("Content_qr_code");
+                    var divQr = document.createElement("div");
+                    var contenedor = "QR_" + resp.data.idComprobante;
+                    divQr.setAttribute("id", contenedor);
+                    divQr.setAttribute("class", "hide");
+                    division.appendChild(divQr);
+                    var p = resp.data.qr;
+                    new QRCode(contenedor, {
+                        text: "https://serviciosweb.afip.gob.ar/genericos/comprobantes/cae.aspx?p=" + p,
+                        width: 128,
+                        height: 128,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                    $("#IdCliente").val(resp.data.idCliente);
+                    $("#IdComprobanteAFIP").val(resp.data.idComprobante);
+
+                    $("#download").toggle('hide');
+                    $("#btnGuardar").toggle('hide');
+                    $("#NewCbt").toggle('hide');
+                } else {
+                    toastr.info("Comprobante no guardado " + resp.data);
+                    //alert("Comprobante no guardado " + resp.data)
+                    $("#modalFactura").modal('show');
+                    return false;
+                }
+                $('#modal_Cargando').modal("hide");
+                $('.modal-backdrop').remove();
+
+            });
+            $('#modal_Cargando').modal("hide");
+            $('.modal-backdrop').remove();
+
+        });
+
+        $('#modalFactura').on('hidden.bs.modal', function (e) {
+            location.href = "/Factura/index";
+        })
+
+        $(document).ready(function () {
+
+            $("#NewCbt").click(function () {
+                location.href = "/Factura/index";
+            });
+
+            $("#download").click(function () {
+
+                $.getJSON("/Cliente/GetFacturaJson",
+                    { idCliente: $("#IdCliente").val(), idComprobante: $("#IdComprobanteAFIP").val() },
+                    function (resp) {
+
+                        if (resp.result) {
+                            var facturaJson = JSON.parse(resp.data);
+                            var funcStr = "factura";
+                            var doc = ComprobantesCliente[funcStr](facturaJson);
+                            document.getElementById("output").src = doc.output('datauristring');
+
+                            var Buque = facturaJson.Header;
+                            var index = Buque.indexOf('-');
+                            if (index < 0) {
+                                subcadena = '';
+                            } else {
+                                subcadena = facturaJson.Header.substring(0, index);
+                            }
+                            var NroCbte = facturaJson.NumeroComprobante;
+
+                            var n = "Comprobante_" + subcadena + " # " + NroCbte;
+
+                            doc.save(n);
+                        }
+                        $("#modalFactura").modal('show');
+                    });
+                $("#download").toggle('hide');
+                $("#btnGuardar").toggle('hide');
+                $("#NewCbt").toggle('hide');
+            });
+
+
+
+
+        });
+    </script>
+
+
+
+}

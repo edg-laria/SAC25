@@ -1,0 +1,389 @@
+﻿@model SAC.Models.FacturaPagoViewModel
+@{
+    ViewBag.Title = "Pagar Factura";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-xlg-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row m-b-40">
+                    <div class="col-md-12">
+                        <h5 class="card-title">Pagos Facturas Proveedores :  @Html.Raw(Model.Proveedor.Nombre.ToUpper()) </h5>
+                        @using (Html.BeginForm("FacturaPago", "CuentaCteProveedor", FormMethod.Post, new { @id = "frmPagar" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.Proveedor.Id)
+
+
+                            <div class="table-responsive">
+                                <table id="TblFacturas" class="table stylish-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center"> Sel.</th>
+                                            <th class="text-center"> Tipo</th>
+                                            <th class="text-center"> Fecha</th>
+                                            <th class="text-center"> Punto de Vta. </th>
+                                            <th class="text-center"> Nro. de Factura</th>
+                                            <th class="text-center"> Total</th>
+                                            <th class="text-center"> Parcial</th>
+                                            <th class="text-center"> Saldo</th>
+                                            <th class="text-center"> Moneda</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ListaFacturas)
+                                        {
+                                        <tr>
+                                            <td class="text-center"><input type="checkbox" class="check Seleccionable" id=@item.Id value=@item.Saldo></td>
+                                            <td class="text-center">@Html.DisplayFor(modelItem => item.TipoComprobante.Abreviatura)</td>
+                                            <td class="text-center">@Html.DisplayFor(modelItem => item.Fecha)</td>
+                                            <td class="text-center">@Html.DisplayFor(modelItem => item.PuntoVenta)</td>
+                                            <td class="text-center">@Html.DisplayFor(modelItem => item.NumeroFactura)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.Total)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.Parcial)</td>
+                                            <td class="text-right">@Html.DisplayFor(modelItem => item.Saldo)</td>
+                                            <td class="text-center">@Html.DisplayFor(modelItem => item.TipoMoneda.Descripcion)</td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h4>Medios de pago</h4>
+
+                            @Html.Hidden("idFacturas")
+                            @Html.Hidden("idChequesPropios")
+                            @Html.Hidden("idChequesTerceros")
+                            @Html.Hidden("idCuentasBancarias")
+                            @Html.Hidden("idTarjeta")
+
+                            <div class="row  justify-content-md-center">
+                                @* efectivo *@
+                                <div class="row col-md-12  m-t-10">
+                                    <div class="col-md-6 text-right"></div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="row ">
+                                            <div class="col-6  text-right"><small>Total de Saldos</small></div>
+                                            <div class="col-6">@Html.TextBox("TotalSaldo", Model.ListaFacturas.Sum(x => x.Saldo).ToString(), new { @class = "form-control form-control-sm", @readOnly = true })</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @* efectivo *@
+                                <div class="row col-md-12  m-t-10">
+                                    <div class="col-md-6 text-right"></div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="row ">
+                                            <div class="col-6  text-right">
+                                                @Html.LabelFor(m => m.TotalAPagar, new { @class = "control-label form-control-sm" })
+                                            </div>
+                                            <div class="col-6">
+                                                @Html.TextBoxFor(m => m.TotalAPagar, new { @class = "form-control form-control-sm", @placeholder = "", @readonly = true })
+                                                @Html.ValidationMessageFor(m => m.TotalAPagar, "", new { @class = "text-danger form-control-sm" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @* efectivo *@
+                                <div class="row col-md-12  m-t-10">
+                                    <div class="col-md-6 text-right"></div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="row ">
+                                            <div class="col-6  text-right">
+                                                @Html.LabelFor(p => p.efectivo, new { @class = "control-label form-control-sm" })
+                                            </div>
+                                            <div class="col-6">
+
+                                                @*@Html.EditorFor(p => p.efectivo, new { htmlAttributes = new { @type = "number", @min = "1", @class = "form-control form-control-sm",  @id = "efectivo" } })
+                                                    @Html.ValidationMessage("efectivo", new { @class = "text-danger" })*@
+                                                @Html.TextBoxFor(m => m.efectivo, new { @class = "form-control form-control-sm", @placeholder = "" })
+                                                @Html.ValidationMessageFor(m => m.efectivo, "", new { @class = "text-danger form-control-sm" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                @* cheque *@
+                                <div class="row col-md-12 m-t-10">
+                                    <div class="col-md-6 text-right">
+                                        <input type="button" class="btn btn-secondary" id="btnSelCheque" onclick="fnVerModalCheques();" value="Cheque" disabled>
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="row">
+                                            <div class="col-md-6  text-right">
+                                                @Html.LabelFor(p => p.montoChequesSeleccionados, new { @class = "control-label form-control-sm" })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.EditorFor(p => p.montoChequesSeleccionados, new { htmlAttributes = new { @class = "form-control form-control-sm", @readOnly = true } })
+                                                @Html.ValidationMessage("montoChequesSeleccionados", new { @class = "text-danger form-control-sm" })
+                                                @*<input type="text" class="form-control" id="montoChequesSeleccionados" placeholder="Sin valor" readonly="readonly">*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                @* tranferencia *@
+                                <div class="row col-md-12 m-t-10">
+                                    <div class="col-md-6 text-right">
+                                        <input type="button" class="btn btn-secondary" id="btnSelTransferencia" onclick="fnVerModalTranferencia();" value="Transferencia" disabled>
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="row">
+                                            <div class="col-md-6  text-right">
+                                                @Html.LabelFor(p => p.montoTranferencia, new { @class = "control-label form-control-sm" })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.EditorFor(p => p.montoTranferencia, new { htmlAttributes = new { @class = "form-control form-control-sm", @readOnly = true } })
+                                                @Html.ValidationMessage("montoTranferencia", new { @class = "text-danger form-control-sm" })
+                                                @*<input type="text" class="form-control" id="montoTranferenciaSeleccionados" placeholder="Sin valor" readonly="readonly">*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                @* tarjeta *@
+                                <div class="row col-md-12 m-t-10">
+                                    <div class="col-md-6 text-right">
+                                        <input type="button" class="btn btn-secondary" id="btnSelTarjeta" onclick="fnVerModalTarjetas();" value="Tarjeta" disabled>
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="row">
+                                            <div class="col-md-6  text-right">@Html.LabelFor(p => p.montoTarjetaSeleccionados, new { @class = "control-label form-control-sm" })</div>
+                                            <div class="col-md-6">
+                                                @Html.EditorFor(p => p.montoTarjetaSeleccionados, new { htmlAttributes = new { @class = "form-control form-control-sm", @readOnly = true } })
+                                                @Html.ValidationMessage("montoTarjetaSeleccionados", new { @class = "text-danger form-control-sm" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @* diferencia *@
+                                <div class="row col-md-12 m-t-10">
+                                    <div class="col-md-6 text-right">
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="row">
+                                            <div class="col-md-6  text-right">
+                                                @Html.LabelFor(p => p.Diferencia, new { @class = "control-label form-control-sm" })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.EditorFor(p => p.Diferencia, new { htmlAttributes = new { @class = "form-control form-control-sm", @readOnly = true } })
+                                                @Html.ValidationMessage("Diferencia", new { @class = "text-danger form-control-sm" })
+                                                @*<input type="text" class="form-control" id="Diferencia" placeholder="Sin valor"  readonly="readonly">*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @* diferencia *@
+                                <div class="row col-md-12 m-t-10">
+                                    <div class="col-md-6 text-right">
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="row">
+                                            <div class="col-md-6  text-right">
+                                                @Html.Label("Seleccione Presupuesto", new { @class = "control-label form-control-sm" })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.DropDownList("idPresupuesto", Model.ListaPresupuestoActual, null, new { @class = "form-control form-control-sm" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12 text-right ">
+                                    <button type="submit" id="btnConfirmar" class="btn btn-success">Confirmar Pago</button>
+                                </div>
+                            </div>
+
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalCheques" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Cheques</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">×</button>
+            </div>
+
+            <div class="modal-body">
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a href="#Terceros" data-toggle="tab" aria-expanded="true" class="nav-link active tabTerceros">
+                            <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Terceros</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#Propios" data-toggle="tab" aria-expanded="false" class="nav-link  tabPropios">
+                            <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                            <span class="d-none d-lg-block">Propios</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="Terceros">
+                        @Html.Partial("_tablaChequesTerceros", Model.ListaChequesTerceros)
+
+                    </div>
+
+                    <div class="tab-pane show" id="Propios">
+                        @Html.Partial("_TablaChequesPropios", Model.oChequera)
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-md-center" style="display: inline;">
+
+                <div class="row ">
+                    <div class="col-md-2 m-l-15 ">
+                        <small>A pagar:</small>
+                    </div>
+                    <div class="col-md-2 ">
+                        <small id="ImporteAPagarCheque"></small>
+                    </div>
+                    <div class="col-md-2 ">
+                        <small>Total cheques:</small>
+                    </div>
+                    <div class="col-md-2 ">
+                        <small id="TotalChequeSeleccionados"></small>
+                    </div>
+                    <div class="col-md-2 ">
+                        <button type="button" class="btn btn-success btn-sm" onclick="fnAsignarCheque()">Asignar Cheques</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="ModalTranferencia" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccione Cuenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div id="Resultados1"></div>
+            </div>
+
+            <div class="modal-footer text-right">
+                <div style="padding:1em;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="fnAsignarCuentaBancaria()">Asignar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="ModalTarjetas" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccione Tarjeta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div id="Resultados2"></div>
+            </div>
+
+            <div class="modal-footer text-right">
+                <div style="padding:1em;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="fnAsignarTarjeta()">Asignar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade ModalConfirmaEliminar" id="ModalConfirmaEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Aviso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Ajax.BeginForm("QuitarCheque", "", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "divPagina",
+                OnComplete = "onCompleteQuitarCheque",
+
+            }, new { @id = "FormQuitarCheque" }))
+            {
+                <div class="modal-body">
+
+                    <h3> ¿Está seguro que desea eliminar el registro?</h3>
+
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("IdCheque")
+                </div>
+                <div class="text-center p-10">
+                    <button type="button" class="btn btn-secondary btn-sm " data-dismiss="modal">Cancelar</button>                  
+                    <button type="submit" class="btn btn-danger btn-sm">Aceptar</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="/Content/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+
+    <!-- This is data table -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="~/Content/assets/plugins/datatables/jsTable/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.flash.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/jszip.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/pdfmake.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/vfs_fonts.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.html5.min.js"></script>
+    <script src="~/Content/assets/plugins/datatables/jsTable/buttons.print.min.js"></script>
+    <script src="~/Scripts/view/CtaCteProveedor.js"></script>
+   
+}

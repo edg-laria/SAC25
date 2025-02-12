@@ -1,0 +1,6 @@
+----------------------------------------               
+----------------------------------------               
+2024-02-29 17:15:46.0951 ERROR Message: ServicioCompras >> RegistrarPagosFacturas                
+	ErrorTitle: ServicioCompras >> RegistrarPagosFacturas               
+	ErrorSummary: Referencia a objeto no establecida como instancia de un objeto.               
+	ErrorDetails:    en Negocio.Servicios.ServicioCompra.RegistrarPagosFacturas(List`1 oListaFacturas, PagosFacturasModel oMediosPago) en F:\PandiNet\Negocio\Servicios\ServicioCompra.cs:línea 889
