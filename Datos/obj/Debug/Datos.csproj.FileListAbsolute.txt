@@ -1,0 +1,40 @@
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Datos.dll.config
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Datos.dll
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Datos.pdb
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Entidad.dll
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\EntityFramework.dll
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\EntityFramework.SqlServer.dll
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Z.EntityFramework.Extensions.dll
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Z.Expressions.Eval.dll
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Entidad.pdb
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\EntityFramework.xml
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\EntityFramework.SqlServer.xml
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Z.EntityFramework.Extensions.xml
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Z.EntityFramework.Plus.EF6.xml
+E:\.Net ASP\SAC\B20230921\Datos\bin\Debug\Z.Expressions.Eval.xml
+E:\.Net ASP\SAC\B20230921\Datos\obj\Debug\Datos.csprojAssemblyReference.cache
+E:\.Net ASP\SAC\B20230921\Datos\obj\Debug\Datos.csproj.CoreCompileInputs.cache
+E:\.Net ASP\SAC\B20230921\Datos\obj\Debug\Datos.csproj.CopyComplete
+E:\.Net ASP\SAC\B20230921\Datos\obj\Debug\Datos.dll
+E:\.Net ASP\SAC\B20230921\Datos\obj\Debug\Datos.pdb
+F:\PandiNet\Datos\bin\Debug\Datos.dll.config
+F:\PandiNet\Datos\bin\Debug\Datos.dll
+F:\PandiNet\Datos\bin\Debug\Datos.pdb
+F:\PandiNet\Datos\bin\Debug\Entidad.dll
+F:\PandiNet\Datos\bin\Debug\EntityFramework.dll
+F:\PandiNet\Datos\bin\Debug\EntityFramework.SqlServer.dll
+F:\PandiNet\Datos\bin\Debug\Z.EntityFramework.Extensions.dll
+F:\PandiNet\Datos\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+F:\PandiNet\Datos\bin\Debug\Z.Expressions.Eval.dll
+F:\PandiNet\Datos\bin\Debug\Entidad.pdb
+F:\PandiNet\Datos\bin\Debug\EntityFramework.xml
+F:\PandiNet\Datos\bin\Debug\EntityFramework.SqlServer.xml
+F:\PandiNet\Datos\bin\Debug\Z.EntityFramework.Extensions.xml
+F:\PandiNet\Datos\bin\Debug\Z.EntityFramework.Plus.EF6.xml
+F:\PandiNet\Datos\bin\Debug\Z.Expressions.Eval.xml
+F:\PandiNet\Datos\obj\Debug\Datos.csproj.AssemblyReference.cache
+F:\PandiNet\Datos\obj\Debug\Datos.csproj.CoreCompileInputs.cache
+F:\PandiNet\Datos\obj\Debug\Datos.csproj.CopyComplete
+F:\PandiNet\Datos\obj\Debug\Datos.dll
+F:\PandiNet\Datos\obj\Debug\Datos.pdb

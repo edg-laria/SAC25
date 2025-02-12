@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3DCE2E06-D1DE-4002-AD76-DDD0442112DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Datos</RootNamespace>
+    <AssemblyName>Datos</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Z.EntityFramework.Extensions, Version=8.103.6.2, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Extensions.8.103.6.2\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=8.103.6.2, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Plus.EF6.8.103.6.2\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="Z.Expressions.Eval, Version=6.2.2.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.Expressions.Eval.6.2.2\lib\net45\Z.Expressions.Eval.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IRepositorio.cs" />
+    <Compile Include="Interfaces\IUsuarioRepositorio.cs" />
+    <Compile Include="ModeloDeDatos\Accion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\AccionPorRol.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\AfipCategorias.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\AfipRegimen.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Afip_TicketAcceso.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Articulo.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Banco.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\BancoCuenta.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\BancoCuentaBancaria.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Buque.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Caja.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CajaSaldo.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CajaTipoMovimiento.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Cheque.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Chequera.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Cliente.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\ClienteDireccion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CompraFactura.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CompraFacturaPago.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CompraIva.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CompraIvaVista.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CompraRegistroDetalle.cs" />
+    <Compile Include="ModeloDeDatos\ConsultaCtaBria.cs" />
+    <Compile Include="ModeloDeDatos\ConsultaFacturaVentaIva.cs" />
+    <Compile Include="ModeloDeDatos\ConsultaIvaTotales.cs" />
+    <Compile Include="ModeloDeDatos\ConsultaIvaVenta.cs" />
+    <Compile Include="ModeloDeDatos\Contacto.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Cotiza.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CtaCteResumen.cs" />
+    <Compile Include="ModeloDeDatos\CuentaCorriente.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\CuentaCorrienteProveedorDetalles.cs" />
+    <Compile Include="ModeloDeDatos\Departamento.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Diario.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Dto.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Entidades.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Entidades.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Entidades.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Entidades1.Designer.cs">
+      <DependentUpon>Entidades.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="ModeloDeDatos\EstadoCivil.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Evento.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\FacturaElectronica.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\FactVenta.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\FactVentaCobro.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\GrupoCaja.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\GrupoCuenta.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\GrupoPresupuesto.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\homePorRol.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Imputacion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\ItemImpre.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\IvaVenta.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Localidad.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\MenuSidebar.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Notificacion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Pais.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Persona.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\PieNota.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\PrespuestoActual.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\PresupuestoCosto.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\PresupuestoHistorico.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\PresupuestoItem.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Prioridad.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Proveedor.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Provincia.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\REGISTRO.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Retencion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Rol.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Rubro.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\SubRubro.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TablaRetencion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TarjetaOperacion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Tarjetas.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoCliente.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoComprobante.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoComprobanteTipoIva.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoComprobanteVenta.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoIdioma.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoIva.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoMoneda.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoPago.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoProveedor.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TipoRetencion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TrackingFacturaCobroVenta.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\TrackingFacturaPagoCompra.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\Usuario.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloDeDatos\ValorCotizacion.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorios\Afip_TicketAccesoRepositorio.cs" />
+    <Compile Include="Repositorios\ArticuloRepositorio.cs" />
+    <Compile Include="Repositorios\BancoCuentaBancariaRepositorio.cs" />
+    <Compile Include="Repositorios\BancoCuentaRepositorio.cs" />
+    <Compile Include="Repositorios\BuqueRespositorio.cs" />
+    <Compile Include="Repositorios\CajaGrupoRepositorio.cs" />
+    <Compile Include="Repositorios\CajaRepositorio.cs" />
+    <Compile Include="Repositorios\CajaSaldoRepositorio.cs" />
+    <Compile Include="Repositorios\ChequeraRepositorio.cs" />
+    <Compile Include="Repositorios\ChequeRepositorio.cs" />
+    <Compile Include="Repositorios\ClienteDireccionRepositorio.cs" />
+    <Compile Include="Repositorios\ClienteRepositorio.cs" />
+    <Compile Include="Repositorios\CobroFacturaModoRepositorio.cs" />
+    <Compile Include="Repositorios\CompraFacturaPagoRepositorio.cs" />
+    <Compile Include="Repositorios\CompraRepositorio.cs" />
+    <Compile Include="Repositorios\CotizaRepositorio.cs" />
+    <Compile Include="Repositorios\DepartamentoRepositorio.cs" />
+    <Compile Include="Repositorios\DtoRepositorio.cs" />
+    <Compile Include="Repositorios\FacturaElectronicaRepositorio.cs" />
+    <Compile Include="Repositorios\FacturaVentasRepositorio.cs" />
+    <Compile Include="Repositorios\GrupoPresupuestoRepositorio.cs" />
+    <Compile Include="Repositorios\ImputacionRepositorio.cs" />
+    <Compile Include="Repositorios\ItemImprRepositorio.cs" />
+    <Compile Include="Repositorios\IvaVentaRepositorio.cs" />
+    <Compile Include="Repositorios\LocalidadRespositorio.cs" />
+    <Compile Include="Repositorios\DiarioRepositorio.cs" />
+    <Compile Include="Repositorios\PaisRepositorio.cs" />
+    <Compile Include="Repositorios\PieNotaRepositorio.cs" />
+    <Compile Include="Repositorios\PresupuestoActualRepositorio.cs" />
+    <Compile Include="Repositorios\PresupuestoCostoRepositorio.cs" />
+    <Compile Include="Repositorios\PresupuestoItemRepositorio.cs" />
+    <Compile Include="Repositorios\ProvinciaRepositorio.cs" />
+    <Compile Include="Repositorios\LocalidadRepositorio.cs" />
+    <Compile Include="Repositorios\ProveedorRepositorio.cs" />
+    <Compile Include="Repositorios\AccionRepositorio.cs" />
+    <Compile Include="Repositorios\RetencionRepositorio.cs" />
+    <Compile Include="Repositorios\RolRepositorio.cs" />
+    <Compile Include="Repositorios\MenuSidebarRepositorio.cs" />
+    <Compile Include="Repositorios\PersonaRepositorio.cs" />
+    <Compile Include="Repositorios\RepositorioBase.cs" />
+    <Compile Include="Repositorios\SubRubroRepositorio.cs" />
+    <Compile Include="Repositorios\TarjetaOperacionRepositorio.cs" />
+    <Compile Include="Repositorios\TarjetaRepositorio.cs" />
+    <Compile Include="Repositorios\TipoClienteRepositorio.cs" />
+    <Compile Include="Repositorios\TipoComprovanteVentaRepositorio.cs" />
+    <Compile Include="Repositorios\TipoIdiomaRepositorio.cs" />
+    <Compile Include="Repositorios\TipoIvaRepositorio.cs" />
+    <Compile Include="Repositorios\TipoComprobanteRepositorio.cs" />
+    <Compile Include="Repositorios\TipoPagoRepositorio.cs" />
+    <Compile Include="Repositorios\TipoRetencionRepositorio.cs" />
+    <Compile Include="Repositorios\TrackingFacturaCobroRepositorio.cs" />
+    <Compile Include="Repositorios\TrackingFacturaPagoCompraRepositorio.cs" />
+    <Compile Include="Repositorios\ValorCotizacionRepositorio.cs" />
+    <Compile Include="Repositorios\TipoMonedaRepositorio.cs" />
+    <Compile Include="Repositorios\TipoProveedorRepositorio.cs" />
+    <Compile Include="Repositorios\UsuarioRepositorio.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="ModeloDeDatos\Entidades.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Entidades1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ModeloDeDatos\Entidades.edmx.diagram">
+      <DependentUpon>Entidades.edmx</DependentUpon>
+    </None>
+    <None Include="obj\Debug\Datos.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\edmxResourcesToEmbed\ModeloDeDatos\Entidades.csdl" />
+    <None Include="obj\Debug\edmxResourcesToEmbed\ModeloDeDatos\Entidades.msl" />
+    <None Include="obj\Debug\edmxResourcesToEmbed\ModeloDeDatos\Entidades.ssdl" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entidad\Entidad.csproj">
+      <Project>{5ab7f732-e5bf-479d-bd77-8a05faff044f}</Project>
+      <Name>Entidad</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MockRepositorios\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Datos.dll" />
+    <Content Include="bin\Debug\Datos.pdb" />
+    <Content Include="bin\Debug\Entidad.dll" />
+    <Content Include="bin\Debug\Entidad.pdb" />
+    <Content Include="Interfaces\IUsuarioRepositorio.vb" />
+    <Content Include="ModeloDeDatos\Entidades.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Entidades.edmx</DependentUpon>
+      <LastGenOutput>Entidades.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ModeloDeDatos\Entidades.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Entidades.edmx</DependentUpon>
+      <LastGenOutput>Entidades.cs</LastGenOutput>
+    </Content>
+    <Content Include="obj\Debug\Datos.csproj.FileListAbsolute.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

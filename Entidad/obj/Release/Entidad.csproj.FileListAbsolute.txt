@@ -1,0 +1,6 @@
+F:\PandiNet\Entidad\bin\Release\Entidad.dll
+F:\PandiNet\Entidad\bin\Release\Entidad.pdb
+F:\PandiNet\Entidad\obj\Release\Entidad.csproj.CoreCompileInputs.cache
+F:\PandiNet\Entidad\obj\Release\Entidad.dll
+F:\PandiNet\Entidad\obj\Release\Entidad.pdb
+F:\PandiNet\Entidad\obj\Release\Entidad.csproj.AssemblyReference.cache

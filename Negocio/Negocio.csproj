@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7FD48232-E6E6-4CE5-95A0-95DC47F28574}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Negocio</RootNamespace>
+    <AssemblyName>Negocio</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="Ninject, Version=3.3.6.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.6\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.5.3.4\lib\net46\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bindings.cs" />
+    <Compile Include="Enumeradores\TipoElementoEnum.cs" />
+    <Compile Include="Enumeradores\TipoAsientoEnum.cs" />
+    <Compile Include="Enumeradores\PrioridadEvento.cs" />
+    <Compile Include="Helpers\NLogHelper.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Helpers\MenuHelper.cs" />
+    <Compile Include="Infrastructure\AutoMapperNegProfile.cs" />
+    <Compile Include="Interfaces\IServicioUsuario.cs" />
+    <Compile Include="Modelos\Afip_TicketAccesoModel.cs" />
+    <Compile Include="Modelos\ArticuloModel.cs" />
+    <Compile Include="Modelos\BuqueModel.cs" />
+    <Compile Include="Modelos\ClienteDireccionModel.cs" />
+    <Compile Include="Modelos\ClienteModel.cs" />
+    <Compile Include="Modelos\CobroFacturaModoModel.cs" />
+    <Compile Include="Modelos\CompraRegistroDetalleModel.cs" />
+    <Compile Include="Modelos\ConsultaIvaTotalesModel.cs" />
+    <Compile Include="Modelos\ConsultaIvaVentaModel.cs" />
+    <Compile Include="Modelos\CotizaModel.cs" />
+    <Compile Include="Modelos\CteCteClienteResumenModel.cs" />
+    <Compile Include="Modelos\CuentaCorrienteProveedorDetallesModel.cs" />
+    <Compile Include="Modelos\BancoModel.cs" />
+    <Compile Include="Modelos\BancoCuentaBancariaModel.cs" />
+    <Compile Include="Modelos\BancoCuentaModel.cs" />
+    <Compile Include="Modelos\CajaGrupoModel.cs" />
+    <Compile Include="Modelos\CajaModel.cs" />
+    <Compile Include="Modelos\CajaSaldoModel.cs" />
+    <Compile Include="Modelos\ChequeModel.cs" />
+    <Compile Include="Modelos\ChequeraModel.cs" />
+    <Compile Include="Modelos\CompraFacturaPagoModel.cs" />
+    <Compile Include="Modelos\CuentaCteProveedorModel.cs" />
+    <Compile Include="Modelos\CuentaPlanContableModel.cs" />
+    <Compile Include="Modelos\DepartamentoModel.cs" />
+    <Compile Include="Modelos\DiarioModel.cs" />
+    <Compile Include="Modelos\CompraFacturaModel.cs" />
+    <Compile Include="Modelos\AccionPorRol.cs" />
+    <Compile Include="Modelos\AfipRegimenModel.cs" />
+    <Compile Include="Modelos\CompraIvaModel.cs" />
+    <Compile Include="Modelos\ConfiguracionModel.cs" />
+    <Compile Include="Modelos\DtoModel.cs" />
+    <Compile Include="Modelos\EventoModel.cs" />
+    <Compile Include="Modelos\AccionModel.cs" />
+    <Compile Include="Modelos\FacturaElectronicaModel.cs" />
+    <Compile Include="Modelos\FacturaPagoModel.cs" />
+    <Compile Include="Modelos\CobroFacturaModel.cs" />
+    <Compile Include="Modelos\FacturaVentaItemsModel.cs" />
+    <Compile Include="Modelos\FacturaVentaIvaModel.cs" />
+    <Compile Include="Modelos\FacturaVentaModel.cs" />
+    <Compile Include="Modelos\GrupoPresupuestoModel.cs" />
+    <Compile Include="Modelos\ImputacionModel.cs" />
+    <Compile Include="Modelos\ItemImprModel.cs" />
+    <Compile Include="Modelos\IvaVentaModel.cs" />
+    <Compile Include="Modelos\LocalidadModel.cs" />
+    <Compile Include="Modelos\MenuSideBarModel.cs" />
+    <Compile Include="Modelos\PagosFacturasModel.cs" />
+    <Compile Include="Modelos\PaisModel.cs" />
+    <Compile Include="Modelos\PersonaModel.cs" />
+    <Compile Include="Modelos\PieNotaModel.cs" />
+    <Compile Include="Modelos\PresupuestoActualModel.cs" />
+    <Compile Include="Modelos\PresupuestoCostoModel.cs" />
+    <Compile Include="Modelos\PresupuestoItemModel.cs" />
+    <Compile Include="Modelos\PrioridadModel.cs" />
+    <Compile Include="Modelos\ProveedorModel.cs" />
+    <Compile Include="Modelos\ProvinciaModel.cs" />
+    <Compile Include="Modelos\RetencionModel.cs" />
+    <Compile Include="Modelos\RolModel.cs" />
+    <Compile Include="Modelos\SubRubroModel.cs" />
+    <Compile Include="Modelos\TarjetaModel.cs" />
+    <Compile Include="Modelos\TarjetaOperacionModel.cs" />
+    <Compile Include="Modelos\TipoClienteModel.cs" />
+    <Compile Include="Modelos\TipoComprobanteVentaModel.cs" />
+    <Compile Include="Modelos\TipoIdiomaModel.cs" />
+    <Compile Include="Modelos\TipoIvaModel.cs" />
+    <Compile Include="Modelos\TipoComprobanteModel.cs" />
+    <Compile Include="Modelos\TipoMonedaModel.cs" />
+    <Compile Include="Modelos\TipoPagoModel.cs" />
+    <Compile Include="Modelos\TipoProveedorModel.cs" />
+    <Compile Include="Modelos\TipoRetencionModel.cs" />
+    <Compile Include="Modelos\TrackingFacturaCobroModel.cs" />
+    <Compile Include="Modelos\TrackingFacturaPagoCompraModel.cs" />
+    <Compile Include="Modelos\UsuarioModel.cs" />
+    <Compile Include="Modelos\ValorCotizacionModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Servicios\ServicioAfip_TicketAcceso.cs" />
+    <Compile Include="Servicios\ServicioBuque.cs" />
+    <Compile Include="Servicios\ServicioCobro.cs" />
+    <Compile Include="Servicios\ServicioArticulo.cs" />
+    <Compile Include="Servicios\ServicioBancoCuenta.cs" />
+    <Compile Include="Servicios\ServicioBancoCuentaBancaria.cs" />
+    <Compile Include="Servicios\ServicioCaja.cs" />
+    <Compile Include="Servicios\ServicioCajaGrupo.cs" />
+    <Compile Include="Servicios\ServicioCajaSaldo.cs" />
+    <Compile Include="Servicios\ServicioCheque.cs" />
+    <Compile Include="Servicios\ServicioChequera.cs" />
+    <Compile Include="Servicios\ServicioCliente.cs" />
+    <Compile Include="Servicios\ServicioClienteDireccion.cs" />
+    <Compile Include="Servicios\ServicioCobroFacturaModo.cs" />
+    <Compile Include="Servicios\ServicioCompraFacturaPago.cs" />
+    <Compile Include="Servicios\ServicioCorreo.cs" />
+    <Compile Include="Servicios\ServicioCotiza.cs" />
+    <Compile Include="Servicios\ServicioCuentaCteProveedor.cs" />
+    <Compile Include="Servicios\ServicioDepartamento.cs" />
+    <Compile Include="Servicios\ServicioDto.cs" />
+    <Compile Include="Servicios\ServicioElog.cs" />
+    <Compile Include="Servicios\ServicioFacturaElectronica.cs" />
+    <Compile Include="Servicios\ServicioFacturaVenta.cs" />
+    <Compile Include="Servicios\ServicioFacturaVentaItems.cs" />
+    <Compile Include="Servicios\ServicioGrupoPresupuesto.cs" />
+    <Compile Include="Servicios\ServicioImputacion.cs" />
+    <Compile Include="Servicios\ServicioContable.cs" />
+    <Compile Include="Servicios\ServicioItemImpr.cs" />
+    <Compile Include="Servicios\ServicioIvaVenta.cs" />
+    <Compile Include="Servicios\ServicioLocalidad.cs" />
+    <Compile Include="Servicios\ServicioPais.cs" />
+    <Compile Include="Servicios\ServicioPersona.cs" />
+    <Compile Include="Servicios\ServicioPieNota.cs" />
+    <Compile Include="Servicios\ServicioPresupuestoActual.cs" />
+    <Compile Include="Servicios\ServicioPresupuestoCosto.cs" />
+    <Compile Include="Servicios\ServicioPresupuestoItem.cs" />
+    <Compile Include="Servicios\ServicioProveedor.cs" />
+    <Compile Include="Servicios\ServicioProvincia.cs" />
+    <Compile Include="Servicios\ServicioRetencion.cs" />
+    <Compile Include="Servicios\ServicioSubRubro.cs" />
+    <Compile Include="Servicios\ServicioTarjeta.cs" />
+    <Compile Include="Servicios\ServicioTarjetaOperacion.cs" />
+    <Compile Include="Servicios\ServicioTipoCliente.cs" />
+    <Compile Include="Servicios\ServicioTipoComprobanteVenta.cs" />
+    <Compile Include="Servicios\ServicioTipoIdioma.cs" />
+    <Compile Include="Servicios\ServicioTipoIva.cs" />
+    <Compile Include="Servicios\ServicioTipoComprobante.cs" />
+    <Compile Include="Servicios\ServicioTipoMoneda.cs" />
+    <Compile Include="Servicios\ServicioCompra.cs" />
+    <Compile Include="Servicios\ServicioTipoPago.cs" />
+    <Compile Include="Servicios\ServicioTipoProveedor.cs" />
+    <Compile Include="Servicios\ServicioTipoRetencion.cs" />
+    <Compile Include="Servicios\ServicioTrackingFacturaCobro.cs" />
+    <Compile Include="Servicios\ServicioTrackingFacturaPagoCompra.cs" />
+    <Compile Include="Servicios\ServicioUsuario.cs" />
+    <Compile Include="Servicios\ServicioConfiguracion.cs" />
+    <Compile Include="Servicios\ServicioBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Datos\Datos.csproj">
+      <Project>{3dce2e06-d1de-4002-ad76-ddd0442112de}</Project>
+      <Name>Datos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entidad\Entidad.csproj">
+      <Project>{5ab7f732-e5bf-479d-bd77-8a05faff044f}</Project>
+      <Name>Entidad</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\AutoMapper.dll" />
+    <Content Include="bin\Debug\AutoMapper.pdb" />
+    <Content Include="bin\Debug\AutoMapper.xml" />
+    <Content Include="bin\Debug\Datos.dll" />
+    <Content Include="bin\Debug\Datos.pdb" />
+    <Content Include="bin\Debug\Entidad.dll" />
+    <Content Include="bin\Debug\Entidad.pdb" />
+    <Content Include="bin\Debug\EntityFramework.dll" />
+    <Content Include="bin\Debug\Negocio.dll" />
+    <Content Include="bin\Debug\Negocio.pdb" />
+    <Content Include="bin\Debug\Ninject.dll" />
+    <Content Include="bin\Debug\Ninject.xml" />
+    <Content Include="bin\Debug\System.ValueTuple.dll" />
+    <Content Include="bin\Debug\System.ValueTuple.xml" />
+    <Content Include="bin\Debug\Z.EntityFramework.Extensions.dll" />
+    <Content Include="bin\Debug\Z.EntityFramework.Extensions.xml" />
+    <Content Include="bin\Debug\Z.EntityFramework.Plus.EF6.dll" />
+    <Content Include="bin\Debug\Z.EntityFramework.Plus.EF6.xml" />
+    <Content Include="bin\Debug\Z.Expressions.Eval.dll" />
+    <Content Include="bin\Debug\Z.Expressions.Eval.xml" />
+    <Content Include="bin\Release\AutoMapper.dll" />
+    <Content Include="bin\Release\AutoMapper.pdb" />
+    <Content Include="bin\Release\AutoMapper.xml" />
+    <Content Include="bin\Release\Datos.dll" />
+    <Content Include="bin\Release\Datos.pdb" />
+    <Content Include="bin\Release\Entidad.dll" />
+    <Content Include="bin\Release\Entidad.pdb" />
+    <Content Include="bin\Release\EntityFramework.dll" />
+    <Content Include="bin\Release\EntityFramework.xml" />
+    <Content Include="bin\Release\Negocio.dll" />
+    <Content Include="bin\Release\Negocio.pdb" />
+    <Content Include="bin\Release\Ninject.dll" />
+    <Content Include="bin\Release\Ninject.xml" />
+    <Content Include="bin\Release\System.ValueTuple.dll" />
+    <Content Include="bin\Release\System.ValueTuple.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="bin\Debug\Datos.dll.config" />
+    <None Include="bin\Debug\Negocio.dll.config" />
+    <None Include="bin\Release\Datos.dll.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\Release\" />
+    <Folder Include="obj\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

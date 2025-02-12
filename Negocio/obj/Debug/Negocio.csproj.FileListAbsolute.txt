@@ -1,0 +1,46 @@
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Negocio.dll.config
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Negocio.dll
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Negocio.pdb
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Datos.dll
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Entidad.dll
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\NLog.dll
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Z.EntityFramework.Extensions.dll
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Z.Expressions.Eval.dll
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Datos.pdb
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Datos.dll.config
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Entidad.pdb
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\NLog.xml
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Z.EntityFramework.Plus.EF6.xml
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Z.EntityFramework.Extensions.xml
+E:\.Net ASP\SAC\B20230921\Negocio\bin\Debug\Z.Expressions.Eval.xml
+E:\.Net ASP\SAC\B20230921\Negocio\obj\Debug\Negocio.csprojAssemblyReference.cache
+E:\.Net ASP\SAC\B20230921\Negocio\obj\Debug\Negocio.Properties.Resources.resources
+E:\.Net ASP\SAC\B20230921\Negocio\obj\Debug\Negocio.csproj.GenerateResource.cache
+E:\.Net ASP\SAC\B20230921\Negocio\obj\Debug\Negocio.csproj.CoreCompileInputs.cache
+E:\.Net ASP\SAC\B20230921\Negocio\obj\Debug\Negocio.csproj.CopyComplete
+E:\.Net ASP\SAC\B20230921\Negocio\obj\Debug\Negocio.dll
+E:\.Net ASP\SAC\B20230921\Negocio\obj\Debug\Negocio.pdb
+F:\PandiNet\Negocio\bin\Debug\Negocio.dll.config
+F:\PandiNet\Negocio\bin\Debug\Negocio.dll
+F:\PandiNet\Negocio\bin\Debug\Negocio.pdb
+F:\PandiNet\Negocio\bin\Debug\Datos.dll
+F:\PandiNet\Negocio\bin\Debug\Entidad.dll
+F:\PandiNet\Negocio\bin\Debug\NLog.dll
+F:\PandiNet\Negocio\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+F:\PandiNet\Negocio\bin\Debug\Z.EntityFramework.Extensions.dll
+F:\PandiNet\Negocio\bin\Debug\Z.Expressions.Eval.dll
+F:\PandiNet\Negocio\bin\Debug\Datos.pdb
+F:\PandiNet\Negocio\bin\Debug\Datos.dll.config
+F:\PandiNet\Negocio\bin\Debug\Entidad.pdb
+F:\PandiNet\Negocio\bin\Debug\NLog.xml
+F:\PandiNet\Negocio\bin\Debug\Z.EntityFramework.Plus.EF6.xml
+F:\PandiNet\Negocio\bin\Debug\Z.EntityFramework.Extensions.xml
+F:\PandiNet\Negocio\bin\Debug\Z.Expressions.Eval.xml
+F:\PandiNet\Negocio\obj\Debug\Negocio.csproj.AssemblyReference.cache
+F:\PandiNet\Negocio\obj\Debug\Negocio.Properties.Resources.resources
+F:\PandiNet\Negocio\obj\Debug\Negocio.csproj.GenerateResource.cache
+F:\PandiNet\Negocio\obj\Debug\Negocio.csproj.CoreCompileInputs.cache
+F:\PandiNet\Negocio\obj\Debug\Negocio.csproj.CopyComplete
+F:\PandiNet\Negocio\obj\Debug\Negocio.dll
+F:\PandiNet\Negocio\obj\Debug\Negocio.pdb
